@@ -17,12 +17,12 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    projects: '.\StarSim'
+    projects: '.\\StarSim\\StarSim.sln'
     feedsToUse: 'select'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '.\StarSim\'
+    projects: '.\\StarSim\\StarSim.sln'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
