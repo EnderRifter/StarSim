@@ -8,6 +8,11 @@ namespace StarSimLib.Extensions
     /// </summary>
     public static class Vector3fExtensions
     {
+        /// <summary>
+        /// Returns the magnitude of the given <see cref="Vector3f"/>.
+        /// </summary>
+        /// <param name="vector">The vector whose magnitude to return.</param>
+        /// <returns>The magnitude of the given <see cref="Vector3f"/>.</returns>
         public static float Magnitude(this Vector3f vector)
         {
             // returns the magnitude of the vector, via pythagoras

@@ -1,8 +1,6 @@
 ﻿using System;
-using SFML.System;
-using StarSimLib.Extensions;
 
-namespace StarSimLib
+namespace StarSimLib.Physics
 {
     /// <summary>
     /// Initialises positions, velocities, and orbits for bodies.

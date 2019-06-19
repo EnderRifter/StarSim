@@ -5,6 +5,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using StarSimLib;
+using StarSimLib.Physics;
 
 namespace StarSim
 {
@@ -75,7 +76,7 @@ namespace StarSim
                 Vector3d velocity = OrbitGenerator.RandomOrbit(position); //new Vector3d();
 
                 _bodies[i] = new Body(position, velocity, mass, _generation, id);
-                BodyShapeMap.Add(_bodies[i], new CircleShape(4) { FillColor = Color.White });
+                BodyShapeMap.Add(_bodies[i], new CircleShape(1) { FillColor = Color.White });
 
                 Console.WriteLine(_bodies[i]);
                 id++;
@@ -117,6 +118,7 @@ namespace StarSim
 
             GenerateBodies(Constants.BodyCount, true);
 
+            Console.WriteLine("Press 'enter' to continue...");
             Console.ReadLine();
 
             RenderWindow window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator", Styles.Default);

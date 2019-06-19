@@ -1,0 +1,444 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StarSimLib</name>
+    </assembly>
+    <members>
+        <member name="T:StarSimLib.Constants">
+            <summary>
+            Holds common constants and helper functions.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.BodyCount">
+            <summary>
+            The amount of bodies that are rendered by default.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.CentralBodyMass">
+            <summary>
+            The mass of the central body, if it is included.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.FrameRate">
+            <summary>
+            The frame rate limit for the simulation.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.G">
+            <summary>
+            The gravitational constant (m^3 kg^-1 s^-2).
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.SecondsPerFrame">
+            <summary>
+            The number of seconds that each frame represents.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.SofteningFactor">
+            <summary>
+            Softens the force between <see cref="T:StarSimLib.Body"/>s to avoid infinities.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.SofteningFactor2">
+            <summary>
+            The square of the <see cref="F:StarSimLib.Constants.SofteningFactor"/>.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.SolarMass">
+            <summary>
+            The mass of the sun (1.98892e30f).
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.TimeStep">
+            <summary>
+            The default time step for the simulation.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.UniverseScalingFactor">
+            <summary>
+            Factor by which to multiply the position of <see cref="T:StarSimLib.Body"/>s to scale them to the screen for displaying.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Constants.UniverseSize">
+            <summary>
+            The maximum radius within which <see cref="T:StarSimLib.Body"/>s will be placed (1e18f).
+            </summary>
+        </member>
+        <member name="T:StarSimLib.Contexts.SimulatorContext">
+            <summary>
+            Represents the solar simulation database.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Contexts.SimulatorContext.ConnectionString">
+            <summary>
+            The connection string used to access the simulator database.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Contexts.SimulatorContext.#ctor">
+            <summary>
+            Constructs a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Contexts.SimulatorContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions)">
+            <summary>
+            Constructs a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
+            </summary>
+            <param name="options">Any <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions"/> that should be set on this instance.</param>
+        </member>
+        <member name="M:StarSimLib.Contexts.SimulatorContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.Contexts.SimulatorContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.Extensions.Vector3fExtensions">
+            <summary>
+            Provides additional functionality to the <see cref="T:SFML.System.Vector3f"/> struct.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Extensions.Vector3fExtensions.Magnitude(SFML.System.Vector3f)">
+            <summary>
+            Returns the magnitude of the given <see cref="T:SFML.System.Vector3f"/>.
+            </summary>
+            <param name="vector">The vector whose magnitude to return.</param>
+            <returns>The magnitude of the given <see cref="T:SFML.System.Vector3f"/>.</returns>
+        </member>
+        <member name="T:StarSimLib.Body">
+            <summary>
+            Represents a stellar body.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Body.BodyFormatString">
+            <summary>
+            Describes how the <see cref="T:StarSimLib.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Body.Generation">
+            <summary>
+            The generation that this body belongs to.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Body.Id">
+            <summary>
+            The unique id for this body.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Body.#ctor(StarSimLib.Vector3d,StarSimLib.Vector3d,System.Double,System.UInt32,System.UInt32)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Body"/> class.
+            </summary>
+            <param name="position">The starting position of the <see cref="T:StarSimLib.Body"/>.</param>
+            <param name="velocity">The starting velocity of the <see cref="T:StarSimLib.Body"/>.</param>
+            <param name="mass">The starting mass of the <see cref="T:StarSimLib.Body"/>.</param>
+            <param name="generation">The generation that this <see cref="T:StarSimLib.Body"/> belongs to.</param>
+            <param name="id">The unique id for this body.</param>
+        </member>
+        <member name="P:StarSimLib.Body.Mass">
+            <summary>
+            The mass of the <see cref="T:StarSimLib.Body"/>.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Body.Position">
+            <summary>
+            The current position of the <see cref="T:StarSimLib.Body"/> in 3D space.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Body.Velocity">
+            <summary>
+            The current velocity of the <see cref="T:StarSimLib.Body"/> in 3D space.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Body.GetForceBetween(StarSimLib.Body,StarSimLib.Body)">
+            <summary>
+            Gets the force vector for the attraction between <see cref="T:StarSimLib.Body"/> A and <see cref="T:StarSimLib.Body"/> B.
+            </summary>
+            <param name="a">The first <see cref="T:StarSimLib.Body"/> instance.</param>
+            <param name="b">The second <see cref="T:StarSimLib.Body"/> instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:StarSimLib.Body.DistanceTo(StarSimLib.Body,StarSimLib.Vector3d@)">
+            <summary>
+            Finds and returns the distance between the current <see cref="T:StarSimLib.Body"/> instance and the given <see cref="T:StarSimLib.Body"/>.
+            In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Body"/> instances.
+            </summary>
+            <param name="body">The other <see cref="T:StarSimLib.Body"/> instance to which to calculate the distance.</param>
+            <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
+            <returns>The distance to the other <see cref="T:StarSimLib.Body"/> as a <see cref="T:System.Single"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Body.Update(StarSimLib.Vector3d,System.Double)">
+            <summary>
+            Updates the <see cref="P:StarSimLib.Body.Position"/> of the current body using the given force vector and time step.
+            </summary>
+            <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Body"/>s.</param>
+            <param name="deltaTime">The time step.</param>
+        </member>
+        <member name="M:StarSimLib.Body.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.OrbitGenerator">
+            <summary>
+            Initialises positions, velocities, and orbits for bodies.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.OrbitGenerator.Rng">
+            <summary>
+            Random number generator.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.OrbitGenerator.RandomOrbit(StarSimLib.Vector3d)">
+            <summary>
+            Returns a randomised orbit around a central, heavy mass.
+            </summary>
+            <param name="positionVector">The position vector for the body for which to generate the orbit.</param>
+            <returns>The magnitude of the velocity of the orbit.</returns>
+        </member>
+        <member name="M:StarSimLib.OrbitGenerator.RandomPosition">
+            <summary>
+            Returns a random position within the universe sphere (see <see cref="F:StarSimLib.Constants.UniverseSize"/>).
+            </summary>
+            <returns>A 3D position vector.</returns>
+        </member>
+        <member name="T:StarSimLib.Vector3d">
+            <summary>
+            A 3D vector with <see cref="T:System.Double"/> components.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.X">
+            <summary>
+            The x component of the vector.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.Y">
+            <summary>
+            The y component of the vector.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.Z">
+            <summary>
+            The z component of the vector.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Vector3d.#ctor(System.Double,System.Double)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Vector3d"/> struct. Sets Z to 0.
+            </summary>
+            <param name="x">The x component.</param>
+            <param name="y">The y component.</param>
+        </member>
+        <member name="M:StarSimLib.Vector3d.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Vector3d"/> struct.
+            </summary>
+            <param name="x">The x component.</param>
+            <param name="y">The y component.</param>
+            <param name="z">The z component.</param>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Subtraction(StarSimLib.Vector3d,StarSimLib.Vector3d)">
+            <summary>
+            Implements the subtraction operator for 2 <see cref="T:StarSimLib.Vector3d"/>s.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Subtraction(StarSimLib.Vector3d,System.ValueTuple{System.Double,System.Double,System.Double})">
+            <summary>
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Subtraction(System.ValueTuple{System.Double,System.Double,System.Double},StarSimLib.Vector3d)">
+            <summary>
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Subtraction(StarSimLib.Vector3d,System.Double)">
+            <summary>
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Subtraction(System.Double,StarSimLib.Vector3d)">
+            <summary>
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Multiply(StarSimLib.Vector3d,StarSimLib.Vector3d)">
+            <summary>
+            Implements the multiplication operator for 2 <see cref="T:StarSimLib.Vector3d"/>s.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Multiply(StarSimLib.Vector3d,System.ValueTuple{System.Double,System.Double,System.Double})">
+            <summary>
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Multiply(System.ValueTuple{System.Double,System.Double,System.Double},StarSimLib.Vector3d)">
+            <summary>
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Multiply(StarSimLib.Vector3d,System.Double)">
+            <summary>
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Multiply(System.Double,StarSimLib.Vector3d)">
+            <summary>
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Division(StarSimLib.Vector3d,StarSimLib.Vector3d)">
+            <summary>
+            Implements the division operator for 2 <see cref="T:StarSimLib.Vector3d"/>s.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Division(StarSimLib.Vector3d,System.ValueTuple{System.Double,System.Double,System.Double})">
+            <summary>
+            Implements the division operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Division(System.ValueTuple{System.Double,System.Double,System.Double},StarSimLib.Vector3d)">
+            <summary>
+            Implements the division operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Division(StarSimLib.Vector3d,System.Double)">
+            <summary>
+            Implements the division operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Division(System.Double,StarSimLib.Vector3d)">
+            <summary>
+            Implements the division operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Addition(StarSimLib.Vector3d,StarSimLib.Vector3d)">
+            <summary>
+            Implements the addition operator for 2 <see cref="T:StarSimLib.Vector3d"/>s.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Addition(StarSimLib.Vector3d,System.ValueTuple{System.Double,System.Double,System.Double})">
+            <summary>
+            Implements the addition operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Addition(System.ValueTuple{System.Double,System.Double,System.Double},StarSimLib.Vector3d)">
+            <summary>
+            Implements the addition operator for a <see cref="T:StarSimLib.Vector3d"/> and a (X, Y, Z) tuple.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="vector2">The 3D tuple.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Addition(StarSimLib.Vector3d,System.Double)">
+            <summary>
+            Implements the addition operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.op_Addition(System.Double,StarSimLib.Vector3d)">
+            <summary>
+            Implements the addition operator for a <see cref="T:StarSimLib.Vector3d"/> and a scalar <see cref="T:System.Double"/> value.
+            </summary>
+            <param name="vector">The original <see cref="T:StarSimLib.Vector3d"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Vector3d"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.Abs">
+            <summary>
+            Returns the absolute value of this <see cref="T:StarSimLib.Vector3d"/>.
+            </summary>
+            <returns>The absolute value (magnitude) of this <see cref="T:StarSimLib.Vector3d"/>, as a <see cref="T:System.Double"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Vector3d.Magnitude">
+            <summary>
+            Returns the magnitude of this <see cref="T:StarSimLib.Vector3d"/>.
+            </summary>
+            <returns>The magnitude (absolute value) of this <see cref="T:StarSimLib.Vector3d"/>, as a <see cref="T:System.Double"/>.</returns>
+        </member>
+        <member name="T:StarSimLib.Vector3d.UnitVectors">
+            <summary>
+            Holds unit vectors.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.UnitVectors.Backwards">
+            <summary>
+            The negative unit vector for the Z axis.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.UnitVectors.Down">
+            <summary>
+            The negative unit vector for the Y axis.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.UnitVectors.Forwards">
+            <summary>
+            The positive unit vector for the Z axis.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.UnitVectors.Left">
+            <summary>
+            The positive unit vector for the X axis.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.UnitVectors.Right">
+            <summary>
+            The negative unit vector for the X axis.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Vector3d.UnitVectors.Up">
+            <summary>
+            The positive unit vector for the Y axis.
+            </summary>
+        </member>
+    </members>
+</doc>

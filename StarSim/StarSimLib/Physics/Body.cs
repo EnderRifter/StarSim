@@ -1,8 +1,6 @@
-﻿using SFML.System;
-using System;
-using StarSimLib.Extensions;
+﻿using System;
 
-namespace StarSimLib
+namespace StarSimLib.Physics
 {
     /// <summary>
     /// Represents a stellar body.

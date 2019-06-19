@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using StarSimLib.Physics;
 
 namespace StarSimLib
 {
