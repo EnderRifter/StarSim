@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace StarSimLib
+namespace StarSimLib.Examples
 {
     public class ExampleBody
     {
         private static readonly double G = 6.673e-11;   // gravitational constant
         private static readonly double solarmass = 1.98892e30;
 
-        public double pos_x, pos_y;
-        public double vel_x, vel_y;
         public double force_x, force_y;
         public double mass;
+        public double pos_x, pos_y;
+        public double vel_x, vel_y;
 
         public ExampleBody(double px, double py, double vx, double vy, double mass)
         {
@@ -21,12 +21,17 @@ namespace StarSimLib
             this.mass = mass;
         }
 
-        public void update(double delta_time)
+        public void addForce(ExampleBody b)
         {
-            vel_x += delta_time * force_x / mass;
-            vel_y += delta_time * force_y / mass;
-            pos_x += delta_time * vel_x;
-            pos_y += delta_time * vel_y;
+            ExampleBody a = this;
+            double softening_factor = 3E4;
+            double dx = b.pos_x - a.pos_x;
+            double dy = b.pos_y - a.pos_y;
+            double dist = Math.Sqrt(dx * dx + dy * dy);
+            double force = (G * a.mass * b.mass) / (dist * dist + softening_factor * softening_factor);
+
+            a.force_x += force * dx / dist;
+            a.force_y += force * dy / dist;
         }
 
         public double distanceTo(ExampleBody b)
@@ -42,17 +47,12 @@ namespace StarSimLib
             force_y = 0.0;
         }
 
-        public void addForce(ExampleBody b)
+        public void update(double delta_time)
         {
-            ExampleBody a = this;
-            double softening_factor = 3E4;
-            double dx = b.pos_x - a.pos_x;
-            double dy = b.pos_y - a.pos_y;
-            double dist = Math.Sqrt(dx * dx + dy * dy);
-            double force = (G * a.mass * b.mass) / (dist * dist + softening_factor * softening_factor);
-
-            a.force_x += force * dx / dist;
-            a.force_y += force * dy / dist;
+            vel_x += delta_time * force_x / mass;
+            vel_y += delta_time * force_y / mass;
+            pos_x += delta_time * vel_x;
+            pos_y += delta_time * vel_y;
         }
 
         #region Overrides of Object

@@ -9,8 +9,6 @@ namespace StarSimLib
     /// </summary>
     public class Body
     {
-        #region Variables
-
         /// <summary>
         /// Describes how the <see cref="Body"/> instance should be formatted as a <see cref="string"/>.
         /// </summary>
@@ -26,29 +24,6 @@ namespace StarSimLib
         /// The unique id for this body.
         /// </summary>
         public readonly uint Id;
-
-        #endregion Variables
-
-        #region Properties
-
-        /// <summary>
-        /// The current position of the <see cref="Body"/> in 3D space.
-        /// </summary>
-        public Vector3d Position { get; private set; }
-
-        /// <summary>
-        /// The current velocity of the <see cref="Body"/> in 3D space.
-        /// </summary>
-        public Vector3d Velocity { get; private set; }
-
-        /// <summary>
-        /// The mass of the <see cref="Body"/>.
-        /// </summary>
-        public double Mass { get; private set; }
-
-        #endregion Properties
-
-        #region Constructors
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Body"/> class.
@@ -68,48 +43,20 @@ namespace StarSimLib
             Mass = mass;
         }
 
-        #endregion Constructors
-
-        #region Methods
-
-        #region Overrides of Object
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return string.Format(BodyFormatString, Generation, Id, Position.X, Position.Y, Position.Z, Velocity.X, Velocity.Y, Velocity.Z, Mass);
-        }
-
-        #endregion Overrides of Object
+        /// <summary>
+        /// The mass of the <see cref="Body"/>.
+        /// </summary>
+        public double Mass { get; private set; }
 
         /// <summary>
-        /// Updates the <see cref="Position"/> of the current body using the given force vector and time step.
+        /// The current position of the <see cref="Body"/> in 3D space.
         /// </summary>
-        /// <param name="forceVector">The sum vector of all forces due to other <see cref="Body"/>s.</param>
-        /// <param name="deltaTime">The time step.</param>
-        public void Update(Vector3d forceVector, double deltaTime)
-        {
-            Velocity += deltaTime * forceVector / Mass;
-            Position += deltaTime * Velocity;
-        }
+        public Vector3d Position { get; private set; }
 
         /// <summary>
-        /// Finds and returns the distance between the current <see cref="Body"/> instance and the given <see cref="Body"/>.
-        /// In other words, it finds the magnitude of the translation vector between the two <see cref="Body"/> instances.
+        /// The current velocity of the <see cref="Body"/> in 3D space.
         /// </summary>
-        /// <param name="body">The other <see cref="Body"/> instance to which to calculate the distance.</param>
-        /// <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
-        /// <returns>The distance to the other <see cref="Body"/> as a <see cref="float"/>.</returns>
-        public double DistanceTo(Body body, out Vector3d displacement)
-        {
-            double dpx = body.Position.X - Position.X,
-                   dpy = body.Position.Y - Position.Y,
-                   dpz = body.Position.Z - Position.Z;
-
-            displacement = new Vector3d(dpx, dpy, dpz);
-
-            return Math.Sqrt(dpx * dpx + dpy * dpy + dpz * dpz);
-        }
+        public Vector3d Velocity { get; private set; }
 
         /// <summary>
         /// Gets the force vector for the attraction between <see cref="Body"/> A and <see cref="Body"/> B.
@@ -139,6 +86,43 @@ namespace StarSimLib
             return new Vector3d(force * dx / distance, force * dy / distance, force * dz / distance);
         }
 
-        #endregion Methods
+        /// <summary>
+        /// Finds and returns the distance between the current <see cref="Body"/> instance and the given <see cref="Body"/>.
+        /// In other words, it finds the magnitude of the translation vector between the two <see cref="Body"/> instances.
+        /// </summary>
+        /// <param name="body">The other <see cref="Body"/> instance to which to calculate the distance.</param>
+        /// <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
+        /// <returns>The distance to the other <see cref="Body"/> as a <see cref="float"/>.</returns>
+        public double DistanceTo(Body body, out Vector3d displacement)
+        {
+            double dpx = body.Position.X - Position.X,
+                   dpy = body.Position.Y - Position.Y,
+                   dpz = body.Position.Z - Position.Z;
+
+            displacement = new Vector3d(dpx, dpy, dpz);
+
+            return Math.Sqrt(dpx * dpx + dpy * dpy + dpz * dpz);
+        }
+
+        /// <summary>
+        /// Updates the <see cref="Position"/> of the current body using the given force vector and time step.
+        /// </summary>
+        /// <param name="forceVector">The sum vector of all forces due to other <see cref="Body"/>s.</param>
+        /// <param name="deltaTime">The time step.</param>
+        public void Update(Vector3d forceVector, double deltaTime)
+        {
+            Velocity += deltaTime * forceVector / Mass;
+            Position += deltaTime * Velocity;
+        }
+
+        #region Overrides of Object
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return string.Format(BodyFormatString, Generation, Id, Position.X, Position.Y, Position.Z, Velocity.X, Velocity.Y, Velocity.Z, Mass);
+        }
+
+        #endregion Overrides of Object
     }
 }
