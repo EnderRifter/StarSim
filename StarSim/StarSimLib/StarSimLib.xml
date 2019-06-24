@@ -36,7 +36,7 @@
         </member>
         <member name="F:StarSimLib.Constants.SofteningFactor">
             <summary>
-            Softens the force between <see cref="T:StarSimLib.Body"/>s to avoid infinities.
+            Softens the force between <see cref="T:StarSimLib.Physics.Body"/>s to avoid infinities.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.SofteningFactor2">
@@ -56,12 +56,12 @@
         </member>
         <member name="F:StarSimLib.Constants.UniverseScalingFactor">
             <summary>
-            Factor by which to multiply the position of <see cref="T:StarSimLib.Body"/>s to scale them to the screen for displaying.
+            Factor by which to multiply the position of <see cref="T:StarSimLib.Physics.Body"/>s to scale them to the screen for displaying.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.UniverseSize">
             <summary>
-            The maximum radius within which <see cref="T:StarSimLib.Body"/>s will be placed (1e18f).
+            The maximum radius within which <see cref="T:StarSimLib.Physics.Body"/>s will be placed (1e18f).
             </summary>
         </member>
         <member name="T:StarSimLib.Contexts.SimulatorContext">
@@ -103,100 +103,155 @@
             <param name="vector">The vector whose magnitude to return.</param>
             <returns>The magnitude of the given <see cref="T:SFML.System.Vector3f"/>.</returns>
         </member>
-        <member name="T:StarSimLib.Body">
+        <member name="T:StarSimLib.Graphics.Drawer">
+            <summary>
+            Represents a drawer capable of rendering bodies to a screen.
+            </summary>
+        </member>
+        <member name="T:StarSimLib.Physics.Body">
             <summary>
             Represents a stellar body.
             </summary>
         </member>
-        <member name="F:StarSimLib.Body.BodyFormatString">
+        <member name="F:StarSimLib.Physics.Body.BodyFormatString">
             <summary>
-            Describes how the <see cref="T:StarSimLib.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
+            Describes how the <see cref="T:StarSimLib.Physics.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
             </summary>
         </member>
-        <member name="F:StarSimLib.Body.Generation">
+        <member name="F:StarSimLib.Physics.Body.Generation">
             <summary>
             The generation that this body belongs to.
             </summary>
         </member>
-        <member name="F:StarSimLib.Body.Id">
+        <member name="F:StarSimLib.Physics.Body.Id">
             <summary>
             The unique id for this body.
             </summary>
         </member>
-        <member name="M:StarSimLib.Body.#ctor(StarSimLib.Vector3d,StarSimLib.Vector3d,System.Double,System.UInt32,System.UInt32)">
+        <member name="F:StarSimLib.Physics.Body.force">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Body"/> class.
+            The backing field for the <see cref="P:StarSimLib.Physics.Body.Force"/> property.
             </summary>
-            <param name="position">The starting position of the <see cref="T:StarSimLib.Body"/>.</param>
-            <param name="velocity">The starting velocity of the <see cref="T:StarSimLib.Body"/>.</param>
-            <param name="mass">The starting mass of the <see cref="T:StarSimLib.Body"/>.</param>
-            <param name="generation">The generation that this <see cref="T:StarSimLib.Body"/> belongs to.</param>
+        </member>
+        <member name="F:StarSimLib.Physics.Body.mass">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Physics.Body.Mass"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Physics.Body.position">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Physics.Body.Position"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Physics.Body.velocity">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Physics.Body.Velocity"/> property.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Physics.Body.#ctor(StarSimLib.Vector3d,StarSimLib.Vector3d,System.Double,System.UInt32,System.UInt32)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Physics.Body"/> class.
+            </summary>
+            <param name="position">The starting position of the <see cref="T:StarSimLib.Physics.Body"/>.</param>
+            <param name="velocity">The starting velocity of the <see cref="T:StarSimLib.Physics.Body"/>.</param>
+            <param name="mass">The starting mass of the <see cref="T:StarSimLib.Physics.Body"/>.</param>
+            <param name="generation">The generation that this <see cref="T:StarSimLib.Physics.Body"/> belongs to.</param>
             <param name="id">The unique id for this body.</param>
         </member>
-        <member name="P:StarSimLib.Body.Mass">
+        <member name="P:StarSimLib.Physics.Body.Force">
             <summary>
-            The mass of the <see cref="T:StarSimLib.Body"/>.
+            The current force on the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
             </summary>
         </member>
-        <member name="P:StarSimLib.Body.Position">
+        <member name="P:StarSimLib.Physics.Body.Mass">
             <summary>
-            The current position of the <see cref="T:StarSimLib.Body"/> in 3D space.
+            The mass of the <see cref="T:StarSimLib.Physics.Body"/>.
             </summary>
         </member>
-        <member name="P:StarSimLib.Body.Velocity">
+        <member name="P:StarSimLib.Physics.Body.Position">
             <summary>
-            The current velocity of the <see cref="T:StarSimLib.Body"/> in 3D space.
+            The current position of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
             </summary>
         </member>
-        <member name="M:StarSimLib.Body.GetForceBetween(StarSimLib.Body,StarSimLib.Body)">
+        <member name="P:StarSimLib.Physics.Body.Velocity">
             <summary>
-            Gets the force vector for the attraction between <see cref="T:StarSimLib.Body"/> A and <see cref="T:StarSimLib.Body"/> B.
+            The current velocity of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
             </summary>
-            <param name="a">The first <see cref="T:StarSimLib.Body"/> instance.</param>
-            <param name="b">The second <see cref="T:StarSimLib.Body"/> instance.</param>
+        </member>
+        <member name="M:StarSimLib.Physics.Body.GetForceBetween(StarSimLib.Physics.Body,StarSimLib.Physics.Body)">
+            <summary>
+            Gets the force vector for the attraction between <see cref="T:StarSimLib.Physics.Body"/> A and <see cref="T:StarSimLib.Physics.Body"/> B.
+            </summary>
+            <param name="a">The first <see cref="T:StarSimLib.Physics.Body"/> instance.</param>
+            <param name="b">The second <see cref="T:StarSimLib.Physics.Body"/> instance.</param>
             <returns></returns>
         </member>
-        <member name="M:StarSimLib.Body.DistanceTo(StarSimLib.Body,StarSimLib.Vector3d@)">
+        <member name="M:StarSimLib.Physics.Body.AddForce(StarSimLib.Physics.Body)">
             <summary>
-            Finds and returns the distance between the current <see cref="T:StarSimLib.Body"/> instance and the given <see cref="T:StarSimLib.Body"/>.
-            In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Body"/> instances.
+            Calculates the force between this instance and the given other body, and adds the resultant vector to the
+            internal total force vector.
             </summary>
-            <param name="body">The other <see cref="T:StarSimLib.Body"/> instance to which to calculate the distance.</param>
-            <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
-            <returns>The distance to the other <see cref="T:StarSimLib.Body"/> as a <see cref="T:System.Single"/>.</returns>
+            <param name="otherBody">The other body to calculate the force between.</param>
         </member>
-        <member name="M:StarSimLib.Body.Update(StarSimLib.Vector3d,System.Double)">
+        <member name="M:StarSimLib.Physics.Body.DistanceTo(StarSimLib.Physics.Body,StarSimLib.Vector3d@)">
             <summary>
-            Updates the <see cref="P:StarSimLib.Body.Position"/> of the current body using the given force vector and time step.
+            Finds and returns the distance between the current <see cref="T:StarSimLib.Physics.Body"/> instance and the given <see cref="T:StarSimLib.Physics.Body"/>.
+            In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Physics.Body"/> instances.
             </summary>
-            <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Body"/>s.</param>
+            <param name="body">The other <see cref="T:StarSimLib.Physics.Body"/> instance to which to calculate the distance.</param>
+            <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
+            <returns>The distance to the other <see cref="T:StarSimLib.Physics.Body"/> as a <see cref="T:System.Single"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Physics.Body.ResetForce">
+            <summary>
+            Resets the internal force vector.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Physics.Body.Update(System.Double)">
+            <summary>
+            Updates the <see cref="P:StarSimLib.Physics.Body.Position"/> of the current body using the internal force vector and the given time step.
+            </summary>
             <param name="deltaTime">The time step.</param>
         </member>
-        <member name="M:StarSimLib.Body.ToString">
+        <member name="M:StarSimLib.Physics.Body.Update(StarSimLib.Vector3d,System.Double)">
+            <summary>
+            Updates the <see cref="P:StarSimLib.Physics.Body.Position"/> of the current body using the given force vector and time step.
+            </summary>
+            <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Physics.Body"/>s.</param>
+            <param name="deltaTime">The time step.</param>
+        </member>
+        <member name="M:StarSimLib.Physics.Body.ToString">
             <inheritdoc />
         </member>
-        <member name="T:StarSimLib.OrbitGenerator">
+        <member name="T:StarSimLib.Physics.OrbitGenerator">
             <summary>
             Initialises positions, velocities, and orbits for bodies.
             </summary>
         </member>
-        <member name="F:StarSimLib.OrbitGenerator.Rng">
+        <member name="F:StarSimLib.Physics.OrbitGenerator.Rng">
             <summary>
             Random number generator.
             </summary>
         </member>
-        <member name="M:StarSimLib.OrbitGenerator.RandomOrbit(StarSimLib.Vector3d)">
+        <member name="M:StarSimLib.Physics.OrbitGenerator.RandomOrbit(StarSimLib.Vector3d)">
             <summary>
             Returns a randomised orbit around a central, heavy mass.
             </summary>
             <param name="positionVector">The position vector for the body for which to generate the orbit.</param>
             <returns>The magnitude of the velocity of the orbit.</returns>
         </member>
-        <member name="M:StarSimLib.OrbitGenerator.RandomPosition">
+        <member name="M:StarSimLib.Physics.OrbitGenerator.RandomPosition">
             <summary>
             Returns a random position within the universe sphere (see <see cref="F:StarSimLib.Constants.UniverseSize"/>).
             </summary>
             <returns>A 3D position vector.</returns>
+        </member>
+        <member name="T:StarSimLib.UpdateDelegate">
+            <summary>
+            Updates the given <see cref="T:StarSimLib.Physics.Body"/> collections individual bodies, using the given delta time.
+            </summary>
+            <param name="bodies">The body collection.</param>
+            <param name="deltaTime">The time step.</param>
         </member>
         <member name="T:StarSimLib.Vector3d">
             <summary>
@@ -439,6 +494,9 @@
             <summary>
             The positive unit vector for the Y axis.
             </summary>
+        </member>
+        <member name="M:StarSimLib.Vector3d.ToString">
+            <inheritdoc />
         </member>
     </members>
 </doc>

@@ -11,7 +11,7 @@ namespace StarSimLib.Physics
         /// Describes how the <see cref="Body"/> instance should be formatted as a <see cref="string"/>.
         /// </summary>
         private const string BodyFormatString =
-            "Body {0,2}.{1,-4}: Pos-({2:D,-3}, {3:D,-3}, {4:D,-3}), Vel-({5:D,-3}, {6:D,-3}, {7:D,-3}), Mass-{8:D,3}";
+            "Body {0,2}.{1,-4}: Pos-{2}, Vel-{3} Mass-{4,3}";
 
         /// <summary>
         /// The generation that this body belongs to.
@@ -22,6 +22,26 @@ namespace StarSimLib.Physics
         /// The unique id for this body.
         /// </summary>
         public readonly uint Id;
+
+        /// <summary>
+        /// The backing field for the <see cref="Force"/> property.
+        /// </summary>
+        public Vector3d force;
+
+        /// <summary>
+        /// Backing field for the <see cref="Mass"/> property.
+        /// </summary>
+        public double mass;
+
+        /// <summary>
+        /// Backing field for the <see cref="Position"/> property.
+        /// </summary>
+        public Vector3d position;
+
+        /// <summary>
+        /// Backing field for the <see cref="Velocity"/> property.
+        /// </summary>
+        public Vector3d velocity;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Body"/> class.
@@ -36,25 +56,44 @@ namespace StarSimLib.Physics
             Generation = generation;
             Id = id;
 
-            Position = position;
-            Velocity = velocity;
-            Mass = mass;
+            this.position = position;
+            this.velocity = velocity;
+            this.mass = mass;
+
+            force = new Vector3d();
+        }
+
+        /// <summary>
+        /// The current force on the <see cref="Body"/> in 3D space.
+        /// </summary>
+        public Vector3d Force
+        {
+            get { return force; }
         }
 
         /// <summary>
         /// The mass of the <see cref="Body"/>.
         /// </summary>
-        public double Mass { get; private set; }
+        public double Mass
+        {
+            get { return mass; }
+        }
 
         /// <summary>
         /// The current position of the <see cref="Body"/> in 3D space.
         /// </summary>
-        public Vector3d Position { get; private set; }
+        public Vector3d Position
+        {
+            get { return position; }
+        }
 
         /// <summary>
         /// The current velocity of the <see cref="Body"/> in 3D space.
         /// </summary>
-        public Vector3d Velocity { get; private set; }
+        public Vector3d Velocity
+        {
+            get { return velocity; }
+        }
 
         /// <summary>
         /// Gets the force vector for the attraction between <see cref="Body"/> A and <see cref="Body"/> B.
@@ -85,6 +124,16 @@ namespace StarSimLib.Physics
         }
 
         /// <summary>
+        /// Calculates the force between this instance and the given other body, and adds the resultant vector to the
+        /// internal total force vector.
+        /// </summary>
+        /// <param name="otherBody">The other body to calculate the force between.</param>
+        public void AddForce(Body otherBody)
+        {
+            force += GetForceBetween(this, otherBody);
+        }
+
+        /// <summary>
         /// Finds and returns the distance between the current <see cref="Body"/> instance and the given <see cref="Body"/>.
         /// In other words, it finds the magnitude of the translation vector between the two <see cref="Body"/> instances.
         /// </summary>
@@ -103,14 +152,34 @@ namespace StarSimLib.Physics
         }
 
         /// <summary>
+        /// Resets the internal force vector.
+        /// </summary>
+        public void ResetForce()
+        {
+            force.X = 0;
+            force.Y = 0;
+            force.Z = 0;
+        }
+
+        /// <summary>
+        /// Updates the <see cref="Position"/> of the current body using the internal force vector and the given time step.
+        /// </summary>
+        /// <param name="deltaTime">The time step.</param>
+        public void Update(double deltaTime)
+        {
+            velocity += deltaTime * force / mass;
+            position += deltaTime * velocity;
+        }
+
+        /// <summary>
         /// Updates the <see cref="Position"/> of the current body using the given force vector and time step.
         /// </summary>
         /// <param name="forceVector">The sum vector of all forces due to other <see cref="Body"/>s.</param>
         /// <param name="deltaTime">The time step.</param>
         public void Update(Vector3d forceVector, double deltaTime)
         {
-            Velocity += deltaTime * forceVector / Mass;
-            Position += deltaTime * Velocity;
+            velocity += deltaTime * forceVector / mass;
+            position += deltaTime * velocity;
         }
 
         #region Overrides of Object
@@ -118,7 +187,7 @@ namespace StarSimLib.Physics
         /// <inheritdoc />
         public override string ToString()
         {
-            return string.Format(BodyFormatString, Generation, Id, Position.X, Position.Y, Position.Z, Velocity.X, Velocity.Y, Velocity.Z, Mass);
+            return string.Format(BodyFormatString, Generation, Id, Position, Velocity, Mass);
         }
 
         #endregion Overrides of Object

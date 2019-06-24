@@ -361,5 +361,15 @@ namespace StarSimLib
             /// </summary>
             public static readonly Vector3d Up = new Vector3d(0, 1, 0);
         }
+
+        #region Overrides of ValueType
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"({X}, {Y}, {Z}";
+        }
+
+        #endregion Overrides of ValueType
     }
 }

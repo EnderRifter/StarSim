@@ -12,9 +12,14 @@ namespace StarSim
     internal class Program
     {
         /// <summary>
+        /// The body position update algorithm to use.
+        /// </summary>
+        private static readonly UpdateDelegate bodyPositionUpdater = UpdateBodiesBruteForce;
+
+        /// <summary>
         /// Caches a random number generator to use for all randomised positions and velocities.
         /// </summary>
-        private static readonly Random RNG = new Random();
+        private static readonly Random Rng = new Random();
 
         /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
@@ -70,10 +75,10 @@ namespace StarSim
             Console.WriteLine($"=========== Generation {_generation} ===========");
             for (int i = 0; i < _bodies.Length; i++)
             {
-                float mass = (float)(RNG.NextDouble() * Constants.SolarMass);
+                float mass = (float)(Rng.NextDouble() * Constants.SolarMass);
 
                 Vector3d position = OrbitGenerator.RandomPosition();
-                Vector3d velocity = OrbitGenerator.RandomOrbit(position); //new Vector3d();
+                Vector3d velocity = OrbitGenerator.RandomOrbit(position);
 
                 _bodies[i] = new Body(position, velocity, mass, _generation, id);
                 BodyShapeMap.Add(_bodies[i], new CircleShape(1) { FillColor = Color.White });
@@ -139,7 +144,7 @@ namespace StarSim
                 window.Clear();
                 window.DispatchEvents();
 
-                UpdateBodiesBruteForce(_bodies, Constants.TimeStep);
+                bodyPositionUpdater(_bodies, Constants.TimeStep);
                 DrawBodies(_bodies, window, originOffset);
 
                 window.Display();
