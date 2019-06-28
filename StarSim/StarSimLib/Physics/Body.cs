@@ -14,6 +14,26 @@ namespace StarSimLib.Physics
             "Body {0,2}.{1,-4}: Pos-{2}, Vel-{3} Mass-{4,3}";
 
         /// <summary>
+        /// The backing field for the <see cref="Force"/> property.
+        /// </summary>
+        private Vector3d force;
+
+        /// <summary>
+        /// Backing field for the <see cref="Mass"/> property.
+        /// </summary>
+        private double mass;
+
+        /// <summary>
+        /// Backing field for the <see cref="Position"/> property.
+        /// </summary>
+        private Vector3d position;
+
+        /// <summary>
+        /// Backing field for the <see cref="Velocity"/> property.
+        /// </summary>
+        private Vector3d velocity;
+
+        /// <summary>
         /// The generation that this body belongs to.
         /// </summary>
         public readonly uint Generation;
@@ -22,26 +42,6 @@ namespace StarSimLib.Physics
         /// The unique id for this body.
         /// </summary>
         public readonly uint Id;
-
-        /// <summary>
-        /// The backing field for the <see cref="Force"/> property.
-        /// </summary>
-        public Vector3d force;
-
-        /// <summary>
-        /// Backing field for the <see cref="Mass"/> property.
-        /// </summary>
-        public double mass;
-
-        /// <summary>
-        /// Backing field for the <see cref="Position"/> property.
-        /// </summary>
-        public Vector3d position;
-
-        /// <summary>
-        /// Backing field for the <see cref="Velocity"/> property.
-        /// </summary>
-        public Vector3d velocity;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Body"/> class.
@@ -131,6 +131,16 @@ namespace StarSimLib.Physics
         public void AddForce(Body otherBody)
         {
             force += GetForceBetween(this, otherBody);
+        }
+
+        /// <summary>
+        /// Collides this instance with the given <see cref="Body"/> instance.
+        /// </summary>
+        /// <param name="otherBody">The other instance with which to collide.</param>
+        public void Collide(Body otherBody)
+        {
+            mass += otherBody.Mass;
+            velocity += otherBody.Velocity;
         }
 
         /// <summary>

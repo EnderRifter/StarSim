@@ -1,115 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SFML.Graphics;
-using SFML.System;
 using SFML.Window;
 using StarSimLib;
+using StarSimLib.Graphics;
 using StarSimLib.Physics;
 
 namespace StarSim
 {
+    /// <summary>
+    /// Main program class.
+    /// </summary>
     internal class Program
     {
         /// <summary>
+        /// The renderer used to display the <see cref="Body"/> instances on the screen.
+        /// </summary>
+        private static readonly Drawer bodyDrawer;
+
+        /// <summary>
         /// The body position update algorithm to use.
         /// </summary>
-        private static readonly UpdateDelegate bodyPositionUpdater = UpdateBodiesBruteForce;
+        private static readonly UpdateDelegate bodyPositionUpdater;
 
         /// <summary>
         /// Caches a random number generator to use for all randomised positions and velocities.
         /// </summary>
-        private static readonly Random Rng = new Random();
+        private static readonly Random Rng;
+
+        /// <summary>
+        /// The SFML.NET window to which everything is rendered.
+        /// </summary>
+        private static readonly RenderWindow window;
 
         /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
         /// </summary>
-        private static Body[] _bodies;
-
-        /// <summary>
-        /// The current generation of <see cref="Body"/>s that we have. Increments each time the bodies are regenerated
-        /// via <see cref="GenerateBodies(int, bool)"/>.
-        /// </summary>
-        private static uint _generation;
+        private static Body[] bodies;
 
         /// <summary>
         /// Maps a <see cref="Body"/> to the <see cref="CircleShape"/> that represents it, and is drawn to the
         /// screen at the <see cref="Body"/>s position.
         /// </summary>
-        private static Dictionary<Body, CircleShape> BodyShapeMap;
+        private static Dictionary<Body, CircleShape> bodyShapeMap;
 
         /// <summary>
-        /// Draws each <see cref="Body"/> in the given <see cref="IEnumerable{T}"/> to the given window.
+        /// Initialises a new instance of the <see cref="Program"/> class,
         /// </summary>
-        /// <param name="bodies">The collection of <see cref="Body"/>s to draw.</param>
-        /// <param name="renderTarget">The target to draw the <see cref="Body"/>s to.</param>
-        /// <param name="originOffset">
-        /// The offset that has to be applied to the positions of the <see cref="CircleShape"/>, so that they appear
-        /// to be in the centre of the screen and not the top left corner.
-        /// </param>
-        private static void DrawBodies(IEnumerable<Body> bodies, RenderWindow renderTarget, Vector2u originOffset)
+        static Program()
         {
-            foreach (Body body in bodies)
-            {
-                // get the cached shape and projects the current bodies 3D position down to a 2D position,
-                // which is used as the new position of the shape.
-                CircleShape shape = BodyShapeMap[body];
+            // we construct a new window instance, but immediately hide it so that we can configure the rest of the app
+            window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator", Styles.Default, new ContextSettings());
+            window.SetVisible(false);
 
-                shape.Position = new Vector2f(
-                    (float)(body.Position.X * Constants.UniverseScalingFactor + originOffset.X),
-                    (float)(body.Position.Y * Constants.UniverseScalingFactor + originOffset.Y)
-                    );
-
-                shape.Draw(renderTarget, RenderStates.Default);
-            }
-        }
-
-        private static void GenerateBodies(int bodyCount = 2, bool centralAttractor = false)
-        {
-            _generation++;
-
-            uint id = 0;
-            _bodies = new Body[bodyCount];
-            BodyShapeMap = new Dictionary<Body, CircleShape>();
-
-            Console.WriteLine($"=========== Generation {_generation} ===========");
-            for (int i = 0; i < _bodies.Length; i++)
-            {
-                float mass = (float)(Rng.NextDouble() * Constants.SolarMass);
-
-                Vector3d position = OrbitGenerator.RandomPosition();
-                Vector3d velocity = OrbitGenerator.RandomOrbit(position);
-
-                _bodies[i] = new Body(position, velocity, mass, _generation, id);
-                BodyShapeMap.Add(_bodies[i], new CircleShape(1) { FillColor = Color.White });
-
-                Console.WriteLine(_bodies[i]);
-                id++;
-            }
-
-            if (centralAttractor && bodyCount >= 2)
-            {
-                BodyShapeMap.Remove(_bodies[0]);
-                _bodies[0] = new Body(new Vector3d(), new Vector3d(), Constants.CentralBodyMass, _generation, 0);
-                BodyShapeMap.Add(_bodies[0], new CircleShape(4) { FillColor = Color.Red });
-            }
+            (bodies, bodyShapeMap) = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
+#if DEBUG
+            bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
+#else
+            bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
+#endif
+            bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
+            Rng = new Random();
         }
 
         /// <summary>
         /// Handles key presses.
         /// </summary>
-        /// <param name="sender">The <see cref="RenderWindow"/> that sent the event.</param>
-        /// <param name="eventArgs">The <see cref="KeyEventArgs"/> about the key press.</param>
+        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
+        /// <param name="eventArgs">The <see cref="KeyEventArgs"/> associated with the key press.</param>
         private static void HandleKeyPressed(object sender, KeyEventArgs eventArgs)
         {
             switch (eventArgs.Code)
             {
                 case Keyboard.Key.Space:
-                    UpdateBodiesBruteForce(_bodies, Constants.TimeStep);
+                    bodyPositionUpdater(bodies, Constants.TimeStep);
                     break;
 
                 case Keyboard.Key.G:
-                    GenerateBodies(10, true);
+                    (bodies, bodyShapeMap) = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
                     break;
 
                 default:
@@ -117,62 +85,72 @@ namespace StarSim
             }
         }
 
+        /// <summary>
+        /// Handles motions of the mouse.
+        /// </summary>
+        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
+        /// <param name="eventArgs">The <see cref="MouseMoveEventArgs"/> associated with the key press.</param>
+        private static void HandleMouseMoved(object sender, MouseMoveEventArgs eventArgs)
+        {
+        }
+
+        /// <summary>
+        /// Handles key presses of the mouse.
+        /// </summary>
+        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
+        /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the key press.</param>
+        private static void HandleMousePressed(object sender, MouseButtonEventArgs eventArgs)
+        {
+        }
+
+        /// <summary>
+        /// Handles key releases of the mouse.
+        /// </summary>
+        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
+        /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the key press.</param>
+        private static void HandleMouseReleased(object sender, MouseButtonEventArgs eventArgs)
+        {
+        }
+
+        /// <summary>
+        /// Entry point for our application.
+        /// </summary>
+        /// <param name="args">Any command line arguments passed to the program.</param>
         private static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-
-            GenerateBodies(Constants.BodyCount, true);
-
             Console.WriteLine("Press 'enter' to continue...");
             Console.ReadLine();
 
-            RenderWindow window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator", Styles.Default);
+            // we reveal the window so that the user may interact with our program
+            window.SetVisible(true);
+
+            // we configure the window and its close handler, so that we may close the window once we are done with it
             window.SetFramerateLimit(Constants.FrameRate);
             window.Closed += (sender, eventArgs) => ((RenderWindow)sender).Close();
+
+            // we apply event handlers to allow for interactivity inside the window
             window.KeyPressed += HandleKeyPressed;
+            window.MouseButtonPressed += HandleMousePressed;
+            window.MouseButtonReleased += HandleMouseReleased;
+            window.MouseMoved += HandleMouseMoved;
 
-            // caches the delta between the screen origin (top left corner) and the world origin,
-            // which should be the centre of the screen
-            uint wx = window.Size.X, wy = window.Size.Y;
-            uint dx = wx / 2, dy = wy / 2;
-            Vector2u originOffset = new Vector2u(dx, dy);
-
-            DrawBodies(_bodies, window, originOffset);
+            bodyDrawer.DrawBodies();
 
             while (window.IsOpen)
             {
                 window.Clear();
                 window.DispatchEvents();
 
-                bodyPositionUpdater(_bodies, Constants.TimeStep);
-                DrawBodies(_bodies, window, originOffset);
+                bodyPositionUpdater(bodies, Constants.TimeStep);
+                bodyDrawer.DrawBodies();
 
                 window.Display();
             }
-        }
 
-        /// <summary>
-        /// Updates the positions of all the given <see cref="Body"/>s with O(n^2) time complexity, with the given time step.
-        /// </summary>
-        /// <param name="bodies">The collection of <see cref="Body"/>s whose positions to update.</param>
-        /// <param name="deltaTime">The time step.</param>
-        private static void UpdateBodiesBruteForce(IEnumerable<Body> bodies, double deltaTime)
-        {
-            IEnumerable<Body> bodyEnumerable = bodies as Body[] ?? bodies.ToArray();
-            Vector3d forceVector = new Vector3d();
-
-            foreach (Body body in bodyEnumerable)
-            {
-                // resets the force vector to avoid another instantiation and allocation
-                forceVector.X = 0;
-                forceVector.Y = 0;
-                forceVector.Z = 0;
-
-                // use LINQ expression as it is more concise; sum attraction vectors for all other bodies
-                forceVector = bodyEnumerable.Where(b => b != body).Aggregate(forceVector, (current, b) => current + Body.GetForceBetween(body, b));
-
-                body.Update(forceVector, deltaTime);
-            }
+            Console.WriteLine("Goodbye World!");
+            Console.WriteLine("Press 'enter' to quit...");
+            Console.ReadLine();
         }
     }
 }

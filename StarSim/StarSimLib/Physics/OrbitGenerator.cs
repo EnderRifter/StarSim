@@ -3,7 +3,7 @@
 namespace StarSimLib.Physics
 {
     /// <summary>
-    /// Initialises positions, velocities, and orbits for bodies.
+    /// Provides methods for initialising positions, velocities, and orbits for <see cref="Body"/> instances.
     /// </summary>
     public static class OrbitGenerator
     {
