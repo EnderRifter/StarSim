@@ -16,7 +16,7 @@ namespace StarSimLib.Physics
         /// <summary>
         /// The backing field for the <see cref="Force"/> property.
         /// </summary>
-        private Vector3d force;
+        private Vector4d force;
 
         /// <summary>
         /// Backing field for the <see cref="Mass"/> property.
@@ -26,12 +26,12 @@ namespace StarSimLib.Physics
         /// <summary>
         /// Backing field for the <see cref="Position"/> property.
         /// </summary>
-        private Vector3d position;
+        private Vector4d position;
 
         /// <summary>
         /// Backing field for the <see cref="Velocity"/> property.
         /// </summary>
-        private Vector3d velocity;
+        private Vector4d velocity;
 
         /// <summary>
         /// The generation that this body belongs to.
@@ -51,7 +51,7 @@ namespace StarSimLib.Physics
         /// <param name="mass">The starting mass of the <see cref="Body"/>.</param>
         /// <param name="generation">The generation that this <see cref="Body"/> belongs to.</param>
         /// <param name="id">The unique id for this body.</param>
-        public Body(Vector3d position, Vector3d velocity, double mass, uint generation = 1, uint id = 1)
+        public Body(Vector4d position, Vector4d velocity, double mass, uint generation = 1, uint id = 1)
         {
             Generation = generation;
             Id = id;
@@ -60,13 +60,13 @@ namespace StarSimLib.Physics
             this.velocity = velocity;
             this.mass = mass;
 
-            force = new Vector3d();
+            force = new Vector4d();
         }
 
         /// <summary>
         /// The current force on the <see cref="Body"/> in 3D space.
         /// </summary>
-        public Vector3d Force
+        public Vector4d Force
         {
             get { return force; }
         }
@@ -82,7 +82,7 @@ namespace StarSimLib.Physics
         /// <summary>
         /// The current position of the <see cref="Body"/> in 3D space.
         /// </summary>
-        public Vector3d Position
+        public Vector4d Position
         {
             get { return position; }
         }
@@ -90,7 +90,7 @@ namespace StarSimLib.Physics
         /// <summary>
         /// The current velocity of the <see cref="Body"/> in 3D space.
         /// </summary>
-        public Vector3d Velocity
+        public Vector4d Velocity
         {
             get { return velocity; }
         }
@@ -101,7 +101,7 @@ namespace StarSimLib.Physics
         /// <param name="a">The first <see cref="Body"/> instance.</param>
         /// <param name="b">The second <see cref="Body"/> instance.</param>
         /// <returns></returns>
-        public static Vector3d GetForceBetween(Body a, Body b)
+        public static Vector4d GetForceBetween(Body a, Body b)
         {
             // Inlines the Body.DistanceTo(Body) as the position deltas need to be cached for later,
             // as well as to gain a small performance increase
@@ -120,7 +120,7 @@ namespace StarSimLib.Physics
             // with a softening factor, we get the attraction force vector between the 2 bodies
             double force = numerator / denominator;
 
-            return new Vector3d(force * dx / distance, force * dy / distance, force * dz / distance);
+            return new Vector4d(force * dx / distance, force * dy / distance, force * dz / distance);
         }
 
         /// <summary>
@@ -150,13 +150,13 @@ namespace StarSimLib.Physics
         /// <param name="body">The other <see cref="Body"/> instance to which to calculate the distance.</param>
         /// <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
         /// <returns>The distance to the other <see cref="Body"/> as a <see cref="float"/>.</returns>
-        public double DistanceTo(Body body, out Vector3d displacement)
+        public double DistanceTo(Body body, out Vector4d displacement)
         {
             double dpx = body.Position.X - Position.X,
                    dpy = body.Position.Y - Position.Y,
                    dpz = body.Position.Z - Position.Z;
 
-            displacement = new Vector3d(dpx, dpy, dpz);
+            displacement = new Vector4d(dpx, dpy, dpz);
 
             return Math.Sqrt(dpx * dpx + dpy * dpy + dpz * dpz);
         }
@@ -186,7 +186,7 @@ namespace StarSimLib.Physics
         /// </summary>
         /// <param name="forceVector">The sum vector of all forces due to other <see cref="Body"/>s.</param>
         /// <param name="deltaTime">The time step.</param>
-        public void Update(Vector3d forceVector, double deltaTime)
+        public void Update(Vector4d forceVector, double deltaTime)
         {
             velocity += deltaTime * forceVector / mass;
             position += deltaTime * velocity;

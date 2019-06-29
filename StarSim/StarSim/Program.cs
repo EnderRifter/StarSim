@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SFML.Graphics;
+using SFML.System;
 using SFML.Window;
 using StarSimLib;
 using StarSimLib.Graphics;
@@ -53,7 +54,11 @@ namespace StarSim
             window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator", Styles.Default, new ContextSettings());
             window.SetVisible(false);
 
-            (bodies, bodyShapeMap) = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
+            View windowView = new View(new Vector2f(window.Size.X / 2f, window.Size.Y / 2f), new Vector2f(window.Size.X, window.Size.Y));
+            window.SetView(windowView);
+
+            bodies = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
+            bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
 #if DEBUG
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
 #else
@@ -62,6 +67,11 @@ namespace StarSim
             bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
             Rng = new Random();
         }
+
+        /// <summary>
+        /// Whether the simulation is paused at any given time.
+        /// </summary>
+        private static bool IsSimulationPaused { get; set; }
 
         /// <summary>
         /// Handles key presses.
@@ -73,11 +83,28 @@ namespace StarSim
             switch (eventArgs.Code)
             {
                 case Keyboard.Key.Space:
-                    bodyPositionUpdater(bodies, Constants.TimeStep);
+                    // toggle the paused state
+                    IsSimulationPaused = !IsSimulationPaused;
                     break;
 
-                case Keyboard.Key.G:
-                    (bodies, bodyShapeMap) = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
+                case Keyboard.Key.W:
+                case Keyboard.Key.Up:
+                    // rotate the view north
+                    break;
+
+                case Keyboard.Key.A:
+                case Keyboard.Key.Left:
+                    // rotate the view west
+                    break;
+
+                case Keyboard.Key.S:
+                case Keyboard.Key.Down:
+                    // rotate the view south
+                    break;
+
+                case Keyboard.Key.D:
+                case Keyboard.Key.Right:
+                    // rotate the view east
                     break;
 
                 default:
@@ -92,6 +119,7 @@ namespace StarSim
         /// <param name="eventArgs">The <see cref="MouseMoveEventArgs"/> associated with the key press.</param>
         private static void HandleMouseMoved(object sender, MouseMoveEventArgs eventArgs)
         {
+            Console.WriteLine($"Mouse moved: {eventArgs.X} {eventArgs.Y}");
         }
 
         /// <summary>
@@ -101,6 +129,7 @@ namespace StarSim
         /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the key press.</param>
         private static void HandleMousePressed(object sender, MouseButtonEventArgs eventArgs)
         {
+            Console.WriteLine($"Mouse pressed: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
         }
 
         /// <summary>
@@ -110,6 +139,24 @@ namespace StarSim
         /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the key press.</param>
         private static void HandleMouseReleased(object sender, MouseButtonEventArgs eventArgs)
         {
+            Console.WriteLine($"Mouse released: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
+        }
+
+        /// <summary>
+        /// Handles scrolling of the mouse wheel.
+        /// </summary>
+        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
+        /// <param name="eventArgs">The <see cref="MouseWheelScrollEventArgs"/> associated with the key press.</param>
+        private static void HandleMouseScrolled(object sender, MouseWheelScrollEventArgs eventArgs)
+        {
+            if (eventArgs.Delta > 0)
+            {
+                bodyDrawer.Scale(1.1f);
+            }
+            else if (eventArgs.Delta < 0)
+            {
+                bodyDrawer.Scale(0.9f);
+            }
         }
 
         /// <summary>
@@ -118,8 +165,9 @@ namespace StarSim
         /// <param name="args">Any command line arguments passed to the program.</param>
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello, World!");
             Console.WriteLine("Press 'enter' to continue...");
+
             Console.ReadLine();
 
             // we reveal the window so that the user may interact with our program
@@ -133,7 +181,8 @@ namespace StarSim
             window.KeyPressed += HandleKeyPressed;
             window.MouseButtonPressed += HandleMousePressed;
             window.MouseButtonReleased += HandleMouseReleased;
-            window.MouseMoved += HandleMouseMoved;
+            //window.MouseMoved += HandleMouseMoved;
+            window.MouseWheelScrolled += HandleMouseScrolled;
 
             bodyDrawer.DrawBodies();
 
@@ -142,13 +191,17 @@ namespace StarSim
                 window.Clear();
                 window.DispatchEvents();
 
-                bodyPositionUpdater(bodies, Constants.TimeStep);
+                if (!IsSimulationPaused)
+                {
+                    bodyPositionUpdater(bodies, Constants.TimeStep);
+                }
+
                 bodyDrawer.DrawBodies();
 
                 window.Display();
             }
 
-            Console.WriteLine("Goodbye World!");
+            Console.WriteLine("Goodbye, World!");
             Console.WriteLine("Press 'enter' to quit...");
             Console.ReadLine();
         }

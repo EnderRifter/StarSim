@@ -19,7 +19,7 @@ namespace StarSimLib
         public const double CentralBodyMass = SolarMass * 1e6;
 
         /// <summary>
-        /// The frame rate limit for the simulation.
+        /// The frame rate limit for the program.
         /// </summary>
         public const uint FrameRate = 60;
 
@@ -29,9 +29,14 @@ namespace StarSimLib
         public const double G = 6.673e-11f;
 
         /// <summary>
-        /// The number of seconds that each frame represents.
+        /// The number of seconds that each simulation tick represents.
         /// </summary>
-        public const double SecondsPerFrame = 1e8f;
+        public const double SecondsPerTick = 1e8f;
+
+        /// <summary>
+        /// The tick rate limit for the simulation.
+        /// </summary>
+        public const uint SimulationRate = 60;
 
         /// <summary>
         /// Softens the force between <see cref="Body"/>s to avoid infinities.
@@ -49,9 +54,9 @@ namespace StarSimLib
         public const double SolarMass = 1.98892e30f;
 
         /// <summary>
-        /// The default time step for the simulation.
+        /// The time step for the simulation.
         /// </summary>
-        public const double TimeStep = SecondsPerFrame * FrameRate;
+        public const double TimeStep = SecondsPerTick * (SimulationRate / (float)FrameRate) * SimulationRate;
 
         /// <summary>
         /// Factor by which to multiply the position of <see cref="Body"/>s to scale them to the screen for displaying.

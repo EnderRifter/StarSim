@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 using StarSimLib.Physics;
@@ -6,10 +7,21 @@ using StarSimLib.Physics;
 namespace StarSimLib.Graphics
 {
     /// <summary>
-    /// Represents a drawer capable of rendering bodies to a screen.
+    /// Represents a drawer capable of rendering bodies to a <see cref="RenderTarget"/>.
     /// </summary>
     public class Drawer
     {
+        /// <summary>
+        /// The aspect ratio of the render target. Allows for normalisation of the <see cref="RenderTarget"/> space
+        /// into a normal plane ([-1, -1] = top left, [1, 1] = bottom right).
+        /// </summary>
+        private readonly float aspectRatio;
+
+        /// <summary>
+        /// The field of view for the drawer.
+        /// </summary>
+        private readonly float fieldOfView;
+
         /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
         /// </summary>
@@ -44,11 +56,17 @@ namespace StarSimLib.Graphics
         public Drawer(RenderTarget target, ref Body[] bodies, ref Dictionary<Body, CircleShape> bodyShapeMap)
         {
             renderTarget = target;
+            aspectRatio = renderTarget.Size.Y / (float)renderTarget.Size.X;
             originOffset = target.Size / 2;
 
             managedBodies = bodies;
 
             managedBodyShapeMap = bodyShapeMap;
+        }
+
+        private double InverseScaleFactor
+        {
+            get { return 1 / Math.Tan(fieldOfView / 2); }
         }
 
         /// <summary>
@@ -68,8 +86,28 @@ namespace StarSimLib.Graphics
                     (float)(body.Position.Y * Constants.UniverseScalingFactor + originOffset.Y)
                 );
 
+                /*
+                shape.Position = new Vector2f(
+                    (float)(body.Position.X - shape.Radius / 2 + originOffset.X),
+                    (float)(body.Position.Y - shape.Radius / 2 + originOffset.Y)
+                );
+                */
+
                 shape.Draw(renderTarget, RenderStates.Default);
             }
+        }
+
+        /// <summary>
+        /// Scales this instances view by the given amount.
+        /// </summary>
+        /// <param name="scaleMultiplier">The multiplier by which to scale the viewport of this instances render target.</param>
+        public void Scale(float scaleMultiplier)
+        {
+            View renderView = renderTarget.GetView();
+
+            renderView.Zoom(scaleMultiplier);
+
+            renderTarget.SetView(renderView);
         }
     }
 }

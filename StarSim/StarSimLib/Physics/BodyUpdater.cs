@@ -23,7 +23,7 @@ namespace StarSimLib.Physics
         public static void UpdateBodiesBruteForce(IEnumerable<Body> bodies, double deltaTime)
         {
             IEnumerable<Body> bodyEnumerable = bodies as Body[] ?? bodies.ToArray();
-            Vector3d forceVector = new Vector3d();
+            Vector4d forceVector = new Vector4d();
 
             foreach (Body body in bodyEnumerable)
             {
