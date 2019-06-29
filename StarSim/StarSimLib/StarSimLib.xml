@@ -113,15 +113,30 @@
             Represents a drawer capable of rendering bodies to a <see cref="T:SFML.Graphics.RenderTarget"/>.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.aspectRatio">
+        <member name="F:StarSimLib.Graphics.Drawer.farDistance">
             <summary>
-            The aspect ratio of the render target. Allows for normalisation of the <see cref="T:SFML.Graphics.RenderTarget"/> space
-            into a normal plane ([-1, -1] = top left, [1, 1] = bottom right).
+            The furthest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.fieldOfView">
             <summary>
             The field of view for the drawer.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Graphics.Drawer.nearDistance">
+            <summary>
+            The closest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Graphics.Drawer.inverseScaleFactor">
+            <summary>
+            Inverse scale factor used in the projection matrix.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Graphics.Drawer.aspectRatio">
+            <summary>
+            The aspect ratio of the render target. Allows for normalisation of the <see cref="T:SFML.Graphics.RenderTarget"/> space
+            into a normal plane ([-1, -1] = top left, [1, 1] = bottom right).
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.managedBodies">
@@ -139,6 +154,11 @@
             <summary>
             The offset that has to be applied to the positions of a <see cref="T:SFML.Graphics.CircleShape"/>, so that they appear
             to be in the centre of the render target and not the top left corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Graphics.Drawer.projectionMatrix">
+            <summary>
+            Projection matrix used for mapping from 3D to 2D.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.renderTarget">

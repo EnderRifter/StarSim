@@ -12,15 +12,30 @@ namespace StarSimLib.Graphics
     public class Drawer
     {
         /// <summary>
-        /// The aspect ratio of the render target. Allows for normalisation of the <see cref="RenderTarget"/> space
-        /// into a normal plane ([-1, -1] = top left, [1, 1] = bottom right).
+        /// The furthest distance that can be seen on the <see cref="RenderTarget"/>.
         /// </summary>
-        private readonly float aspectRatio;
+        private const double farDistance = 1000 * Constants.UniverseSize;
 
         /// <summary>
         /// The field of view for the drawer.
         /// </summary>
-        private readonly float fieldOfView;
+        private const double fieldOfView = 90f;
+
+        /// <summary>
+        /// The closest distance that can be seen on the <see cref="RenderTarget"/>.
+        /// </summary>
+        private const double nearDistance = 0.1;
+
+        /// <summary>
+        /// Inverse scale factor used in the projection matrix.
+        /// </summary>
+        private static readonly double inverseScaleFactor = 1 / Math.Tan(fieldOfView * 0.5 / 180 * Math.PI);
+
+        /// <summary>
+        /// The aspect ratio of the render target. Allows for normalisation of the <see cref="RenderTarget"/> space
+        /// into a normal plane ([-1, -1] = top left, [1, 1] = bottom right).
+        /// </summary>
+        private readonly double aspectRatio;
 
         /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
@@ -40,6 +55,11 @@ namespace StarSimLib.Graphics
         private readonly Vector2u originOffset;
 
         /// <summary>
+        /// Projection matrix used for mapping from 3D to 2D.
+        /// </summary>
+        private readonly Matrix4x4 projectionMatrix;
+
+        /// <summary>
         /// The target to which the managed bodies will be drawn.
         /// </summary>
         private readonly RenderTarget renderTarget;
@@ -56,17 +76,20 @@ namespace StarSimLib.Graphics
         public Drawer(RenderTarget target, ref Body[] bodies, ref Dictionary<Body, CircleShape> bodyShapeMap)
         {
             renderTarget = target;
-            aspectRatio = renderTarget.Size.Y / (float)renderTarget.Size.X;
             originOffset = target.Size / 2;
 
+            aspectRatio = renderTarget.Size.Y / (double)renderTarget.Size.X;
+
+            projectionMatrix = new Matrix4x4(new[]
+                                             {
+                                                 new [] { aspectRatio * inverseScaleFactor, 0, 0, 0 },
+                                                 new [] { 0, inverseScaleFactor, 0, 0 },
+                                                 new [] { 0, 0, farDistance / (farDistance - nearDistance), 1 },
+                                                 new [] { 0, 0, -farDistance * nearDistance / (farDistance - nearDistance), 0 }
+                                             });
+
             managedBodies = bodies;
-
             managedBodyShapeMap = bodyShapeMap;
-        }
-
-        private double InverseScaleFactor
-        {
-            get { return 1 / Math.Tan(fieldOfView / 2); }
         }
 
         /// <summary>
@@ -81,9 +104,24 @@ namespace StarSimLib.Graphics
                 // which is used as the new position of the shape.
                 CircleShape shape = managedBodyShapeMap[body];
 
+                Vector4d worldSpace = body.Position;
+
+                // project the body position
+                Vector4d projectedPosition = (worldSpace * projectionMatrix);
+
+                if (!projectedPosition.W.Equals(0))
+                {
+                    projectedPosition.X /= projectedPosition.W;
+                    projectedPosition.Y /= projectedPosition.W;
+                    projectedPosition.Z /= projectedPosition.W;
+                }
+
+                Vector4d screenPosition = projectedPosition;
+
+                // final position
                 shape.Position = new Vector2f(
-                    (float)(body.Position.X * Constants.UniverseScalingFactor + originOffset.X),
-                    (float)(body.Position.Y * Constants.UniverseScalingFactor + originOffset.Y)
+                    (float)(screenPosition.X * 100 + originOffset.X),
+                    (float)(screenPosition.Y * 100 + originOffset.Y)
                 );
 
                 /*

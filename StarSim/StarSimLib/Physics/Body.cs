@@ -57,6 +57,7 @@ namespace StarSimLib.Physics
             Id = id;
 
             this.position = position;
+            this.position.W = 1;
             this.velocity = velocity;
             this.mass = mass;
 
