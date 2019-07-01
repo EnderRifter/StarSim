@@ -12,19 +12,21 @@ namespace StarSimLib.Graphics
     public class Drawer
     {
         /// <summary>
-        /// The furthest distance that can be seen on the <see cref="RenderTarget"/>.
+        /// The furthest distance that can be seen on the <see cref="RenderTarget"/>. Any bodies that are further
+        /// from the camera than this distance are culled and not rendered.
         /// </summary>
-        private const double farDistance = 1000 * Constants.UniverseSize;
+        private const double farDistance = 1 * Constants.UniverseSize;
 
         /// <summary>
-        /// The field of view for the drawer.
+        /// The field of view for the drawer in degrees.
         /// </summary>
-        private const double fieldOfView = 90f;
+        private const double fieldOfView = 45;
 
         /// <summary>
-        /// The closest distance that can be seen on the <see cref="RenderTarget"/>.
+        /// The closest distance that can be seen on the <see cref="RenderTarget"/>. Any bodies that are closer
+        /// to the camera than this distance (i.e. behind the camera) are culled and not rendered.
         /// </summary>
-        private const double nearDistance = 0.1;
+        private const double nearDistance = 0;
 
         /// <summary>
         /// Inverse scale factor used in the projection matrix.
@@ -101,13 +103,18 @@ namespace StarSimLib.Graphics
             foreach (Body body in managedBodies)
             {
                 // get the cached shape and projects the current bodies 3D position down to a 2D position,
-                // which is used as the new position of the shape.
+                // which is used as the new position of the shape
                 CircleShape shape = managedBodyShapeMap[body];
 
+                // rotations should happen before the body is translated into camera space
                 Vector4d worldSpace = body.Position;
 
-                // project the body position
-                Vector4d projectedPosition = (worldSpace * projectionMatrix);
+                // bodies must be translated into the camera space, as the camera must be some distance away from the
+                // world space origin (0,0,0). otherwise rendering breaks
+                Vector4d cameraSpace = worldSpace + new Vector4d(0, 0, (farDistance - nearDistance) / 2);
+
+                // project the body position from camera space into screen space (without any special transformations)
+                Vector4d projectedPosition = cameraSpace * projectionMatrix;
 
                 if (!projectedPosition.W.Equals(0))
                 {
@@ -116,21 +123,16 @@ namespace StarSimLib.Graphics
                     projectedPosition.Z /= projectedPosition.W;
                 }
 
+                // any transformations can be applied now
                 Vector4d screenPosition = projectedPosition;
 
                 // final position
                 shape.Position = new Vector2f(
-                    (float)(screenPosition.X * 100 + originOffset.X),
-                    (float)(screenPosition.Y * 100 + originOffset.Y)
+                    (float)(screenPosition.X * renderTarget.Size.X / 2 + originOffset.X),
+                    (float)(screenPosition.Y * renderTarget.Size.Y / 2 + originOffset.Y)
                 );
 
-                /*
-                shape.Position = new Vector2f(
-                    (float)(body.Position.X - shape.Radius / 2 + originOffset.X),
-                    (float)(body.Position.Y - shape.Radius / 2 + originOffset.Y)
-                );
-                */
-
+                // the shape is drawn onto the render target at its final screen position
                 shape.Draw(renderTarget, RenderStates.Default);
             }
         }

@@ -115,17 +115,19 @@
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.farDistance">
             <summary>
-            The furthest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>.
+            The furthest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>. Any bodies that are further
+            from the camera than this distance are culled and not rendered.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.fieldOfView">
             <summary>
-            The field of view for the drawer.
+            The field of view for the drawer in degrees.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.nearDistance">
             <summary>
-            The closest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>.
+            The closest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>. Any bodies that are closer
+            to the camera than this distance (i.e. behind the camera) are culled and not rendered.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.inverseScaleFactor">
