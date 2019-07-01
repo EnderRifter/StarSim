@@ -106,6 +106,34 @@
         <member name="M:StarSimLib.Contexts.SimulatorContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:StarSimLib.Data_Structures.EulerAngles">
+            <summary>
+            Represents a set of 3 angles, that together describe a 3D rotation.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.EulerAngles.X">
+            <summary>
+            Angle of rotation in the x axis.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.EulerAngles.Y">
+            <summary>
+            Angle of rotation in the y axis.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.EulerAngles.Z">
+            <summary>
+            Angle of rotation in the z axis.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.EulerAngles.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.EulerAngles"/> struct.
+            </summary>
+            <param name="x">The angle of rotation in the x axis.</param>
+            <param name="y">The angle of rotation in the y axis.</param>
+            <param name="z">The angle of rotation in the z axis.</param>
+        </member>
         <member name="T:StarSimLib.Data_Structures.Matrix4x4">
             <summary>
             A 4-by-4 matrix of <see cref="T:System.Double"/> values.
@@ -551,6 +579,11 @@
             to the camera than this distance (i.e. behind the camera) are culled and not rendered.
             </summary>
         </member>
+        <member name="F:StarSimLib.Graphics.Drawer.cameraTranslationVector">
+            <summary>
+            The vector by which all projected points are translated away from the camera and halfway into the view frustum.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Graphics.Drawer.aspectRatio">
             <summary>
             The aspect ratio of the render target. Allows for normalisation of the <see cref="T:SFML.Graphics.RenderTarget"/> space
@@ -590,9 +623,9 @@
             Projection matrix used for mapping from 3D to 2D.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.xAngle">
+        <member name="F:StarSimLib.Graphics.Drawer.rotation">
             <summary>
-            Angle of rotation in the x axis.
+            The 3D rotation.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.xRotationMatrix">
@@ -600,19 +633,9 @@
             The rotation matrix for the x axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.yAngle">
-            <summary>
-            Angle of rotation in the y axis.
-            </summary>
-        </member>
         <member name="F:StarSimLib.Graphics.Drawer.yRotationMatrix">
             <summary>
             The rotation matrix for the y axis.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Graphics.Drawer.zAngle">
-            <summary>
-            Angle of rotation in the z axis.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.zRotationMatrix">
@@ -663,6 +686,13 @@
             Current zoom level of the drawer.
             </summary>
         </member>
+        <member name="M:StarSimLib.Graphics.Drawer.ProjectPoint(StarSimLib.Data_Structures.Vector4d)">
+            <summary>
+            Projects the given <see cref="T:StarSimLib.Data_Structures.Vector4d"/> point from world space into screen space.
+            </summary>
+            <param name="point">The point to project.</param>
+            <returns>The projected point.</returns>
+        </member>
         <member name="M:StarSimLib.Graphics.Drawer.UpdateRotationMatrices">
             <summary>
             Updates the rotation matrices for the view.
@@ -697,6 +727,11 @@
             Describes how the <see cref="T:StarSimLib.Physics.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
             </summary>
         </member>
+        <member name="F:StarSimLib.Physics.Body.previousPositions">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Physics.Body.PreviousPositions"/> property.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Physics.Body.force">
             <summary>
             The backing field for the <see cref="P:StarSimLib.Physics.Body.Force"/> property.
@@ -710,11 +745,6 @@
         <member name="F:StarSimLib.Physics.Body.position">
             <summary>
             Backing field for the <see cref="P:StarSimLib.Physics.Body.Position"/> property.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.previousPositions">
-            <summary>
-            Backing field for the <see cref="P:StarSimLib.Physics.Body.PreviousPositions"/> property.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.Body.velocity">
@@ -765,6 +795,13 @@
         <member name="P:StarSimLib.Physics.Body.Velocity">
             <summary>
             The current velocity of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Physics.Body.EnqueuePosition">
+            <summary>
+            Enqueues the current position on the <see cref="F:StarSimLib.Physics.Body.previousPositions"/> queue, to save it.
+            Will dequeue positions from the queue if the number of stored positions exceeds the
+            value in <see cref="F:StarSimLib.Constants.StoredPreviousPositionCount"/>.
             </summary>
         </member>
         <member name="M:StarSimLib.Physics.Body.GetForceBetween(StarSimLib.Physics.Body,StarSimLib.Physics.Body)">
@@ -892,6 +929,71 @@
             Returns a random position within the universe sphere (see <see cref="F:StarSimLib.Constants.UniverseSize"/>).
             </summary>
             <returns>A 3D position vector.</returns>
+        </member>
+        <member name="T:StarSimLib.UI.InputHandler">
+            <summary>
+            Provides user input handling functions.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.InputHandler.bodyDrawer">
+            <summary>
+            The renderer used to display the <see cref="T:StarSimLib.Physics.Body"/> instances on the screen.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.#ctor(StarSimLib.Graphics.Drawer@)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.UI.InputHandler"/> class.
+            </summary>
+            <param name="drawer">
+            A reference to the renderer used to display the <see cref="T:StarSimLib.Physics.Body"/> instances on the screen.
+            </param>
+        </member>
+        <member name="P:StarSimLib.UI.InputHandler.IsSimulationPaused">
+            <summary>
+            Whether the simulation is paused at any given time.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
+            <summary>
+            Handles key presses.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key press.</param>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.HandleKeyReleased(System.Object,SFML.Window.KeyEventArgs)">
+            <summary>
+            Handles key releases.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key release.</param>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.HandleMouseMoved(System.Object,SFML.Window.MouseMoveEventArgs)">
+            <summary>
+            Handles motions of the mouse.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseMoveEventArgs"/> associated with the mouse movement.</param>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.HandleMousePressed(System.Object,SFML.Window.MouseButtonEventArgs)">
+            <summary>
+            Handles key presses of the mouse.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse press.</param>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.HandleMouseReleased(System.Object,SFML.Window.MouseButtonEventArgs)">
+            <summary>
+            Handles key releases of the mouse.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse release.</param>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.HandleMouseScrolled(System.Object,SFML.Window.MouseWheelScrollEventArgs)">
+            <summary>
+            Handles scrolling of the mouse wheel.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseWheelScrollEventArgs"/> associated with the mouse scroll.</param>
         </member>
     </members>
 </doc>

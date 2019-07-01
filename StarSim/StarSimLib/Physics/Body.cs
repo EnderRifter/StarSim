@@ -16,6 +16,11 @@ namespace StarSimLib.Physics
             "Body {0,2}.{1,-4}: Pos-{2}, Vel-{3} Mass-{4,3}";
 
         /// <summary>
+        /// Backing field for the <see cref="PreviousPositions"/> property.
+        /// </summary>
+        private readonly Queue<Vector4d> previousPositions;
+
+        /// <summary>
         /// The backing field for the <see cref="Force"/> property.
         /// </summary>
         private Vector4d force;
@@ -29,11 +34,6 @@ namespace StarSimLib.Physics
         /// Backing field for the <see cref="Position"/> property.
         /// </summary>
         private Vector4d position;
-
-        /// <summary>
-        /// Backing field for the <see cref="PreviousPositions"/> property.
-        /// </summary>
-        private Queue<Vector4d> previousPositions;
 
         /// <summary>
         /// Backing field for the <see cref="Velocity"/> property.
@@ -69,6 +69,7 @@ namespace StarSimLib.Physics
             this.mass = mass;
 
             force = new Vector4d();
+            previousPositions = new Queue<Vector4d>(Constants.StoredPreviousPositionCount + 1);
         }
 
         /// <summary>
@@ -109,6 +110,21 @@ namespace StarSimLib.Physics
         public Vector4d Velocity
         {
             get { return velocity; }
+        }
+
+        /// <summary>
+        /// Enqueues the current position on the <see cref="previousPositions"/> queue, to save it.
+        /// Will dequeue positions from the queue if the number of stored positions exceeds the
+        /// value in <see cref="Constants.StoredPreviousPositionCount"/>.
+        /// </summary>
+        private void EnqueuePosition()
+        {
+            previousPositions.Enqueue(position);
+
+            if (previousPositions.Count > Constants.StoredPreviousPositionCount)
+            {
+                previousPositions.Dequeue();
+            }
         }
 
         /// <summary>
@@ -194,6 +210,7 @@ namespace StarSimLib.Physics
         public void Update(double deltaTime)
         {
             velocity += deltaTime * force / mass;
+            EnqueuePosition();
             position += deltaTime * velocity;
         }
 
@@ -205,6 +222,7 @@ namespace StarSimLib.Physics
         public void Update(Vector4d forceVector, double deltaTime)
         {
             velocity += deltaTime * forceVector / mass;
+            EnqueuePosition();
             position += deltaTime * velocity;
         }
 

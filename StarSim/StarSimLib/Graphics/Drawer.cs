@@ -71,6 +71,11 @@ namespace StarSimLib.Graphics
         private const double NearDistance = 0;
 
         /// <summary>
+        /// The vector by which all projected points are translated away from the camera and halfway into the view frustum.
+        /// </summary>
+        private static readonly Vector4d cameraTranslationVector = new Vector4d(0, 0, (FarDistance - NearDistance) / 2);
+
+        /// <summary>
         /// The aspect ratio of the render target. Allows for normalisation of the <see cref="RenderTarget"/> space
         /// into a normal plane ([-1, -1] = top left, [1, 1] = bottom right), instead of having to deal with a
         /// variable render space.
@@ -110,9 +115,9 @@ namespace StarSimLib.Graphics
         private Matrix4x4 projectionMatrix;
 
         /// <summary>
-        /// Angle of rotation in the x axis.
+        /// The 3D rotation.
         /// </summary>
-        private double xAngle = 0;
+        private EulerAngles rotation;
 
         /// <summary>
         /// The rotation matrix for the x axis.
@@ -120,19 +125,9 @@ namespace StarSimLib.Graphics
         private Matrix4x4 xRotationMatrix;
 
         /// <summary>
-        /// Angle of rotation in the y axis.
-        /// </summary>
-        private double yAngle = 0;
-
-        /// <summary>
         /// The rotation matrix for the y axis.
         /// </summary>
         private Matrix4x4 yRotationMatrix;
-
-        /// <summary>
-        /// Angle of rotation in the z axis.
-        /// </summary>
-        private double zAngle = 0;
 
         /// <summary>
         /// The rotation matrix for the z axis.
@@ -157,6 +152,7 @@ namespace StarSimLib.Graphics
 
             aspectRatio = renderTarget.Size.Y / (double)renderTarget.Size.X;
 
+            // projection and rotation matrices
             projectionMatrix = new Matrix4x4(new[]
                                              {
                                                  new [] { aspectRatio * InverseScaleFactor, 0, 0, 0 },
@@ -189,6 +185,7 @@ namespace StarSimLib.Graphics
                                                 new [] { 0d, 0, 0, 1 }
                                             });
 
+            // set initial values for the rotation matrices
             UpdateRotationMatrices();
 
             managedBodies = bodies;
@@ -216,7 +213,7 @@ namespace StarSimLib.Graphics
         /// </summary>
         public double XAngle
         {
-            get { return xAngle; }
+            get { return rotation.X; }
         }
 
         /// <summary>
@@ -224,7 +221,7 @@ namespace StarSimLib.Graphics
         /// </summary>
         public double YAngle
         {
-            get { return yAngle; }
+            get { return rotation.Y; }
         }
 
         /// <summary>
@@ -232,7 +229,7 @@ namespace StarSimLib.Graphics
         /// </summary>
         public double ZAngle
         {
-            get { return zAngle; }
+            get { return rotation.Z; }
         }
 
         /// <summary>
@@ -244,10 +241,48 @@ namespace StarSimLib.Graphics
         }
 
         /// <summary>
+        /// Projects the given <see cref="Vector4d"/> point from world space into screen space.
+        /// </summary>
+        /// <param name="point">The point to project.</param>
+        /// <returns>The projected point.</returns>
+        private Vector4d ProjectPoint(Vector4d point)
+        {
+            // rotations should happen before the point is translated into camera space
+            Vector4d worldSpace = point;
+
+            // rotations of point in the x, y and z axes
+            worldSpace *= zRotationMatrix;
+            worldSpace *= yRotationMatrix;
+            worldSpace *= xRotationMatrix;
+
+            // points must be translated into the camera space, as the camera must be some distance away from the
+            // world space origin (0,0,0) or else rendering breaks. the point is translated into the middle of the
+            // camera space (the view frustum)
+            Vector4d cameraSpace = worldSpace + cameraTranslationVector;
+
+            // project the point position from camera space into screen space (without any special transformations)
+            Vector4d projectedPosition = cameraSpace * projectionMatrix;
+
+            if (!projectedPosition.W.Equals(0))
+            {
+                projectedPosition.X /= projectedPosition.W;
+                projectedPosition.Y /= projectedPosition.W;
+                projectedPosition.Z /= projectedPosition.W;
+            }
+
+            // any transformations can be applied now
+            Vector4d screenPosition = projectedPosition;
+
+            return screenPosition;
+        }
+
+        /// <summary>
         /// Updates the rotation matrices for the view.
         /// </summary>
         private void UpdateRotationMatrices()
         {
+            (double xAngle, double yAngle, double zAngle) = (rotation.X, rotation.Y, rotation.Z);
+
             // update the rotation matrix values for the x axis
             xRotationMatrix[1, 1] = Math.Cos(xAngle * DegToRad);
             xRotationMatrix[1, 2] = -Math.Sin(xAngle * DegToRad);
@@ -279,31 +314,23 @@ namespace StarSimLib.Graphics
                 // which is used as the new position of the shape
                 CircleShape shape = managedBodyShapeMap[body];
 
-                // rotations should happen before the body is translated into camera space
-                Vector4d worldSpace = body.Position;
-
-                // rotations of points in the x, y and z axes
-                worldSpace *= zRotationMatrix;
-                worldSpace *= yRotationMatrix;
-                worldSpace *= xRotationMatrix;
-
-                // bodies must be translated into the camera space, as the camera must be some distance away from the
-                // world space origin (0,0,0) or else rendering breaks. the bodies are translated into the middle of
-                // camera space.
-                Vector4d cameraSpace = worldSpace + new Vector4d(0, 0, (FarDistance - NearDistance) / 2);
-
-                // project the body position from camera space into screen space (without any special transformations)
-                Vector4d projectedPosition = cameraSpace * projectionMatrix;
-
-                if (!projectedPosition.W.Equals(0))
+                foreach (Vector4d previousPosition in body.PreviousPositions)
                 {
-                    projectedPosition.X /= projectedPosition.W;
-                    projectedPosition.Y /= projectedPosition.W;
-                    projectedPosition.Z /= projectedPosition.W;
+                    // project previous position onto the screen
+                    Vector4d pointScreenPosition = ProjectPoint(previousPosition);
+
+                    CircleShape previousPositionShape = new CircleShape(0.5f)
+                    {
+                        Position = new Vector2f(
+                            (float)(pointScreenPosition.X * renderTarget.Size.X / 2 + originOffset.X),
+                            (float)(pointScreenPosition.Y * renderTarget.Size.Y / 2 + originOffset.Y)),
+                        FillColor = Color.Cyan
+                    };
+
+                    previousPositionShape.Draw(renderTarget, RenderStates.Default);
                 }
 
-                // any transformations can be applied now
-                Vector4d screenPosition = projectedPosition;
+                Vector4d screenPosition = ProjectPoint(body.Position);
 
                 // final position
                 shape.Position = new Vector2f(
@@ -326,27 +353,27 @@ namespace StarSimLib.Graphics
             switch (direction)
             {
                 case RotationDirection.North:
-                    xAngle += angle % 360;
+                    rotation.X += angle % 360;
                     break;
 
                 case RotationDirection.East:
-                    yAngle += angle % 360;
+                    rotation.Y += angle % 360;
                     break;
 
                 case RotationDirection.South:
-                    xAngle -= angle % 360;
+                    rotation.X -= angle % 360;
                     break;
 
                 case RotationDirection.West:
-                    yAngle -= angle % 360;
+                    rotation.Y -= angle % 360;
                     break;
 
                 case RotationDirection.Clockwise:
-                    zAngle -= angle % 360;
+                    rotation.Z -= angle % 360;
                     break;
 
                 case RotationDirection.Anticlockwise:
-                    zAngle += angle % 360;
+                    rotation.Z += angle % 360;
                     break;
 
                 default:
@@ -355,9 +382,9 @@ namespace StarSimLib.Graphics
             }
 
             // once we hit 360 (or -360) degrees of rotation, we wrap back around to 0 degrees
-            xAngle %= 360;
-            yAngle %= 360;
-            zAngle %= 360;
+            rotation.X %= 360;
+            rotation.Y %= 360;
+            rotation.Z %= 360;
 
             UpdateRotationMatrices();
         }
