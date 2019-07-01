@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Physics
 {

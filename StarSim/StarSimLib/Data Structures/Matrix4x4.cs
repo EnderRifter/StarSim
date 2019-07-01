@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StarSimLib
+namespace StarSimLib.Data_Structures
 {
     /// <summary>
     /// A 4-by-4 matrix of <see cref="double"/> values.

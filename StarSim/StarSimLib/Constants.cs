@@ -10,7 +10,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of bodies that are rendered by default.
         /// </summary>
-        public const int BodyCount = 20;
+        public const int BodyCount = 3;
 
         /// <summary>
         /// The mass of the central body, if it is included.
@@ -18,9 +18,14 @@ namespace StarSimLib
         public const double CentralBodyMass = SolarMass * 1e6;
 
         /// <summary>
+        /// The amount of degrees by which the view will be rotated in any given direction.
+        /// </summary>
+        public const double EulerRotationStep = 5;
+
+        /// <summary>
         /// The frame rate limit for the program.
         /// </summary>
-        public const uint FrameRate = 60;
+        public const uint FrameRate = 144;
 
         /// <summary>
         /// The gravitational constant (m^3 kg^-1 s^-2).
@@ -58,13 +63,13 @@ namespace StarSimLib
         public const double TimeStep = SecondsPerTick * (SimulationRate / (float)FrameRate) * SimulationRate;
 
         /// <summary>
-        /// Factor by which to multiply the position of <see cref="Body"/>s to scale them to the screen for displaying.
-        /// </summary>
-        public const double UniverseScalingFactor = 2500 / UniverseSize;
-
-        /// <summary>
         /// The maximum radius within which <see cref="Body"/>s will be placed (1e18f).
         /// </summary>
         public const double UniverseSize = 1e18f;
+
+        /// <summary>
+        /// The amount by which the zoom level will be increased or decreased.
+        /// </summary>
+        public const double ZoomStep = 0.05;
     }
 }

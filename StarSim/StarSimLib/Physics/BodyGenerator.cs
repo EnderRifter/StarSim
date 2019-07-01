@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
+using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Physics
 {

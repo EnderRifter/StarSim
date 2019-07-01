@@ -15,6 +15,11 @@ namespace StarSim
     internal class Program
     {
         /// <summary>
+        /// Holds all the <see cref="Body"/> instances that should be simulated.
+        /// </summary>
+        private static readonly Body[] bodies;
+
+        /// <summary>
         /// The renderer used to display the <see cref="Body"/> instances on the screen.
         /// </summary>
         private static readonly Drawer bodyDrawer;
@@ -33,11 +38,6 @@ namespace StarSim
         /// The SFML.NET window to which everything is rendered.
         /// </summary>
         private static readonly RenderWindow window;
-
-        /// <summary>
-        /// Holds all the <see cref="Body"/> instances that should be simulated.
-        /// </summary>
-        private static Body[] bodies;
 
         /// <summary>
         /// Maps a <see cref="Body"/> to the <see cref="CircleShape"/> that represents it, and is drawn to the
@@ -80,6 +80,8 @@ namespace StarSim
         /// <param name="eventArgs">The <see cref="KeyEventArgs"/> associated with the key press.</param>
         private static void HandleKeyPressed(object sender, KeyEventArgs eventArgs)
         {
+            string msg = "";
+
             switch (eventArgs.Code)
             {
                 case Keyboard.Key.Space:
@@ -88,27 +90,122 @@ namespace StarSim
                     break;
 
                 case Keyboard.Key.W:
-                case Keyboard.Key.Up:
                     // rotate the view north
+                    bodyDrawer.Rotate(RotationDirection.North, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the x axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.A:
-                case Keyboard.Key.Left:
                     // rotate the view west
+                    bodyDrawer.Rotate(RotationDirection.West, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} clockwise in the y axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.S:
-                case Keyboard.Key.Down:
                     // rotate the view south
+                    bodyDrawer.Rotate(RotationDirection.South, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} clockwise in the x axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.D:
-                case Keyboard.Key.Right:
                     // rotate the view east
+                    bodyDrawer.Rotate(RotationDirection.East, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the y axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.Q:
+                    // rotate the view anti-clockwise
+                    bodyDrawer.Rotate(RotationDirection.Anticlockwise, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the z axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.E:
+                    // rotate the view clockwise
+                    bodyDrawer.Rotate(RotationDirection.Clockwise, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the z axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 default:
                     break;
+            }
+
+            if (!msg.Equals(""))
+            {
+                Console.WriteLine(msg);
+            }
+        }
+
+        /// <summary>
+        /// Handles key releases.
+        /// </summary>
+        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
+        /// <param name="eventArgs">The <see cref="KeyEventArgs"/> associated with the key press.</param>
+        private static void HandleKeyReleased(object sender, KeyEventArgs eventArgs)
+        {
+            string msg = "";
+
+            switch (eventArgs.Code)
+            {
+                case Keyboard.Key.Space:
+                    // toggle the paused state
+                    IsSimulationPaused = !IsSimulationPaused;
+                    break;
+
+                case Keyboard.Key.W:
+                    // rotate the view north
+                    bodyDrawer.Rotate(RotationDirection.North, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the x axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.A:
+                    // rotate the view west
+                    bodyDrawer.Rotate(RotationDirection.West, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} clockwise in the y axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.S:
+                    // rotate the view south
+                    bodyDrawer.Rotate(RotationDirection.South, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} clockwise in the x axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.D:
+                    // rotate the view east
+                    bodyDrawer.Rotate(RotationDirection.East, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the y axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.Q:
+                    // rotate the view anti-clockwise
+                    bodyDrawer.Rotate(RotationDirection.Anticlockwise, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the z axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.E:
+                    // rotate the view clockwise
+                    bodyDrawer.Rotate(RotationDirection.Clockwise, Constants.EulerRotationStep);
+                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the z axis. " +
+                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (!msg.Equals(""))
+            {
+                Console.WriteLine(msg);
             }
         }
 
@@ -151,11 +248,11 @@ namespace StarSim
         {
             if (eventArgs.Delta > 0)
             {
-                bodyDrawer.Scale(1.1f);
+                bodyDrawer.Scale(1 + Constants.ZoomStep);
             }
             else if (eventArgs.Delta < 0)
             {
-                bodyDrawer.Scale(0.9f);
+                bodyDrawer.Scale(1 - Constants.ZoomStep);
             }
         }
 
@@ -179,6 +276,7 @@ namespace StarSim
 
             // we apply event handlers to allow for interactivity inside the window
             window.KeyPressed += HandleKeyPressed;
+            //window.KeyReleased += HandleKeyReleased;
             window.MouseButtonPressed += HandleMousePressed;
             window.MouseButtonReleased += HandleMouseReleased;
             //window.MouseMoved += HandleMouseMoved;

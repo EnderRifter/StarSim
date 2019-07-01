@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace StarSimLib
+namespace StarSimLib.Data_Structures
 {
     /// <summary>
     /// A 4D vector with <see cref="double"/> components.

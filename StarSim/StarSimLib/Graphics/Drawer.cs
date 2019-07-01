@@ -2,40 +2,78 @@
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
+using StarSimLib.Data_Structures;
 using StarSimLib.Physics;
 
 namespace StarSimLib.Graphics
 {
+    /// <summary>
+    /// Enumerates all possible rotation directions (i.e. north, east, south, west, clockwise, anticlockwise).
+    /// </summary>
+    public enum RotationDirection
+    {
+        /// <summary>
+        /// Represents an anticlockwise rotation in the x-axis.
+        /// </summary>
+        North,
+
+        /// <summary>
+        /// Represents an anticlockwise rotation in the y-axis.
+        /// </summary>
+        East,
+
+        /// <summary>
+        /// Represents a clockwise rotation in the x-axis.
+        /// </summary>
+        South,
+
+        /// <summary>
+        /// Represents a clockwise rotation in the y-axis.
+        /// </summary>
+        West,
+
+        /// <summary>
+        /// Represents a clockwise rotation in the z-axis.
+        /// </summary>
+        Clockwise,
+
+        /// <summary>
+        /// Represents an anticlockwise rotation in the z-axis.
+        /// </summary>
+        Anticlockwise
+    }
+
     /// <summary>
     /// Represents a drawer capable of rendering bodies to a <see cref="RenderTarget"/>.
     /// </summary>
     public class Drawer
     {
         /// <summary>
+        /// Conversion from degrees to radians, as used by the <see cref="Math"/> functions.
+        /// </summary>
+        private const double DegToRad = 1d / 180 * Math.PI;
+
+        /// <summary>
         /// The furthest distance that can be seen on the <see cref="RenderTarget"/>. Any bodies that are further
         /// from the camera than this distance are culled and not rendered.
         /// </summary>
-        private const double farDistance = 1 * Constants.UniverseSize;
+        private const double FarDistance = 1 * Constants.UniverseSize;
 
         /// <summary>
-        /// The field of view for the drawer in degrees.
+        /// The default field of view for the drawer in degrees.
         /// </summary>
-        private const double fieldOfView = 45;
+        private const double FieldOfView = 45;
 
         /// <summary>
         /// The closest distance that can be seen on the <see cref="RenderTarget"/>. Any bodies that are closer
         /// to the camera than this distance (i.e. behind the camera) are culled and not rendered.
         /// </summary>
-        private const double nearDistance = 0;
-
-        /// <summary>
-        /// Inverse scale factor used in the projection matrix.
-        /// </summary>
-        private static readonly double inverseScaleFactor = 1 / Math.Tan(fieldOfView * 0.5 / 180 * Math.PI);
+        private const double NearDistance = 0;
 
         /// <summary>
         /// The aspect ratio of the render target. Allows for normalisation of the <see cref="RenderTarget"/> space
-        /// into a normal plane ([-1, -1] = top left, [1, 1] = bottom right).
+        /// into a normal plane ([-1, -1] = top left, [1, 1] = bottom right), instead of having to deal with a
+        /// variable render space.
         /// </summary>
         private readonly double aspectRatio;
 
@@ -57,23 +95,60 @@ namespace StarSimLib.Graphics
         private readonly Vector2u originOffset;
 
         /// <summary>
-        /// Projection matrix used for mapping from 3D to 2D.
-        /// </summary>
-        private readonly Matrix4x4 projectionMatrix;
-
-        /// <summary>
         /// The target to which the managed bodies will be drawn.
         /// </summary>
         private readonly RenderTarget renderTarget;
 
         /// <summary>
+        /// The current value for the field of view, in degrees. Used to zoom the view in and out.
+        /// </summary>
+        private double currentFieldOfView = FieldOfView;
+
+        /// <summary>
+        /// Projection matrix used for mapping from 3D to 2D.
+        /// </summary>
+        private Matrix4x4 projectionMatrix;
+
+        /// <summary>
+        /// Angle of rotation in the x axis.
+        /// </summary>
+        private double xAngle = 0;
+
+        /// <summary>
+        /// The rotation matrix for the x axis.
+        /// </summary>
+        private Matrix4x4 xRotationMatrix;
+
+        /// <summary>
+        /// Angle of rotation in the y axis.
+        /// </summary>
+        private double yAngle = 0;
+
+        /// <summary>
+        /// The rotation matrix for the y axis.
+        /// </summary>
+        private Matrix4x4 yRotationMatrix;
+
+        /// <summary>
+        /// Angle of rotation in the z axis.
+        /// </summary>
+        private double zAngle = 0;
+
+        /// <summary>
+        /// The rotation matrix for the z axis.
+        /// </summary>
+        private Matrix4x4 zRotationMatrix;
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="Drawer"/> class.
         /// </summary>
         /// <param name="target">The target to which the managed bodies should be rendered.</param>
-        /// <param name="bodies">The <see cref="Body"/> instances which should be managed by this instance.</param>
+        /// <param name="bodies">
+        /// A reference to the <see cref="Body"/> instances which should be managed by this instance.
+        /// </param>
         /// <param name="bodyShapeMap">
-        /// Maps a <see cref="Body"/> instance to the <see cref="CircleShape"/> that represents it, and is drawn to the
-        /// screen at the <see cref="Body"/> instances position.
+        /// A reference to the dictionary mapping a <see cref="Body"/> instance to the <see cref="CircleShape"/> that
+        /// represents it, and is drawn to the screen at the <see cref="Body"/> instance's position.
         /// </param>
         public Drawer(RenderTarget target, ref Body[] bodies, ref Dictionary<Body, CircleShape> bodyShapeMap)
         {
@@ -84,14 +159,93 @@ namespace StarSimLib.Graphics
 
             projectionMatrix = new Matrix4x4(new[]
                                              {
-                                                 new [] { aspectRatio * inverseScaleFactor, 0, 0, 0 },
-                                                 new [] { 0, inverseScaleFactor, 0, 0 },
-                                                 new [] { 0, 0, farDistance / (farDistance - nearDistance), 1 },
-                                                 new [] { 0, 0, -farDistance * nearDistance / (farDistance - nearDistance), 0 }
+                                                 new [] { aspectRatio * InverseScaleFactor, 0, 0, 0 },
+                                                 new [] { 0, InverseScaleFactor, 0, 0 },
+                                                 new [] { 0, 0, FarDistance / (FarDistance - NearDistance), 1 },
+                                                 new [] { 0, 0, -FarDistance * NearDistance / (FarDistance - NearDistance), 0 }
                                              });
+
+            xRotationMatrix = new Matrix4x4(new[]
+                                            {
+                                                new [] { 1d, 0, 0, 0 },
+                                                new [] { 0d, 0, 0, 0 },
+                                                new [] { 0d, 0, 0, 0 },
+                                                new [] { 0d, 0, 0, 1 }
+                                            });
+
+            yRotationMatrix = new Matrix4x4(new[]
+                                            {
+                                                new [] { 0d, 0, 0, 0 },
+                                                new [] { 0d, 1, 0, 0 },
+                                                new [] { 0d, 0, 0, 0 },
+                                                new [] { 0d, 0, 0, 1 }
+                                            });
+
+            zRotationMatrix = new Matrix4x4(new[]
+                                            {
+                                                new [] { 0d, 0, 0, 0 },
+                                                new [] { 0d, 0, 0, 0 },
+                                                new [] { 0d, 0, 1, 0 },
+                                                new [] { 0d, 0, 0, 1 }
+                                            });
+
+            UpdateRotationMatrices();
 
             managedBodies = bodies;
             managedBodyShapeMap = bodyShapeMap;
+        }
+
+        /// <summary>
+        /// Inverse scale factor used in the projection matrix.
+        /// </summary>
+        private double InverseScaleFactor { get { return 1 / Math.Tan(currentFieldOfView * 0.5 * DegToRad); } }
+
+        /// <summary>
+        /// Current angle of rotation in the x axis.
+        /// </summary>
+        public double XAngle
+        {
+            get { return xAngle; }
+        }
+
+        /// <summary>
+        /// Current angle of rotation in the x axis.
+        /// </summary>
+        public double YAngle
+        {
+            get { return yAngle; }
+        }
+
+        /// <summary>
+        /// Current angle of rotation in the x axis.
+        /// </summary>
+        public double ZAngle
+        {
+            get { return zAngle; }
+        }
+
+        /// <summary>
+        /// Updates the rotation matrices for the view.
+        /// </summary>
+        private void UpdateRotationMatrices()
+        {
+            // update the rotation matrix values for the x axis
+            xRotationMatrix[1, 1] = Math.Cos(xAngle * DegToRad);
+            xRotationMatrix[1, 2] = -Math.Sin(xAngle * DegToRad);
+            xRotationMatrix[2, 1] = Math.Sin(xAngle * DegToRad);
+            xRotationMatrix[2, 2] = Math.Cos(xAngle * DegToRad);
+
+            // update the rotation matrix values for the y axis
+            yRotationMatrix[0, 0] = Math.Cos(yAngle * DegToRad);
+            yRotationMatrix[0, 2] = Math.Sin(yAngle * DegToRad);
+            yRotationMatrix[2, 0] = -Math.Sin(yAngle * DegToRad);
+            yRotationMatrix[2, 2] = Math.Cos(yAngle * DegToRad);
+
+            // update the rotation matrix values for the z axis
+            zRotationMatrix[0, 0] = Math.Cos(zAngle * DegToRad);
+            zRotationMatrix[0, 1] = -Math.Sin(zAngle * DegToRad);
+            zRotationMatrix[1, 0] = Math.Sin(zAngle * DegToRad);
+            zRotationMatrix[1, 1] = Math.Cos(zAngle * DegToRad);
         }
 
         /// <summary>
@@ -109,9 +263,15 @@ namespace StarSimLib.Graphics
                 // rotations should happen before the body is translated into camera space
                 Vector4d worldSpace = body.Position;
 
+                // rotations of points in the x, y and z axes
+                worldSpace *= zRotationMatrix;
+                worldSpace *= yRotationMatrix;
+                worldSpace *= xRotationMatrix;
+
                 // bodies must be translated into the camera space, as the camera must be some distance away from the
-                // world space origin (0,0,0). otherwise rendering breaks
-                Vector4d cameraSpace = worldSpace + new Vector4d(0, 0, (farDistance - nearDistance) / 2);
+                // world space origin (0,0,0) or else rendering breaks. the bodies are translated into the middle of
+                // camera space.
+                Vector4d cameraSpace = worldSpace + new Vector4d(0, 0, (FarDistance - NearDistance) / 2);
 
                 // project the body position from camera space into screen space (without any special transformations)
                 Vector4d projectedPosition = cameraSpace * projectionMatrix;
@@ -138,16 +298,61 @@ namespace StarSimLib.Graphics
         }
 
         /// <summary>
+        /// Rotates the view in the given direction, by the specified angle (in degrees).
+        /// </summary>
+        /// <param name="direction">The direction in which to rotate the view.</param>
+        /// <param name="angle">The angle by which to rotate in the given direction.</param>
+        public void Rotate(RotationDirection direction, double angle)
+        {
+            switch (direction)
+            {
+                case RotationDirection.North:
+                    xAngle += angle % 360;
+                    break;
+
+                case RotationDirection.East:
+                    yAngle += angle % 360;
+                    break;
+
+                case RotationDirection.South:
+                    xAngle -= angle % 360;
+                    break;
+
+                case RotationDirection.West:
+                    yAngle -= angle % 360;
+                    break;
+
+                case RotationDirection.Clockwise:
+                    zAngle -= angle % 360;
+                    break;
+
+                case RotationDirection.Anticlockwise:
+                    zAngle += angle % 360;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, "The given direction was not within the valid range.");
+            }
+
+            xAngle %= 360;
+            yAngle %= 360;
+            zAngle %= 360;
+
+            UpdateRotationMatrices();
+        }
+
+        /// <summary>
         /// Scales this instances view by the given amount.
         /// </summary>
         /// <param name="scaleMultiplier">The multiplier by which to scale the viewport of this instances render target.</param>
-        public void Scale(float scaleMultiplier)
+        public void Scale(double scaleMultiplier)
         {
-            View renderView = renderTarget.GetView();
+            currentFieldOfView /= scaleMultiplier;
 
-            renderView.Zoom(scaleMultiplier);
-
-            renderTarget.SetView(renderView);
+            // reassign projection matrix fields as the field of view (used by InverseScaleFactor) has been
+            // modified to zoom in or out
+            projectionMatrix[0, 0] = aspectRatio * InverseScaleFactor;
+            projectionMatrix[1, 1] = InverseScaleFactor;
         }
     }
 }
