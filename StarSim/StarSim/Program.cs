@@ -6,6 +6,7 @@ using SFML.Window;
 using StarSimLib;
 using StarSimLib.Graphics;
 using StarSimLib.Physics;
+using StarSimLib.UI;
 
 namespace StarSim
 {
@@ -28,6 +29,11 @@ namespace StarSim
         /// The body position update algorithm to use.
         /// </summary>
         private static readonly UpdateDelegate bodyPositionUpdater;
+
+        /// <summary>
+        /// The input handler to use to provide interactivity to the simulator.
+        /// </summary>
+        private static readonly InputHandler inputHandler;
 
         /// <summary>
         /// Caches a random number generator to use for all randomised positions and velocities.
@@ -54,9 +60,6 @@ namespace StarSim
             window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator", Styles.Default, new ContextSettings());
             window.SetVisible(false);
 
-            View windowView = new View(new Vector2f(window.Size.X / 2f, window.Size.Y / 2f), new Vector2f(window.Size.X, window.Size.Y));
-            window.SetView(windowView);
-
             bodies = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
             bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
 #if DEBUG
@@ -65,6 +68,7 @@ namespace StarSim
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
 #endif
             bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
+            inputHandler = new InputHandler();
             Rng = new Random();
         }
 
@@ -92,42 +96,42 @@ namespace StarSim
                 case Keyboard.Key.W:
                     // rotate the view north
                     bodyDrawer.Rotate(RotationDirection.North, Constants.EulerRotationStep);
-                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the x axis. " +
+                    msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the x axis. " +
                           $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.A:
                     // rotate the view west
                     bodyDrawer.Rotate(RotationDirection.West, Constants.EulerRotationStep);
-                    msg = $"Rotated by {Constants.EulerRotationStep} clockwise in the y axis. " +
+                    msg = $"Rotated by {Constants.EulerRotationStep} degrees clockwise in the y axis. " +
                           $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.S:
                     // rotate the view south
                     bodyDrawer.Rotate(RotationDirection.South, Constants.EulerRotationStep);
-                    msg = $"Rotated by {Constants.EulerRotationStep} clockwise in the x axis. " +
+                    msg = $"Rotated by {Constants.EulerRotationStep} degrees clockwise in the x axis. " +
                           $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.D:
                     // rotate the view east
                     bodyDrawer.Rotate(RotationDirection.East, Constants.EulerRotationStep);
-                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the y axis. " +
+                    msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the y axis. " +
                           $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.Q:
                     // rotate the view anti-clockwise
                     bodyDrawer.Rotate(RotationDirection.Anticlockwise, Constants.EulerRotationStep);
-                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the z axis. " +
+                    msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the z axis. " +
                           $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.E:
                     // rotate the view clockwise
                     bodyDrawer.Rotate(RotationDirection.Clockwise, Constants.EulerRotationStep);
-                    msg = $"Rotated by {Constants.EulerRotationStep} anticlockwise in the z axis. " +
+                    msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the z axis. " +
                           $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
                     break;
 
@@ -254,6 +258,8 @@ namespace StarSim
             {
                 bodyDrawer.Scale(1 - Constants.ZoomStep);
             }
+
+            Console.WriteLine($"Current field of view (zoom level): {bodyDrawer.FOV} ({bodyDrawer.ZoomLevel})");
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Physics
@@ -28,6 +29,11 @@ namespace StarSimLib.Physics
         /// Backing field for the <see cref="Position"/> property.
         /// </summary>
         private Vector4d position;
+
+        /// <summary>
+        /// Backing field for the <see cref="PreviousPositions"/> property.
+        /// </summary>
+        private Queue<Vector4d> previousPositions;
 
         /// <summary>
         /// Backing field for the <see cref="Velocity"/> property.
@@ -87,6 +93,14 @@ namespace StarSimLib.Physics
         public Vector4d Position
         {
             get { return position; }
+        }
+
+        /// <summary>
+        /// A <see cref="Queue{T}"/> containing previous positions of the body.
+        /// </summary>
+        public ref readonly Queue<Vector4d> PreviousPositions
+        {
+            get { return ref previousPositions; }
         }
 
         /// <summary>

@@ -59,6 +59,11 @@
             The mass of the sun (1.98892e30f).
             </summary>
         </member>
+        <member name="F:StarSimLib.Constants.StoredPreviousPositionCount">
+            <summary>
+            The number of previous positions that will be stored by a body
+            </summary>
+        </member>
         <member name="F:StarSimLib.Constants.TimeStep">
             <summary>
             The time step for the simulation.
@@ -633,6 +638,11 @@
             Inverse scale factor used in the projection matrix.
             </summary>
         </member>
+        <member name="P:StarSimLib.Graphics.Drawer.FOV">
+            <summary>
+            Current field-of-view.
+            </summary>
+        </member>
         <member name="P:StarSimLib.Graphics.Drawer.XAngle">
             <summary>
             Current angle of rotation in the x axis.
@@ -646,6 +656,11 @@
         <member name="P:StarSimLib.Graphics.Drawer.ZAngle">
             <summary>
             Current angle of rotation in the x axis.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Graphics.Drawer.ZoomLevel">
+            <summary>
+            Current zoom level of the drawer.
             </summary>
         </member>
         <member name="M:StarSimLib.Graphics.Drawer.UpdateRotationMatrices">
@@ -697,6 +712,11 @@
             Backing field for the <see cref="P:StarSimLib.Physics.Body.Position"/> property.
             </summary>
         </member>
+        <member name="F:StarSimLib.Physics.Body.previousPositions">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Physics.Body.PreviousPositions"/> property.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Physics.Body.velocity">
             <summary>
             Backing field for the <see cref="P:StarSimLib.Physics.Body.Velocity"/> property.
@@ -735,6 +755,11 @@
         <member name="P:StarSimLib.Physics.Body.Position">
             <summary>
             The current position of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Physics.Body.PreviousPositions">
+            <summary>
+            A <see cref="T:System.Collections.Generic.Queue`1"/> containing previous positions of the body.
             </summary>
         </member>
         <member name="P:StarSimLib.Physics.Body.Velocity">

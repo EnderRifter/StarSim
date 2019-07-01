@@ -51,7 +51,7 @@ namespace StarSimLib.Graphics
         /// <summary>
         /// Conversion from degrees to radians, as used by the <see cref="Math"/> functions.
         /// </summary>
-        private const double DegToRad = 1d / 180 * Math.PI;
+        private const double DegToRad = Math.PI / 180;
 
         /// <summary>
         /// The furthest distance that can be seen on the <see cref="RenderTarget"/>. Any bodies that are further
@@ -201,6 +201,17 @@ namespace StarSimLib.Graphics
         private double InverseScaleFactor { get { return 1 / Math.Tan(currentFieldOfView * 0.5 * DegToRad); } }
 
         /// <summary>
+        /// Current field-of-view.
+        /// </summary>
+        public double FOV
+        {
+            get
+            {
+                return currentFieldOfView;
+            }
+        }
+
+        /// <summary>
         /// Current angle of rotation in the x axis.
         /// </summary>
         public double XAngle
@@ -222,6 +233,14 @@ namespace StarSimLib.Graphics
         public double ZAngle
         {
             get { return zAngle; }
+        }
+
+        /// <summary>
+        /// Current zoom level of the drawer.
+        /// </summary>
+        public double ZoomLevel
+        {
+            get { return FieldOfView / currentFieldOfView; }
         }
 
         /// <summary>
@@ -331,9 +350,11 @@ namespace StarSimLib.Graphics
                     break;
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, "The given direction was not within the valid range.");
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction,
+                        "The given rotation direction was not within the valid range.");
             }
 
+            // once we hit 360 (or -360) degrees of rotation, we wrap back around to 0 degrees
             xAngle %= 360;
             yAngle %= 360;
             zAngle %= 360;
@@ -348,6 +369,10 @@ namespace StarSimLib.Graphics
         public void Scale(double scaleMultiplier)
         {
             currentFieldOfView /= scaleMultiplier;
+
+            // limits field of view to a lower bound and an upper bound
+            currentFieldOfView = currentFieldOfView < 0.0001 ? 0.0001 : currentFieldOfView;
+            currentFieldOfView = currentFieldOfView > 179d ? 179 : currentFieldOfView;
 
             // reassign projection matrix fields as the field of view (used by InverseScaleFactor) has been
             // modified to zoom in or out

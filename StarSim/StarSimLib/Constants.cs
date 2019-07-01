@@ -20,7 +20,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of degrees by which the view will be rotated in any given direction.
         /// </summary>
-        public const double EulerRotationStep = 5;
+        public const double EulerRotationStep = 1;
 
         /// <summary>
         /// The frame rate limit for the program.
@@ -56,6 +56,11 @@ namespace StarSimLib
         /// The mass of the sun (1.98892e30f).
         /// </summary>
         public const double SolarMass = 1.98892e30f;
+
+        /// <summary>
+        /// The number of previous positions that will be stored by a body
+        /// </summary>
+        public const int StoredPreviousPositionCount = 50;
 
         /// <summary>
         /// The time step for the simulation.
