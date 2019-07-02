@@ -394,15 +394,15 @@ namespace StarSimLib.Graphics
                     break;
 
                 case RotationDirection.South:
-                    rotation.X -= angle % 360;
+                    rotation.X += 360 - angle % 360;
                     break;
 
                 case RotationDirection.West:
-                    rotation.Y -= angle % 360;
+                    rotation.Y += 360 - angle % 360;
                     break;
 
                 case RotationDirection.Clockwise:
-                    rotation.Z -= angle % 360;
+                    rotation.Z += 360 - angle % 360;
                     break;
 
                 case RotationDirection.Anticlockwise:
