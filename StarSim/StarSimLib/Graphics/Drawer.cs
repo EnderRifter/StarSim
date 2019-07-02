@@ -318,7 +318,8 @@ namespace StarSimLib.Graphics
 
         /// <summary>
         /// Draws each <see cref="Body"/> instance that is managed by this drawer to the <see cref="RenderTarget"/> specified
-        /// in the constructor.
+        /// in the constructor, using the current view settings (rotation, zoom, etc.) to project the positions from 3D to 2D.
+        /// This method should be called every frame, as without it the view isn't updated and neither are rotation or zoom.
         /// </summary>
         public void DrawBodies()
         {
