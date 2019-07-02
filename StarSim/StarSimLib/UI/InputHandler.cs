@@ -16,13 +16,22 @@ namespace StarSimLib.UI
         private readonly Drawer bodyDrawer;
 
         /// <summary>
+        /// Holds all the <see cref="Body"/> instances that should be simulated.
+        /// </summary>
+        private readonly Body[] managedBodies;
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="InputHandler"/> class.
         /// </summary>
+        /// <param name="bodies">
+        /// A reference to the <see cref="Body"/> instances which should be managed by this instance.
+        /// </param>
         /// <param name="drawer">
         /// A reference to the renderer used to display the <see cref="Body"/> instances on the screen.
         /// </param>
-        public InputHandler(ref Drawer drawer)
+        public InputHandler(ref Body[] bodies, ref Drawer drawer)
         {
+            managedBodies = bodies;
             bodyDrawer = drawer;
         }
 
@@ -30,6 +39,12 @@ namespace StarSimLib.UI
         /// Whether the simulation is paused at any given time.
         /// </summary>
         public bool IsSimulationPaused { get; set; }
+
+        /// <summary>
+        /// Whether to record previous <see cref="Body"/> instance positions, in order to render an orbit tracer
+        /// behind each body instance.
+        /// </summary>
+        public bool RecordOrbitTracers { get; set; }
 
         /// <summary>
         /// Handles key presses.
@@ -45,6 +60,22 @@ namespace StarSimLib.UI
                 case Keyboard.Key.Space:
                     // toggle the paused state
                     IsSimulationPaused = !IsSimulationPaused;
+                    break;
+
+                case Keyboard.Key.T:
+                    // toggle orbit tracer recording
+                    RecordOrbitTracers = !RecordOrbitTracers;
+
+                    // every simulated body must be individually set to record tracers
+                    foreach (Body body in managedBodies)
+                    {
+                        // we want to clear the screen of any orbit tracers that still exist when we turn orbit tracing
+                        // off, so we must clear the previous position queues of every managed object. this has the
+                        // effect of clearing the vertex arrays holding the orbit tracer vertices
+                        body.RecordPreviousPositions = RecordOrbitTracers;
+                        body.ClearPreviousPositionQueue();
+                    }
+
                     break;
 
                 case Keyboard.Key.W:

@@ -60,7 +60,7 @@ namespace StarSimLib
         /// <summary>
         /// The number of previous positions that will be stored by a body
         /// </summary>
-        public const int StoredPreviousPositionCount = 100;
+        public const int StoredPreviousPositionCount = 30;
 
         /// <summary>
         /// The time step for the simulation.

@@ -94,6 +94,12 @@ namespace StarSimLib.Graphics
         private readonly Dictionary<Body, CircleShape> managedBodyShapeMap;
 
         /// <summary>
+        /// Maps a <see cref="Body"/> to the <see cref="VertexArray"/> that holds its orbit tracer vertices, and
+        /// is drawn to the screen behind the <see cref="Body"/> instance.
+        /// </summary>
+        private readonly Dictionary<Body, VertexArray> managedBodyTracerVertexArrayMap;
+
+        /// <summary>
         /// The offset that has to be applied to the positions of a <see cref="CircleShape"/>, so that they appear
         /// to be in the centre of the render target and not the top left corner.
         /// </summary>
@@ -190,6 +196,14 @@ namespace StarSimLib.Graphics
 
             managedBodies = bodies;
             managedBodyShapeMap = bodyShapeMap;
+            managedBodyTracerVertexArrayMap = new Dictionary<Body, VertexArray>();
+
+            foreach (Body body in bodies)
+            {
+                // create a vertex array to store orbit tracer points for this body
+                managedBodyTracerVertexArrayMap.Add(body,
+                    new VertexArray(PrimitiveType.LineStrip, Constants.StoredPreviousPositionCount));
+            }
         }
 
         /// <summary>
@@ -314,20 +328,39 @@ namespace StarSimLib.Graphics
                 // which is used as the new position of the shape
                 CircleShape shape = managedBodyShapeMap[body];
 
-                foreach (Vector4d previousPosition in body.PreviousPositions)
+                // get the vertex array used to store orbit tracer points for this body
+                VertexArray orbitTracerVertexArray = managedBodyTracerVertexArrayMap[body];
+
+                // we need to clear the vertex array, to ensure that no garbage values are present. otherwise
+                // there are lines from the origin to the first actually desired position
+                orbitTracerVertexArray.Clear();
+
+                // we only attempt to draw tracers if the body instance in question should record its previous position
+                // otherwise, we skip the relatively expensive rendering code
+                if (body.RecordPreviousPositions)
                 {
-                    // project previous position onto the screen
-                    Vector4d pointScreenPosition = ProjectPoint(previousPosition);
+                    Vector4d[] orbitTracerPositions = body.PreviousPositions.ToArray();
 
-                    CircleShape previousPositionShape = new CircleShape(0.5f)
+                    for (uint i = 0; i < orbitTracerPositions.Length; i++)
                     {
-                        Position = new Vector2f(
-                            (float)(pointScreenPosition.X * renderTarget.Size.X / 2 + originOffset.X),
-                            (float)(pointScreenPosition.Y * renderTarget.Size.Y / 2 + originOffset.Y)),
-                        FillColor = Color.Cyan
-                    };
+                        Vector4d previousPosition = orbitTracerPositions[i];
 
-                    previousPositionShape.Draw(renderTarget, RenderStates.Default);
+                        // project previous position onto the screen
+                        Vector4d pointScreenPosition = ProjectPoint(previousPosition);
+
+                        // convert the final position into a Vector2f, useable by the SFML.NET Vertex struct
+                        Vector2f finalOrbitTracerPosition = new Vector2f(
+                            (float)(pointScreenPosition.X * renderTarget.Size.X / 2 + originOffset.X),
+                            (float)(pointScreenPosition.Y * renderTarget.Size.Y / 2 + originOffset.Y));
+
+                        // append the new vertex to the orbit tracer array
+                        orbitTracerVertexArray.Append(new Vertex(finalOrbitTracerPosition, Color.Cyan));
+                    }
+
+                    // single call to VertexArray.Draw() makes use of hardware acceleration without causing delays,
+                    // as modern graphics processing units are optimised to render many vertices simultaneously, instead
+                    // of rendering many vertices sequentially
+                    orbitTracerVertexArray.Draw(renderTarget, RenderStates.Default);
                 }
 
                 Vector4d screenPosition = ProjectPoint(body.Position);

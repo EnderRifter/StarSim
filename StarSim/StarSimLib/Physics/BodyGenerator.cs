@@ -7,6 +7,20 @@ using StarSimLib.Data_Structures;
 namespace StarSimLib.Physics
 {
     /// <summary>
+    /// Takes the mass of a <see cref="Body"/> instance and returns a colour for the <see cref="CircleShape"/>
+    /// that will represent the <see cref="Body"/> of the given mass.
+    /// </summary>
+    /// <returns>The colour of the <see cref="CircleShape"/> for a <see cref="Body"/> of the given mass.</returns>
+    public delegate Color MassToColourDelegate(double mass);
+
+    /// <summary>
+    /// Takes the mass of a <see cref="Body"/> instance and returns a radius for the <see cref="CircleShape"/>
+    /// that will represent the <see cref="Body"/> of the given mass.
+    /// </summary>
+    /// <returns>The radius of the <see cref="CircleShape"/> for a <see cref="Body"/> of the given mass.</returns>
+    public delegate float MassToRadiusDelegate(double mass);
+
+    /// <summary>
     /// Provides methods for generating <see cref="Body"/> instances.
     /// </summary>
     public static class BodyGenerator
@@ -15,6 +29,18 @@ namespace StarSimLib.Physics
         /// Caches a random number generator to use for all randomised positions and velocities.
         /// </summary>
         private static readonly Random Rng = new Random();
+
+        /// <summary>
+        /// Default implementation of the <see cref="MassToColourDelegate"/>.
+        /// </summary>
+        public static readonly MassToColourDelegate DefaultColourDelegate =
+            mass => mass >= Constants.CentralBodyMass ? Color.Red : Color.White;
+
+        /// <summary>
+        /// Default implementation of the <see cref="MassToRadiusDelegate"/>.
+        /// </summary>
+        public static readonly MassToRadiusDelegate DefaultRadiusDelegate =
+            mass => mass >= Constants.CentralBodyMass ? 4f : 2f;
 
         /// <summary>
         /// The current generation of <see cref="Body"/> instances that the generator is on.
@@ -62,15 +88,36 @@ namespace StarSimLib.Physics
         /// <returns>
         /// A <see cref="Dictionary{TKey,TValue}"/> mapping the given <see cref="Body"/> instances to their <see cref="CircleShape"/> instances.
         /// </returns>
-        public static Dictionary<Body, CircleShape> GenerateShapes(IEnumerable<Body> bodies)
+        public static Dictionary<Body, CircleShape> GenerateShapes(IEnumerable<Body> bodies) =>
+            GenerateShapes(bodies, DefaultRadiusDelegate, DefaultColourDelegate);
+
+        /// <summary>
+        /// Generates a <see cref="Dictionary{TKey,TValue}"/> mapping each given <see cref="Body"/> to a
+        /// <see cref="CircleShape"/> that represents the body instance in 2D space.
+        /// </summary>
+        /// <param name="bodies">The <see cref="Body"/> instances for which to generate the shapes.</param>
+        /// <param name="massToRadiusDelegate">
+        /// The function to use to derive the radius of the <see cref="CircleShape"/> that will represent a <see cref="Body"/>
+        /// instance from its mass.
+        /// </param>
+        /// <param name="massToColourDelegate">
+        /// The function to use to derive the colour of the <see cref="CircleShape"/> that will represent a <see cref="Body"/>
+        /// instance from its mass.
+        /// </param>
+        /// <returns>
+        /// A <see cref="Dictionary{TKey,TValue}"/> mapping the given <see cref="Body"/> instances to their <see cref="CircleShape"/> instances.
+        /// </returns>
+        public static Dictionary<Body, CircleShape> GenerateShapes(IEnumerable<Body> bodies,
+            MassToRadiusDelegate massToRadiusDelegate, MassToColourDelegate massToColourDelegate)
         {
             Dictionary<Body, CircleShape> bodyCircleShapeMap = new Dictionary<Body, CircleShape>();
 
             foreach (Body body in bodies)
             {
-                CircleShape shape = body.Mass >= Constants.CentralBodyMass
-                    ? new CircleShape(4) { FillColor = Color.Red }
-                    : new CircleShape(1) { FillColor = Color.White };
+                CircleShape shape = new CircleShape(massToRadiusDelegate(body.Mass))
+                {
+                    FillColor = massToColourDelegate(body.Mass)
+                };
 
                 shape.Origin = new Vector2f(shape.Radius, shape.Radius);
 

@@ -68,7 +68,7 @@ namespace StarSim
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
 #endif
             bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
-            inputHandler = new InputHandler(ref bodyDrawer);
+            inputHandler = new InputHandler(ref bodies, ref bodyDrawer);
             Rng = new Random();
         }
 

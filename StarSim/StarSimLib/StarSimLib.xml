@@ -602,6 +602,12 @@
             screen at the <see cref="T:StarSimLib.Physics.Body"/>s position.
             </summary>
         </member>
+        <member name="F:StarSimLib.Graphics.Drawer.managedBodyTracerVertexArrayMap">
+            <summary>
+            Maps a <see cref="T:StarSimLib.Physics.Body"/> to the <see cref="T:SFML.Graphics.VertexArray"/> that holds its orbit tracer vertices, and
+            is drawn to the screen behind the <see cref="T:StarSimLib.Physics.Body"/> instance.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Graphics.Drawer.originOffset">
             <summary>
             The offset that has to be applied to the positions of a <see cref="T:SFML.Graphics.CircleShape"/>, so that they appear
@@ -727,6 +733,12 @@
             Describes how the <see cref="T:StarSimLib.Physics.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
             </summary>
         </member>
+        <member name="F:StarSimLib.Physics.Body.PositionSampleRate">
+            <summary>
+            Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
+            for less computation. The previous position will be saved once every 20 sampling opportunities.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Physics.Body.previousPositions">
             <summary>
             Backing field for the <see cref="P:StarSimLib.Physics.Body.PreviousPositions"/> property.
@@ -745,6 +757,12 @@
         <member name="F:StarSimLib.Physics.Body.position">
             <summary>
             Backing field for the <see cref="P:StarSimLib.Physics.Body.Position"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Physics.Body.positionSampleCounter">
+            <summary>
+            Counts the number of sampling opportunities that have gone by since the last position sample. Resets once
+            it reaches the value of <see cref="F:StarSimLib.Physics.Body.PositionSampleRate"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.Body.velocity">
@@ -792,6 +810,11 @@
             A <see cref="T:System.Collections.Generic.Queue`1"/> containing previous positions of the body.
             </summary>
         </member>
+        <member name="P:StarSimLib.Physics.Body.RecordPreviousPositions">
+            <summary>
+            Whether to record previous positions of this instance, to render an orbit tracer behind it.
+            </summary>
+        </member>
         <member name="P:StarSimLib.Physics.Body.Velocity">
             <summary>
             The current velocity of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
@@ -801,7 +824,8 @@
             <summary>
             Enqueues the current position on the <see cref="F:StarSimLib.Physics.Body.previousPositions"/> queue, to save it.
             Will dequeue positions from the queue if the number of stored positions exceeds the
-            value in <see cref="F:StarSimLib.Constants.StoredPreviousPositionCount"/>.
+            value in <see cref="F:StarSimLib.Constants.StoredPreviousPositionCount"/>. Will only enqueue the
+            current position if the <see cref="F:StarSimLib.Physics.Body.PositionSampleRate"/> is met.
             </summary>
         </member>
         <member name="M:StarSimLib.Physics.Body.GetForceBetween(StarSimLib.Physics.Body,StarSimLib.Physics.Body)">
@@ -818,6 +842,11 @@
             internal total force vector.
             </summary>
             <param name="otherBody">The other body to calculate the force between.</param>
+        </member>
+        <member name="M:StarSimLib.Physics.Body.ClearPreviousPositionQueue">
+            <summary>
+            Clears the <see cref="T:System.Collections.Generic.Queue`1"/> holding the previous positions.
+            </summary>
         </member>
         <member name="M:StarSimLib.Physics.Body.Collide(StarSimLib.Physics.Body)">
             <summary>
@@ -855,6 +884,20 @@
         <member name="M:StarSimLib.Physics.Body.ToString">
             <inheritdoc />
         </member>
+        <member name="T:StarSimLib.Physics.MassToColourDelegate">
+            <summary>
+            Takes the mass of a <see cref="T:StarSimLib.Physics.Body"/> instance and returns a colour for the <see cref="T:SFML.Graphics.CircleShape"/>
+            that will represent the <see cref="T:StarSimLib.Physics.Body"/> of the given mass.
+            </summary>
+            <returns>The colour of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Physics.Body"/> of the given mass.</returns>
+        </member>
+        <member name="T:StarSimLib.Physics.MassToRadiusDelegate">
+            <summary>
+            Takes the mass of a <see cref="T:StarSimLib.Physics.Body"/> instance and returns a radius for the <see cref="T:SFML.Graphics.CircleShape"/>
+            that will represent the <see cref="T:StarSimLib.Physics.Body"/> of the given mass.
+            </summary>
+            <returns>The radius of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Physics.Body"/> of the given mass.</returns>
+        </member>
         <member name="T:StarSimLib.Physics.BodyGenerator">
             <summary>
             Provides methods for generating <see cref="T:StarSimLib.Physics.Body"/> instances.
@@ -863,6 +906,16 @@
         <member name="F:StarSimLib.Physics.BodyGenerator.Rng">
             <summary>
             Caches a random number generator to use for all randomised positions and velocities.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Physics.BodyGenerator.DefaultColourDelegate">
+            <summary>
+            Default implementation of the <see cref="T:StarSimLib.Physics.MassToColourDelegate"/>.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Physics.BodyGenerator.DefaultRadiusDelegate">
+            <summary>
+            Default implementation of the <see cref="T:StarSimLib.Physics.MassToRadiusDelegate"/>.
             </summary>
         </member>
         <member name="P:StarSimLib.Physics.BodyGenerator.CurrentGeneration">
@@ -884,6 +937,24 @@
             <see cref="T:SFML.Graphics.CircleShape"/> that represents the body instance in 2D space.
             </summary>
             <param name="bodies">The <see cref="T:StarSimLib.Physics.Body"/> instances for which to generate the shapes.</param>
+            <returns>
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Physics.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
+            </returns>
+        </member>
+        <member name="M:StarSimLib.Physics.BodyGenerator.GenerateShapes(System.Collections.Generic.IEnumerable{StarSimLib.Physics.Body},StarSimLib.Physics.MassToRadiusDelegate,StarSimLib.Physics.MassToColourDelegate)">
+            <summary>
+            Generates a <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping each given <see cref="T:StarSimLib.Physics.Body"/> to a
+            <see cref="T:SFML.Graphics.CircleShape"/> that represents the body instance in 2D space.
+            </summary>
+            <param name="bodies">The <see cref="T:StarSimLib.Physics.Body"/> instances for which to generate the shapes.</param>
+            <param name="massToRadiusDelegate">
+            The function to use to derive the radius of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Physics.Body"/>
+            instance from its mass.
+            </param>
+            <param name="massToColourDelegate">
+            The function to use to derive the colour of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Physics.Body"/>
+            instance from its mass.
+            </param>
             <returns>
             A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Physics.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
             </returns>
@@ -940,10 +1011,18 @@
             The renderer used to display the <see cref="T:StarSimLib.Physics.Body"/> instances on the screen.
             </summary>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.#ctor(StarSimLib.Graphics.Drawer@)">
+        <member name="F:StarSimLib.UI.InputHandler.managedBodies">
+            <summary>
+            Holds all the <see cref="T:StarSimLib.Physics.Body"/> instances that should be simulated.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.InputHandler.#ctor(StarSimLib.Physics.Body[]@,StarSimLib.Graphics.Drawer@)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.UI.InputHandler"/> class.
             </summary>
+            <param name="bodies">
+            A reference to the <see cref="T:StarSimLib.Physics.Body"/> instances which should be managed by this instance.
+            </param>
             <param name="drawer">
             A reference to the renderer used to display the <see cref="T:StarSimLib.Physics.Body"/> instances on the screen.
             </param>
@@ -951,6 +1030,12 @@
         <member name="P:StarSimLib.UI.InputHandler.IsSimulationPaused">
             <summary>
             Whether the simulation is paused at any given time.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.UI.InputHandler.RecordOrbitTracers">
+            <summary>
+            Whether to record previous <see cref="T:StarSimLib.Physics.Body"/> instance positions, in order to render an orbit tracer
+            behind each body instance.
             </summary>
         </member>
         <member name="M:StarSimLib.UI.InputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
