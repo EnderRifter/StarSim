@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using StarSimLib.Data_Structures;
 
-namespace StarSimLib.Physics
+namespace StarSimLib.Data_Structures
 {
     /// <summary>
     /// Represents a stellar body.
@@ -16,15 +14,9 @@ namespace StarSimLib.Physics
             "Body {0,2}.{1,-4}: Pos-{2}, Vel-{3} Mass-{4,3}";
 
         /// <summary>
-        /// Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
-        /// for less computation. The previous position will be saved once every 20 sampling opportunities.
+        /// The orbit tracers for this instance.
         /// </summary>
-        private const int PositionSampleRate = 20;
-
-        /// <summary>
-        /// Backing field for the <see cref="PreviousPositions"/> property.
-        /// </summary>
-        private readonly Queue<Vector4d> previousPositions;
+        private readonly OrbitTracer orbitTracer;
 
         /// <summary>
         /// The backing field for the <see cref="Force"/> property.
@@ -40,12 +32,6 @@ namespace StarSimLib.Physics
         /// Backing field for the <see cref="Position"/> property.
         /// </summary>
         private Vector4d position;
-
-        /// <summary>
-        /// Counts the number of sampling opportunities that have gone by since the last position sample. Resets once
-        /// it reaches the value of <see cref="PositionSampleRate"/>.
-        /// </summary>
-        private int positionSampleCounter = 0;
 
         /// <summary>
         /// Backing field for the <see cref="Velocity"/> property.
@@ -81,7 +67,7 @@ namespace StarSimLib.Physics
             this.mass = mass;
 
             force = new Vector4d();
-            previousPositions = new Queue<Vector4d>(Constants.StoredPreviousPositionCount + 1);
+            orbitTracer = new OrbitTracer();
         }
 
         /// <summary>
@@ -101,19 +87,19 @@ namespace StarSimLib.Physics
         }
 
         /// <summary>
+        /// The <see cref="Data_Structures.OrbitTracer"/> for this instance.
+        /// </summary>
+        public ref readonly OrbitTracer OrbitTracer
+        {
+            get { return ref orbitTracer; }
+        }
+
+        /// <summary>
         /// The current position of the <see cref="Body"/> in 3D space.
         /// </summary>
         public Vector4d Position
         {
             get { return position; }
-        }
-
-        /// <summary>
-        /// A <see cref="Queue{T}"/> containing previous positions of the body.
-        /// </summary>
-        public ref readonly Queue<Vector4d> PreviousPositions
-        {
-            get { return ref previousPositions; }
         }
 
         /// <summary>
@@ -127,28 +113,6 @@ namespace StarSimLib.Physics
         public Vector4d Velocity
         {
             get { return velocity; }
-        }
-
-        /// <summary>
-        /// Enqueues the current position on the <see cref="previousPositions"/> queue, to save it.
-        /// Will dequeue positions from the queue if the number of stored positions exceeds the
-        /// value in <see cref="Constants.StoredPreviousPositionCount"/>. Will only enqueue the
-        /// current position if the <see cref="PositionSampleRate"/> is met.
-        /// </summary>
-        private void EnqueuePosition()
-        {
-            // if the sample rate limit has not yet been met, don't sample a position
-            if (++positionSampleCounter < PositionSampleRate) return;
-
-            previousPositions.Enqueue(position);
-
-            if (previousPositions.Count > Constants.StoredPreviousPositionCount)
-            {
-                previousPositions.Dequeue();
-            }
-
-            // reset the counter
-            positionSampleCounter = 0;
         }
 
         /// <summary>
@@ -187,14 +151,6 @@ namespace StarSimLib.Physics
         public void AddForce(Body otherBody)
         {
             force += GetForceBetween(this, otherBody);
-        }
-
-        /// <summary>
-        /// Clears the <see cref="Queue{T}"/> holding the previous positions.
-        /// </summary>
-        public void ClearPreviousPositionQueue()
-        {
-            previousPositions.Clear();
         }
 
         /// <summary>
@@ -245,7 +201,7 @@ namespace StarSimLib.Physics
 
             if (RecordPreviousPositions)
             {
-                EnqueuePosition();
+                orbitTracer.Enqueue(position);
             }
 
             position += deltaTime * velocity;
@@ -262,7 +218,7 @@ namespace StarSimLib.Physics
 
             if (RecordPreviousPositions)
             {
-                EnqueuePosition();
+                orbitTracer.Enqueue(position);
             }
 
             position += deltaTime * velocity;

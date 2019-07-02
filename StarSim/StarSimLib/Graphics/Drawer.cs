@@ -123,7 +123,7 @@ namespace StarSimLib.Graphics
         /// <summary>
         /// The 3D rotation.
         /// </summary>
-        private EulerAngles rotation;
+        private EulerAngle rotation;
 
         /// <summary>
         /// The rotation matrix for the x axis.
@@ -340,7 +340,7 @@ namespace StarSimLib.Graphics
                 // otherwise, we skip the relatively expensive rendering code
                 if (body.RecordPreviousPositions)
                 {
-                    Vector4d[] orbitTracerPositions = body.PreviousPositions.ToArray();
+                    Vector4d[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
 
                     for (uint i = 0; i < orbitTracerPositions.Length; i++)
                     {
@@ -415,7 +415,7 @@ namespace StarSimLib.Graphics
                         "The given rotation direction was not within the valid range.");
             }
 
-            // once we hit 360 (or -360) degrees of rotation, we wrap back around to 0 degrees
+            // once we hit 360 degrees of rotation, we wrap back around to 0 degrees
             rotation.X %= 360;
             rotation.Y %= 360;
             rotation.Z %= 360;

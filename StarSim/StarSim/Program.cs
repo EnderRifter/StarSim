@@ -4,6 +4,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using StarSimLib;
+using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
 using StarSimLib.Physics;
 using StarSimLib.UI;

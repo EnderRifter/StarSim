@@ -1,5 +1,6 @@
 ﻿using System;
 using SFML.Window;
+using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
 using StarSimLib.Physics;
 
@@ -71,9 +72,9 @@ namespace StarSimLib.UI
                     {
                         // we want to clear the screen of any orbit tracers that still exist when we turn orbit tracing
                         // off, so we must clear the previous position queues of every managed object. this has the
-                        // effect of clearing the vertex arrays holding the orbit tracer vertices
+                        // effect of clearing the vertex arrays holding the orbit tracer vertices during the next draw step
                         body.RecordPreviousPositions = RecordOrbitTracers;
-                        body.ClearPreviousPositionQueue();
+                        body.OrbitTracer.Clear();
                     }
 
                     break;
@@ -118,6 +119,14 @@ namespace StarSimLib.UI
                     bodyDrawer.Rotate(RotationDirection.Clockwise, Constants.EulerRotationStep);
                     msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the z axis. " +
                           $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                    break;
+
+                case Keyboard.Key.Comma:
+                    // decrease the simulation speed
+                    break;
+
+                case Keyboard.Key.Period:
+                    // increase the simulation speed
                     break;
 
                 default:

@@ -106,29 +106,29 @@
         <member name="M:StarSimLib.Contexts.SimulatorContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:StarSimLib.Data_Structures.EulerAngles">
+        <member name="T:StarSimLib.Data_Structures.EulerAngle">
             <summary>
             Represents a set of 3 angles, that together describe a 3D rotation.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.EulerAngles.X">
+        <member name="F:StarSimLib.Data_Structures.EulerAngle.X">
             <summary>
             Angle of rotation in the x axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.EulerAngles.Y">
+        <member name="F:StarSimLib.Data_Structures.EulerAngle.Y">
             <summary>
             Angle of rotation in the y axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.EulerAngles.Z">
+        <member name="F:StarSimLib.Data_Structures.EulerAngle.Z">
             <summary>
             Angle of rotation in the z axis.
             </summary>
         </member>
-        <member name="M:StarSimLib.Data_Structures.EulerAngles.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.EulerAngle.#ctor(System.Double,System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.EulerAngles"/> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.EulerAngle"/> struct.
             </summary>
             <param name="x">The angle of rotation in the x axis.</param>
             <param name="y">The angle of rotation in the y axis.</param>
@@ -233,6 +233,58 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.ToString">
             <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.Data_Structures.OrbitTracer">
+            <summary>
+            Represents a series of points denoting the previous positions of a <see cref="T:StarSimLib.Physics.Body"/> instance. Used to render
+            an orbit tracer behind the <see cref="T:StarSimLib.Physics.Body"/>.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate">
+            <summary>
+            Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
+            for less computation. The previous position will be saved once every 20 sampling opportunities.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.OrbitTracer.PreviousPositions"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OrbitTracer.dequeuedPosition">
+            <summary>
+            Due to the <see cref="T:System.Collections.Generic.Queue`1"/>s inability to fetch the second-to-last element, we must explicitly
+            cache it in order to use it in interpolation  calculations later.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OrbitTracer.positionSampleCounter">
+            <summary>
+            Counts the number of sampling opportunities that have gone by since the last position sample. Resets once
+            it reaches the value of <see cref="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate"/>.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OrbitTracer.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.OrbitTracer"/> class.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.OrbitTracer.PreviousPositions">
+            <summary>
+            An <see cref="T:System.Collections.Generic.Queue`1"/> containing previous <see cref="T:StarSimLib.Data_Structures.Vector4d"/> positions of the body.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OrbitTracer.Clear">
+            <summary>
+            Clears the <see cref="T:System.Collections.Generic.Queue`1"/> holding the previous positions.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OrbitTracer.Enqueue(StarSimLib.Data_Structures.Vector4d)">
+            <summary>
+            Enqueues the current position on the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions"/> queue, to save it.
+            Will dequeue positions from the queue if the number of stored positions exceeds the
+            value in <see cref="F:StarSimLib.Constants.StoredPreviousPositionCount"/>. Will only enqueue the
+            current position if the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate"/> is met.
+            </summary>
         </member>
         <member name="T:StarSimLib.Data_Structures.Quaternion">
             <summary>
@@ -707,7 +759,8 @@
         <member name="M:StarSimLib.Graphics.Drawer.DrawBodies">
             <summary>
             Draws each <see cref="T:StarSimLib.Physics.Body"/> instance that is managed by this drawer to the <see cref="T:SFML.Graphics.RenderTarget"/> specified
-            in the constructor.
+            in the constructor, using the current view settings (rotation, zoom, etc.) to project the positions from 3D to 2D.
+            This method should be called every frame, as without it the view isn't updated and neither are rotation or zoom.
             </summary>
         </member>
         <member name="M:StarSimLib.Graphics.Drawer.Rotate(StarSimLib.Graphics.RotationDirection,System.Double)">
@@ -733,15 +786,9 @@
             Describes how the <see cref="T:StarSimLib.Physics.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
             </summary>
         </member>
-        <member name="F:StarSimLib.Physics.Body.PositionSampleRate">
+        <member name="F:StarSimLib.Physics.Body.orbitTracer">
             <summary>
-            Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
-            for less computation. The previous position will be saved once every 20 sampling opportunities.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.previousPositions">
-            <summary>
-            Backing field for the <see cref="P:StarSimLib.Physics.Body.PreviousPositions"/> property.
+            The orbit tracers for this instance.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.Body.force">
@@ -757,12 +804,6 @@
         <member name="F:StarSimLib.Physics.Body.position">
             <summary>
             Backing field for the <see cref="P:StarSimLib.Physics.Body.Position"/> property.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.positionSampleCounter">
-            <summary>
-            Counts the number of sampling opportunities that have gone by since the last position sample. Resets once
-            it reaches the value of <see cref="F:StarSimLib.Physics.Body.PositionSampleRate"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.Body.velocity">
@@ -800,14 +841,14 @@
             The mass of the <see cref="T:StarSimLib.Physics.Body"/>.
             </summary>
         </member>
+        <member name="P:StarSimLib.Physics.Body.OrbitTracer">
+            <summary>
+            The <see cref="T:StarSimLib.Data_Structures.OrbitTracer"/> for this instance.
+            </summary>
+        </member>
         <member name="P:StarSimLib.Physics.Body.Position">
             <summary>
             The current position of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Physics.Body.PreviousPositions">
-            <summary>
-            A <see cref="T:System.Collections.Generic.Queue`1"/> containing previous positions of the body.
             </summary>
         </member>
         <member name="P:StarSimLib.Physics.Body.RecordPreviousPositions">
@@ -818,14 +859,6 @@
         <member name="P:StarSimLib.Physics.Body.Velocity">
             <summary>
             The current velocity of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
-            </summary>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.EnqueuePosition">
-            <summary>
-            Enqueues the current position on the <see cref="F:StarSimLib.Physics.Body.previousPositions"/> queue, to save it.
-            Will dequeue positions from the queue if the number of stored positions exceeds the
-            value in <see cref="F:StarSimLib.Constants.StoredPreviousPositionCount"/>. Will only enqueue the
-            current position if the <see cref="F:StarSimLib.Physics.Body.PositionSampleRate"/> is met.
             </summary>
         </member>
         <member name="M:StarSimLib.Physics.Body.GetForceBetween(StarSimLib.Physics.Body,StarSimLib.Physics.Body)">
@@ -842,11 +875,6 @@
             internal total force vector.
             </summary>
             <param name="otherBody">The other body to calculate the force between.</param>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.ClearPreviousPositionQueue">
-            <summary>
-            Clears the <see cref="T:System.Collections.Generic.Queue`1"/> holding the previous positions.
-            </summary>
         </member>
         <member name="M:StarSimLib.Physics.Body.Collide(StarSimLib.Physics.Body)">
             <summary>

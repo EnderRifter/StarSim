@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a set of 3 angles, that together describe a 3D rotation.
     /// </summary>
-    public struct EulerAngles
+    public struct EulerAngle
     {
         /// <summary>
         /// Angle of rotation in the x axis.
@@ -21,12 +21,12 @@
         public double Z;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="EulerAngles"/> struct.
+        /// Initialises a new instance of the <see cref="EulerAngle"/> struct.
         /// </summary>
         /// <param name="x">The angle of rotation in the x axis.</param>
         /// <param name="y">The angle of rotation in the y axis.</param>
         /// <param name="z">The angle of rotation in the z axis.</param>
-        public EulerAngles(double x, double y, double z)
+        public EulerAngle(double x, double y, double z)
         {
             X = x;
             Y = y;

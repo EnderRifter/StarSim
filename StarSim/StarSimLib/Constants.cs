@@ -1,4 +1,5 @@
-﻿using StarSimLib.Physics;
+﻿using StarSimLib.Data_Structures;
+using StarSimLib.Physics;
 
 namespace StarSimLib
 {
@@ -20,7 +21,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of degrees by which the view will be rotated in any given direction.
         /// </summary>
-        public const double EulerRotationStep = 1;
+        public const double EulerRotationStep = 0.5;
 
         /// <summary>
         /// The frame rate limit for the program.
