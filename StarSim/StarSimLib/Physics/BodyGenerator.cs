@@ -64,8 +64,8 @@ namespace StarSimLib.Physics
             {
                 float mass = (float)(Rng.NextDouble() * Constants.SolarMass);
 
-                Vector4d position = OrbitGenerator.RandomPosition();
-                Vector4d velocity = OrbitGenerator.RandomOrbit(position);
+                Vector4 position = OrbitGenerator.RandomPosition();
+                Vector4 velocity = OrbitGenerator.RandomOrbit(position);
 
                 generatedBodies[i] = new Body(position, velocity, mass, CurrentGeneration, id);
 
@@ -74,7 +74,7 @@ namespace StarSimLib.Physics
 
             if (centralAttractor && bodyCount >= 2)
             {
-                generatedBodies[0] = new Body(new Vector4d(), new Vector4d(), Constants.CentralBodyMass, CurrentGeneration, 0);
+                generatedBodies[0] = new Body(new Vector4(), new Vector4(), Constants.CentralBodyMass, CurrentGeneration, 0);
             }
 
             return generatedBodies;

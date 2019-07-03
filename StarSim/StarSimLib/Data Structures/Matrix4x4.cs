@@ -124,15 +124,15 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the multiplication operator for a <see cref="Matrix4x4"/> and a <see cref="Vector4d"/>. This is
+        /// Implements the multiplication operator for a <see cref="Matrix4x4"/> and a <see cref="Vector4"/>. This is
         /// the 'dot' operation for a vector and a matrix.
         /// </summary>
         /// <param name="matrix4x4">The matrix.</param>
         /// <param name="vector">The 3D vector.</param>
-        /// <returns>The dot product of the <see cref="Matrix4x4"/> and the <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator *(Matrix4x4 matrix4x4, Vector4d vector)
+        /// <returns>The dot product of the <see cref="Matrix4x4"/> and the <see cref="Vector4"/>.</returns>
+        public static Vector4 operator *(Matrix4x4 matrix4x4, Vector4 vector)
         {
-            return new Vector4d
+            return new Vector4
             {
                 X = vector.X * matrix4x4[0, 0] +
                            vector.Y * matrix4x4[1, 0] +
@@ -154,13 +154,13 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the multiplication operator for a <see cref="Matrix4x4"/> and a <see cref="Vector4d"/>. This is
+        /// Implements the multiplication operator for a <see cref="Matrix4x4"/> and a <see cref="Vector4"/>. This is
         /// the 'dot' operation for a vector and a matrix.
         /// </summary>
         /// <param name="vector">The 3D vector.</param>
         /// <param name="matrix4x4">The matrix.</param>
-        /// <returns>The dot product of the <see cref="Matrix4x4"/> and the <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator *(Vector4d vector, Matrix4x4 matrix4x4) => matrix4x4 * vector;
+        /// <returns>The dot product of the <see cref="Matrix4x4"/> and the <see cref="Vector4"/>.</returns>
+        public static Vector4 operator *(Vector4 vector, Matrix4x4 matrix4x4) => matrix4x4 * vector;
 
         #region Overrides of ValueType
 

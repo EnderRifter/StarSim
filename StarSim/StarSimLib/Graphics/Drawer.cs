@@ -73,7 +73,7 @@ namespace StarSimLib.Graphics
         /// <summary>
         /// The vector by which all projected points are translated away from the camera and halfway into the view frustum.
         /// </summary>
-        private static readonly Vector4d cameraTranslationVector = new Vector4d(0, 0, (FarDistance - NearDistance) / 2);
+        private static readonly Vector4 cameraTranslationVector = new Vector4(0, 0, (FarDistance - NearDistance) / 2);
 
         /// <summary>
         /// The aspect ratio of the render target. Allows for normalisation of the <see cref="RenderTarget"/> space
@@ -255,14 +255,14 @@ namespace StarSimLib.Graphics
         }
 
         /// <summary>
-        /// Projects the given <see cref="Vector4d"/> point from world space into screen space.
+        /// Projects the given <see cref="Vector4"/> point from world space into screen space.
         /// </summary>
         /// <param name="point">The point to project.</param>
         /// <returns>The projected point.</returns>
-        private Vector4d ProjectPoint(Vector4d point)
+        private Vector4 ProjectPoint(Vector4 point)
         {
             // rotations should happen before the point is translated into camera space
-            Vector4d worldSpace = point;
+            Vector4 worldSpace = point;
 
             // rotations of point in the x, y and z axes
             worldSpace *= zRotationMatrix;
@@ -272,10 +272,10 @@ namespace StarSimLib.Graphics
             // points must be translated into the camera space, as the camera must be some distance away from the
             // world space origin (0,0,0) or else rendering breaks. the point is translated into the middle of the
             // camera space (the view frustum)
-            Vector4d cameraSpace = worldSpace + cameraTranslationVector;
+            Vector4 cameraSpace = worldSpace + cameraTranslationVector;
 
             // project the point position from camera space into screen space (without any special transformations)
-            Vector4d projectedPosition = cameraSpace * projectionMatrix;
+            Vector4 projectedPosition = cameraSpace * projectionMatrix;
 
             if (!projectedPosition.W.Equals(0))
             {
@@ -285,7 +285,7 @@ namespace StarSimLib.Graphics
             }
 
             // any transformations can be applied now
-            Vector4d screenPosition = projectedPosition;
+            Vector4 screenPosition = projectedPosition;
 
             return screenPosition;
         }
@@ -340,14 +340,14 @@ namespace StarSimLib.Graphics
                 // otherwise, we skip the relatively expensive rendering code
                 if (body.RecordPreviousPositions)
                 {
-                    Vector4d[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
+                    Vector4[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
 
                     for (uint i = 0; i < orbitTracerPositions.Length; i++)
                     {
-                        Vector4d previousPosition = orbitTracerPositions[i];
+                        Vector4 previousPosition = orbitTracerPositions[i];
 
                         // project previous position onto the screen
-                        Vector4d pointScreenPosition = ProjectPoint(previousPosition);
+                        Vector4 pointScreenPosition = ProjectPoint(previousPosition);
 
                         // convert the final position into a Vector2f, useable by the SFML.NET Vertex struct
                         Vector2f finalOrbitTracerPosition = new Vector2f(
@@ -364,7 +364,7 @@ namespace StarSimLib.Graphics
                     orbitTracerVertexArray.Draw(renderTarget, RenderStates.Default);
                 }
 
-                Vector4d screenPosition = ProjectPoint(body.Position);
+                Vector4 screenPosition = ProjectPoint(body.Position);
 
                 // final position
                 shape.Position = new Vector2f(

@@ -6,7 +6,7 @@ namespace StarSimLib.Data_Structures
     /// <summary>
     /// A 4D vector with <see cref="double"/> components.
     /// </summary>
-    public struct Vector4d
+    public struct Vector4
     {
         /// <summary>
         /// The w component of the vector.
@@ -29,11 +29,11 @@ namespace StarSimLib.Data_Structures
         public double Z;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Vector4d"/> struct. Sets Z and W to 0.
+        /// Initialises a new instance of the <see cref="Vector4"/> struct. Sets Z and W to 0.
         /// </summary>
         /// <param name="x">The x component.</param>
         /// <param name="y">The y component.</param>
-        public Vector4d(double x, double y)
+        public Vector4(double x, double y)
         {
             X = x;
             Y = y;
@@ -42,12 +42,12 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Vector4d"/> struct. Sets W to 0.
+        /// Initialises a new instance of the <see cref="Vector4"/> struct. Sets W to 0.
         /// </summary>
         /// <param name="x">The x component.</param>
         /// <param name="y">The y component.</param>
         /// <param name="z">The z component.</param>
-        public Vector4d(double x, double y, double z)
+        public Vector4(double x, double y, double z)
         {
             X = x;
             Y = y;
@@ -56,13 +56,13 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Vector4d"/> struct.
+        /// Initialises a new instance of the <see cref="Vector4"/> struct.
         /// </summary>
         /// <param name="x">The x component.</param>
         /// <param name="y">The y component.</param>
         /// <param name="z">The z component.</param>
         /// <param name="w">The w component.</param>
-        public Vector4d(double x, double y, double z, double w)
+        public Vector4(double x, double y, double z, double w)
         {
             X = x;
             Y = y;
@@ -73,12 +73,12 @@ namespace StarSimLib.Data_Structures
         #region Operator Overloads
 
         /// <summary>
-        /// Implements the subtraction operator for 2 <see cref="Vector4d"/>s.
+        /// Implements the subtraction operator for 2 <see cref="Vector4"/>s.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
-        /// <param name="vector2">The other <see cref="Vector4d"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator -(Vector4d vector, Vector4d vector2)
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
+        /// <param name="vector2">The other <see cref="Vector4"/>.</param>
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator -(Vector4 vector, Vector4 vector2)
         {
             vector.X -= vector2.X;
             vector.Y -= vector2.Y;
@@ -89,12 +89,12 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the subtraction operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the subtraction operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator -(Vector4d vector, (double X, double Y, double Z, double W) vector2)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator -(Vector4 vector, (double X, double Y, double Z, double W) vector2)
         {
             (double x, double y, double z, double w) = vector2;
 
@@ -107,20 +107,20 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the subtraction operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the subtraction operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator -((double X, double Y, double Z, double W) vector2, Vector4d vector) => vector - vector2;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator -((double X, double Y, double Z, double W) vector2, Vector4 vector) => vector - vector2;
 
         /// <summary>
-        /// Implements the subtraction operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the subtraction operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator -(Vector4d vector, double scalar)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator -(Vector4 vector, double scalar)
         {
             vector.X -= scalar;
             vector.Y -= scalar;
@@ -131,20 +131,20 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the subtraction operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the subtraction operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator -(double scalar, Vector4d vector) => vector - scalar;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator -(double scalar, Vector4 vector) => vector - scalar;
 
         /// <summary>
-        /// Implements the multiplication operator for 2 <see cref="Vector4d"/>s.
+        /// Implements the multiplication operator for 2 <see cref="Vector4"/>s.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
-        /// <param name="vector2">The other <see cref="Vector4d"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator *(Vector4d vector, Vector4d vector2)
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
+        /// <param name="vector2">The other <see cref="Vector4"/>.</param>
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator *(Vector4 vector, Vector4 vector2)
         {
             vector.X *= vector2.X;
             vector.Y *= vector2.Y;
@@ -155,12 +155,12 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the multiplication operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the multiplication operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator *(Vector4d vector, (double X, double Y, double Z, double W) vector2)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator *(Vector4 vector, (double X, double Y, double Z, double W) vector2)
         {
             (double x, double y, double z, double w) = vector2;
 
@@ -173,20 +173,20 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the multiplication operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the multiplication operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator *((double X, double Y, double Z, double W) vector2, Vector4d vector) => vector * vector2;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator *((double X, double Y, double Z, double W) vector2, Vector4 vector) => vector * vector2;
 
         /// <summary>
-        /// Implements the multiplication operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the multiplication operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator *(Vector4d vector, double scalar)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator *(Vector4 vector, double scalar)
         {
             vector.X *= scalar;
             vector.Y *= scalar;
@@ -197,20 +197,20 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the multiplication operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the multiplication operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator *(double scalar, Vector4d vector) => vector * scalar;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator *(double scalar, Vector4 vector) => vector * scalar;
 
         /// <summary>
-        /// Implements the division operator for 2 <see cref="Vector4d"/>s.
+        /// Implements the division operator for 2 <see cref="Vector4"/>s.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
-        /// <param name="vector2">The other <see cref="Vector4d"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator /(Vector4d vector, Vector4d vector2)
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
+        /// <param name="vector2">The other <see cref="Vector4"/>.</param>
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator /(Vector4 vector, Vector4 vector2)
         {
             vector.X /= vector2.X;
             vector.Y /= vector2.Y;
@@ -221,12 +221,12 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the division operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the division operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator /(Vector4d vector, (double X, double Y, double Z, double W) vector2)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator /(Vector4 vector, (double X, double Y, double Z, double W) vector2)
         {
             (double x, double y, double z, double w) = vector2;
 
@@ -239,20 +239,20 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the division operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the division operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator /((double X, double Y, double Z, double W) vector2, Vector4d vector) => vector / vector2;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator /((double X, double Y, double Z, double W) vector2, Vector4 vector) => vector / vector2;
 
         /// <summary>
-        /// Implements the division operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the division operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator /(Vector4d vector, double scalar)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator /(Vector4 vector, double scalar)
         {
             vector.X /= scalar;
             vector.Y /= scalar;
@@ -263,20 +263,20 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the division operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the division operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator /(double scalar, Vector4d vector) => vector / scalar;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator /(double scalar, Vector4 vector) => vector / scalar;
 
         /// <summary>
-        /// Implements the addition operator for 2 <see cref="Vector4d"/>s.
+        /// Implements the addition operator for 2 <see cref="Vector4"/>s.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
-        /// <param name="vector2">The other <see cref="Vector4d"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator +(Vector4d vector, Vector4d vector2)
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
+        /// <param name="vector2">The other <see cref="Vector4"/>.</param>
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator +(Vector4 vector, Vector4 vector2)
         {
             vector.X += vector2.X;
             vector.Y += vector2.Y;
@@ -287,12 +287,12 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the addition operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the addition operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator +(Vector4d vector, (double X, double Y, double Z, double W) vector2)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator +(Vector4 vector, (double X, double Y, double Z, double W) vector2)
         {
             (double x, double y, double z, double w) = vector2;
 
@@ -305,20 +305,20 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the addition operator for a <see cref="Vector4d"/> and a (X, Y, Z, W) tuple.
+        /// Implements the addition operator for a <see cref="Vector4"/> and a (X, Y, Z, W) tuple.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="vector2">The 4D tuple.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator +((double X, double Y, double Z, double W) vector2, Vector4d vector) => vector + vector2;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator +((double X, double Y, double Z, double W) vector2, Vector4 vector) => vector + vector2;
 
         /// <summary>
-        /// Implements the addition operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the addition operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator +(Vector4d vector, double scalar)
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator +(Vector4 vector, double scalar)
         {
             vector.X += scalar;
             vector.Y += scalar;
@@ -329,12 +329,12 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Implements the addition operator for a <see cref="Vector4d"/> and a scalar <see cref="double"/> value.
+        /// Implements the addition operator for a <see cref="Vector4"/> and a scalar <see cref="double"/> value.
         /// </summary>
-        /// <param name="vector">The original <see cref="Vector4d"/>.</param>
+        /// <param name="vector">The original <see cref="Vector4"/>.</param>
         /// <param name="scalar">The scalar <see cref="double"/>.</param>
-        /// <returns>The new <see cref="Vector4d"/>.</returns>
-        public static Vector4d operator +(double scalar, Vector4d vector) => vector + scalar;
+        /// <returns>The new <see cref="Vector4"/>.</returns>
+        public static Vector4 operator +(double scalar, Vector4 vector) => vector + scalar;
 
         #endregion Operator Overloads
 
@@ -393,9 +393,9 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Returns the absolute value of this <see cref="Vector4d"/>.
+        /// Returns the absolute value of this <see cref="Vector4"/>.
         /// </summary>
-        /// <returns>The absolute value (magnitude) of this <see cref="Vector4d"/>, as a <see cref="double"/>.</returns>
+        /// <returns>The absolute value (magnitude) of this <see cref="Vector4"/>, as a <see cref="double"/>.</returns>
         [Pure]
         public double Abs()
         {
@@ -403,9 +403,9 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Returns the magnitude of this <see cref="Vector4d"/>.
+        /// Returns the magnitude of this <see cref="Vector4"/>.
         /// </summary>
-        /// <returns>The magnitude (absolute value) of this <see cref="Vector4d"/>, as a <see cref="double"/>.</returns>
+        /// <returns>The magnitude (absolute value) of this <see cref="Vector4"/>, as a <see cref="double"/>.</returns>
         [Pure]
         public double Magnitude()
         {
@@ -420,32 +420,32 @@ namespace StarSimLib.Data_Structures
             /// <summary>
             /// The negative unit vector for the Z axis.
             /// </summary>
-            public static readonly Vector4d Backwards = new Vector4d(0, 0, -1);
+            public static readonly Vector4 Backwards = new Vector4(0, 0, -1);
 
             /// <summary>
             /// The negative unit vector for the Y axis.
             /// </summary>
-            public static readonly Vector4d Down = new Vector4d(0, -1, 0);
+            public static readonly Vector4 Down = new Vector4(0, -1, 0);
 
             /// <summary>
             /// The positive unit vector for the Z axis.
             /// </summary>
-            public static readonly Vector4d Forwards = new Vector4d(0, 0, 1);
+            public static readonly Vector4 Forwards = new Vector4(0, 0, 1);
 
             /// <summary>
             /// The positive unit vector for the X axis.
             /// </summary>
-            public static readonly Vector4d Left = new Vector4d(1, 0, 0);
+            public static readonly Vector4 Left = new Vector4(1, 0, 0);
 
             /// <summary>
             /// The negative unit vector for the X axis.
             /// </summary>
-            public static readonly Vector4d Right = new Vector4d(-1, 0, 0);
+            public static readonly Vector4 Right = new Vector4(-1, 0, 0);
 
             /// <summary>
             /// The positive unit vector for the Y axis.
             /// </summary>
-            public static readonly Vector4d Up = new Vector4d(0, 1, 0);
+            public static readonly Vector4 Up = new Vector4(0, 1, 0);
         }
 
         #region Overrides of ValueType

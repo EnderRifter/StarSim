@@ -66,7 +66,7 @@ namespace StarSim
 #if DEBUG
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
 #else
-            bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
+            bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
             bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
             inputHandler = new InputHandler(ref bodies, ref bodyDrawer);

@@ -18,9 +18,9 @@ namespace StarSimLib.Physics
         /// </summary>
         /// <param name="positionVector">The position vector for the body for which to generate the orbit.</param>
         /// <returns>The magnitude of the velocity of the orbit.</returns>
-        public static Vector4d RandomOrbit(Vector4d positionVector)
+        public static Vector4 RandomOrbit(Vector4 positionVector)
         {
-            Vector4d position = positionVector;
+            Vector4 position = positionVector;
 
             // F = G m1 - m2 / distance
             double distanceToCentralBody = position.Magnitude();
@@ -43,21 +43,21 @@ namespace StarSimLib.Physics
             vz = 0;
 
             // Randomly orient the orbit
-            return !(Rng.NextDouble() <= 0.5f) ? new Vector4d(vx, vy, vz) : new Vector4d(-vx, -vy, -vz);
+            return !(Rng.NextDouble() <= 0.5f) ? new Vector4(vx, vy, vz) : new Vector4(-vx, -vy, -vz);
         }
 
         /// <summary>
         /// Returns a random position within the universe sphere (see <see cref="Constants.UniverseSize"/>).
         /// </summary>
         /// <returns>A 3D position vector.</returns>
-        public static Vector4d RandomPosition()
+        public static Vector4 RandomPosition()
         {
             double RandomPos()
             {
                 return Constants.UniverseSize * Math.Exp(-1.8) * (.5 - Rng.NextDouble());
             }
 
-            return new Vector4d(RandomPos(), RandomPos(), RandomPos());
+            return new Vector4(RandomPos(), RandomPos(), RandomPos());
         }
     }
 }

@@ -18,13 +18,13 @@ namespace StarSimLib.Data_Structures
         /// <summary>
         /// Backing field for the <see cref="PreviousPositions"/> property.
         /// </summary>
-        private readonly Queue<Vector4d> previousPositions;
+        private readonly Queue<Vector4> previousPositions;
 
         /// <summary>
         /// Due to the <see cref="Queue{T}"/>s inability to fetch the second-to-last element, we must explicitly
         /// cache it in order to use it in interpolation  calculations later.
         /// </summary>
-        private Vector4d dequeuedPosition;
+        private Vector4 dequeuedPosition;
 
         /// <summary>
         /// Counts the number of sampling opportunities that have gone by since the last position sample. Resets once
@@ -37,13 +37,13 @@ namespace StarSimLib.Data_Structures
         /// </summary>
         public OrbitTracer()
         {
-            previousPositions = new Queue<Vector4d>(Constants.StoredPreviousPositionCount);
+            previousPositions = new Queue<Vector4>(Constants.StoredPreviousPositionCount);
         }
 
         /// <summary>
-        /// An <see cref="Queue{T}"/> containing previous <see cref="Vector4d"/> positions of the body.
+        /// An <see cref="Queue{T}"/> containing previous <see cref="Vector4"/> positions of the body.
         /// </summary>
-        public ref readonly Queue<Vector4d> PreviousPositions
+        public ref readonly Queue<Vector4> PreviousPositions
         {
             get { return ref previousPositions; }
         }
@@ -62,7 +62,7 @@ namespace StarSimLib.Data_Structures
         /// value in <see cref="Constants.StoredPreviousPositionCount"/>. Will only enqueue the
         /// current position if the <see cref="PositionSampleRate"/> is met.
         /// </summary>
-        public void Enqueue(Vector4d position)
+        public void Enqueue(Vector4 position)
         {
             // if the sample rate limit has not yet been met, don't sample a position but instead edit the last stored
             // position using linear interpolation to give a smooth shrinking motion

@@ -46,7 +46,7 @@
         </member>
         <member name="F:StarSimLib.Constants.SofteningFactor">
             <summary>
-            Softens the force between <see cref="T:StarSimLib.Physics.Body"/>s to avoid infinities.
+            Softens the force between <see cref="T:StarSimLib.Data_Structures.Body"/>s to avoid infinities.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.SofteningFactor2">
@@ -71,7 +71,7 @@
         </member>
         <member name="F:StarSimLib.Constants.UniverseSize">
             <summary>
-            The maximum radius within which <see cref="T:StarSimLib.Physics.Body"/>s will be placed (1e18f).
+            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body"/>s will be placed (1e18f).
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.ZoomStep">
@@ -104,6 +104,142 @@
             <inheritdoc />
         </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.Data_Structures.Body">
+            <summary>
+            Represents a stellar body.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.BodyFormatString">
+            <summary>
+            Describes how the <see cref="T:StarSimLib.Data_Structures.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.orbitTracer">
+            <summary>
+            The orbit tracers for this instance.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.force">
+            <summary>
+            The backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Force"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.mass">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Mass"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.position">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.velocity">
+            <summary>
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Velocity"/> property.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.Generation">
+            <summary>
+            The generation that this body belongs to.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Body.Id">
+            <summary>
+            The unique id for this body.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.#ctor(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Vector4d,System.Double,System.UInt32,System.UInt32)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Body"/> class.
+            </summary>
+            <param name="position">The starting position of the <see cref="T:StarSimLib.Data_Structures.Body"/>.</param>
+            <param name="velocity">The starting velocity of the <see cref="T:StarSimLib.Data_Structures.Body"/>.</param>
+            <param name="mass">The starting mass of the <see cref="T:StarSimLib.Data_Structures.Body"/>.</param>
+            <param name="generation">The generation that this <see cref="T:StarSimLib.Data_Structures.Body"/> belongs to.</param>
+            <param name="id">The unique id for this body.</param>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Body.Force">
+            <summary>
+            The current force on the <see cref="T:StarSimLib.Data_Structures.Body"/> in 3D space.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Body.Mass">
+            <summary>
+            The mass of the <see cref="T:StarSimLib.Data_Structures.Body"/>.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Body.OrbitTracer">
+            <summary>
+            The <see cref="T:StarSimLib.Data_Structures.OrbitTracer"/> for this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Body.Position">
+            <summary>
+            The current position of the <see cref="T:StarSimLib.Data_Structures.Body"/> in 3D space.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Body.RecordPreviousPositions">
+            <summary>
+            Whether to record previous positions of this instance, to render an orbit tracer behind it.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Body.Velocity">
+            <summary>
+            The current velocity of the <see cref="T:StarSimLib.Data_Structures.Body"/> in 3D space.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.GetForceBetween(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Body)">
+            <summary>
+            Gets the force vector for the attraction between <see cref="T:StarSimLib.Data_Structures.Body"/> A and <see cref="T:StarSimLib.Data_Structures.Body"/> B.
+            </summary>
+            <param name="a">The first <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
+            <param name="b">The second <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.AddForce(StarSimLib.Data_Structures.Body)">
+            <summary>
+            Calculates the force between this instance and the given other body, and adds the resultant vector to the
+            internal total force vector.
+            </summary>
+            <param name="otherBody">The other body to calculate the force between.</param>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.Collide(StarSimLib.Data_Structures.Body)">
+            <summary>
+            Collides this instance with the given <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
+            </summary>
+            <param name="otherBody">The other instance with which to collide.</param>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.DistanceTo(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Vector4d@)">
+            <summary>
+            Finds and returns the distance between the current <see cref="T:StarSimLib.Data_Structures.Body"/> instance and the given <see cref="T:StarSimLib.Data_Structures.Body"/>.
+            In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Data_Structures.Body"/> instances.
+            </summary>
+            <param name="body">The other <see cref="T:StarSimLib.Data_Structures.Body"/> instance to which to calculate the distance.</param>
+            <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
+            <returns>The distance to the other <see cref="T:StarSimLib.Data_Structures.Body"/> as a <see cref="T:System.Single"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.ResetForce">
+            <summary>
+            Resets the internal force vector.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.Update(System.Double)">
+            <summary>
+            Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> of the current body using the internal force vector and the given time step.
+            </summary>
+            <param name="deltaTime">The time step.</param>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.Update(StarSimLib.Data_Structures.Vector4d,System.Double)">
+            <summary>
+            Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> of the current body using the given force vector and time step.
+            </summary>
+            <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Data_Structures.Body"/>s.</param>
+            <param name="deltaTime">The time step.</param>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.ToString">
             <inheritdoc />
         </member>
         <member name="T:StarSimLib.Data_Structures.EulerAngle">
@@ -236,8 +372,8 @@
         </member>
         <member name="T:StarSimLib.Data_Structures.OrbitTracer">
             <summary>
-            Represents a series of points denoting the previous positions of a <see cref="T:StarSimLib.Physics.Body"/> instance. Used to render
-            an orbit tracer behind the <see cref="T:StarSimLib.Physics.Body"/>.
+            Represents a series of points denoting the previous positions of a <see cref="T:StarSimLib.Data_Structures.Body"/> instance. Used to render
+            an orbit tracer behind the <see cref="T:StarSimLib.Data_Structures.Body"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate">
@@ -645,19 +781,19 @@
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.managedBodies">
             <summary>
-            Holds all the <see cref="T:StarSimLib.Physics.Body"/> instances that should be simulated.
+            Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.managedBodyShapeMap">
             <summary>
-            Maps a <see cref="T:StarSimLib.Physics.Body"/> to the <see cref="T:SFML.Graphics.CircleShape"/> that represents it, and is drawn to the
-            screen at the <see cref="T:StarSimLib.Physics.Body"/>s position.
+            Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.CircleShape"/> that represents it, and is drawn to the
+            screen at the <see cref="T:StarSimLib.Data_Structures.Body"/>s position.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.managedBodyTracerVertexArrayMap">
             <summary>
-            Maps a <see cref="T:StarSimLib.Physics.Body"/> to the <see cref="T:SFML.Graphics.VertexArray"/> that holds its orbit tracer vertices, and
-            is drawn to the screen behind the <see cref="T:StarSimLib.Physics.Body"/> instance.
+            Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.VertexArray"/> that holds its orbit tracer vertices, and
+            is drawn to the screen behind the <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.Drawer.originOffset">
@@ -701,17 +837,17 @@
             The rotation matrix for the z axis.
             </summary>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.#ctor(SFML.Graphics.RenderTarget,StarSimLib.Physics.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Physics.Body,SFML.Graphics.CircleShape}@)">
+        <member name="M:StarSimLib.Graphics.Drawer.#ctor(SFML.Graphics.RenderTarget,StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.Graphics.Drawer"/> class.
             </summary>
             <param name="target">The target to which the managed bodies should be rendered.</param>
             <param name="bodies">
-            A reference to the <see cref="T:StarSimLib.Physics.Body"/> instances which should be managed by this instance.
+            A reference to the <see cref="T:StarSimLib.Data_Structures.Body"/> instances which should be managed by this instance.
             </param>
             <param name="bodyShapeMap">
-            A reference to the dictionary mapping a <see cref="T:StarSimLib.Physics.Body"/> instance to the <see cref="T:SFML.Graphics.CircleShape"/> that
-            represents it, and is drawn to the screen at the <see cref="T:StarSimLib.Physics.Body"/> instance's position.
+            A reference to the dictionary mapping a <see cref="T:StarSimLib.Data_Structures.Body"/> instance to the <see cref="T:SFML.Graphics.CircleShape"/> that
+            represents it, and is drawn to the screen at the <see cref="T:StarSimLib.Data_Structures.Body"/> instance's position.
             </param>
         </member>
         <member name="P:StarSimLib.Graphics.Drawer.InverseScaleFactor">
@@ -758,7 +894,7 @@
         </member>
         <member name="M:StarSimLib.Graphics.Drawer.DrawBodies">
             <summary>
-            Draws each <see cref="T:StarSimLib.Physics.Body"/> instance that is managed by this drawer to the <see cref="T:SFML.Graphics.RenderTarget"/> specified
+            Draws each <see cref="T:StarSimLib.Data_Structures.Body"/> instance that is managed by this drawer to the <see cref="T:SFML.Graphics.RenderTarget"/> specified
             in the constructor, using the current view settings (rotation, zoom, etc.) to project the positions from 3D to 2D.
             This method should be called every frame, as without it the view isn't updated and neither are rotation or zoom.
             </summary>
@@ -776,159 +912,23 @@
             </summary>
             <param name="scaleMultiplier">The multiplier by which to scale the viewport of this instances render target.</param>
         </member>
-        <member name="T:StarSimLib.Physics.Body">
-            <summary>
-            Represents a stellar body.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.BodyFormatString">
-            <summary>
-            Describes how the <see cref="T:StarSimLib.Physics.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.orbitTracer">
-            <summary>
-            The orbit tracers for this instance.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.force">
-            <summary>
-            The backing field for the <see cref="P:StarSimLib.Physics.Body.Force"/> property.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.mass">
-            <summary>
-            Backing field for the <see cref="P:StarSimLib.Physics.Body.Mass"/> property.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.position">
-            <summary>
-            Backing field for the <see cref="P:StarSimLib.Physics.Body.Position"/> property.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.velocity">
-            <summary>
-            Backing field for the <see cref="P:StarSimLib.Physics.Body.Velocity"/> property.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.Generation">
-            <summary>
-            The generation that this body belongs to.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.Body.Id">
-            <summary>
-            The unique id for this body.
-            </summary>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.#ctor(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Vector4d,System.Double,System.UInt32,System.UInt32)">
-            <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Physics.Body"/> class.
-            </summary>
-            <param name="position">The starting position of the <see cref="T:StarSimLib.Physics.Body"/>.</param>
-            <param name="velocity">The starting velocity of the <see cref="T:StarSimLib.Physics.Body"/>.</param>
-            <param name="mass">The starting mass of the <see cref="T:StarSimLib.Physics.Body"/>.</param>
-            <param name="generation">The generation that this <see cref="T:StarSimLib.Physics.Body"/> belongs to.</param>
-            <param name="id">The unique id for this body.</param>
-        </member>
-        <member name="P:StarSimLib.Physics.Body.Force">
-            <summary>
-            The current force on the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Physics.Body.Mass">
-            <summary>
-            The mass of the <see cref="T:StarSimLib.Physics.Body"/>.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Physics.Body.OrbitTracer">
-            <summary>
-            The <see cref="T:StarSimLib.Data_Structures.OrbitTracer"/> for this instance.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Physics.Body.Position">
-            <summary>
-            The current position of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Physics.Body.RecordPreviousPositions">
-            <summary>
-            Whether to record previous positions of this instance, to render an orbit tracer behind it.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Physics.Body.Velocity">
-            <summary>
-            The current velocity of the <see cref="T:StarSimLib.Physics.Body"/> in 3D space.
-            </summary>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.GetForceBetween(StarSimLib.Physics.Body,StarSimLib.Physics.Body)">
-            <summary>
-            Gets the force vector for the attraction between <see cref="T:StarSimLib.Physics.Body"/> A and <see cref="T:StarSimLib.Physics.Body"/> B.
-            </summary>
-            <param name="a">The first <see cref="T:StarSimLib.Physics.Body"/> instance.</param>
-            <param name="b">The second <see cref="T:StarSimLib.Physics.Body"/> instance.</param>
-            <returns></returns>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.AddForce(StarSimLib.Physics.Body)">
-            <summary>
-            Calculates the force between this instance and the given other body, and adds the resultant vector to the
-            internal total force vector.
-            </summary>
-            <param name="otherBody">The other body to calculate the force between.</param>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.Collide(StarSimLib.Physics.Body)">
-            <summary>
-            Collides this instance with the given <see cref="T:StarSimLib.Physics.Body"/> instance.
-            </summary>
-            <param name="otherBody">The other instance with which to collide.</param>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.DistanceTo(StarSimLib.Physics.Body,StarSimLib.Data_Structures.Vector4d@)">
-            <summary>
-            Finds and returns the distance between the current <see cref="T:StarSimLib.Physics.Body"/> instance and the given <see cref="T:StarSimLib.Physics.Body"/>.
-            In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Physics.Body"/> instances.
-            </summary>
-            <param name="body">The other <see cref="T:StarSimLib.Physics.Body"/> instance to which to calculate the distance.</param>
-            <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
-            <returns>The distance to the other <see cref="T:StarSimLib.Physics.Body"/> as a <see cref="T:System.Single"/>.</returns>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.ResetForce">
-            <summary>
-            Resets the internal force vector.
-            </summary>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.Update(System.Double)">
-            <summary>
-            Updates the <see cref="P:StarSimLib.Physics.Body.Position"/> of the current body using the internal force vector and the given time step.
-            </summary>
-            <param name="deltaTime">The time step.</param>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.Update(StarSimLib.Data_Structures.Vector4d,System.Double)">
-            <summary>
-            Updates the <see cref="P:StarSimLib.Physics.Body.Position"/> of the current body using the given force vector and time step.
-            </summary>
-            <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Physics.Body"/>s.</param>
-            <param name="deltaTime">The time step.</param>
-        </member>
-        <member name="M:StarSimLib.Physics.Body.ToString">
-            <inheritdoc />
-        </member>
         <member name="T:StarSimLib.Physics.MassToColourDelegate">
             <summary>
-            Takes the mass of a <see cref="T:StarSimLib.Physics.Body"/> instance and returns a colour for the <see cref="T:SFML.Graphics.CircleShape"/>
-            that will represent the <see cref="T:StarSimLib.Physics.Body"/> of the given mass.
+            Takes the mass of a <see cref="T:StarSimLib.Data_Structures.Body"/> instance and returns a colour for the <see cref="T:SFML.Graphics.CircleShape"/>
+            that will represent the <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.
             </summary>
-            <returns>The colour of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Physics.Body"/> of the given mass.</returns>
+            <returns>The colour of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.</returns>
         </member>
         <member name="T:StarSimLib.Physics.MassToRadiusDelegate">
             <summary>
-            Takes the mass of a <see cref="T:StarSimLib.Physics.Body"/> instance and returns a radius for the <see cref="T:SFML.Graphics.CircleShape"/>
-            that will represent the <see cref="T:StarSimLib.Physics.Body"/> of the given mass.
+            Takes the mass of a <see cref="T:StarSimLib.Data_Structures.Body"/> instance and returns a radius for the <see cref="T:SFML.Graphics.CircleShape"/>
+            that will represent the <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.
             </summary>
-            <returns>The radius of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Physics.Body"/> of the given mass.</returns>
+            <returns>The radius of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.</returns>
         </member>
         <member name="T:StarSimLib.Physics.BodyGenerator">
             <summary>
-            Provides methods for generating <see cref="T:StarSimLib.Physics.Body"/> instances.
+            Provides methods for generating <see cref="T:StarSimLib.Data_Structures.Body"/> instances.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.BodyGenerator.Rng">
@@ -948,67 +948,67 @@
         </member>
         <member name="P:StarSimLib.Physics.BodyGenerator.CurrentGeneration">
             <summary>
-            The current generation of <see cref="T:StarSimLib.Physics.Body"/> instances that the generator is on.
+            The current generation of <see cref="T:StarSimLib.Data_Structures.Body"/> instances that the generator is on.
             </summary>
         </member>
         <member name="M:StarSimLib.Physics.BodyGenerator.GenerateBodies(System.Int32,System.Boolean)">
             <summary>
-            Generates an array of <see cref="T:StarSimLib.Physics.Body"/> instances, possibly including a central attractor.
+            Generates an array of <see cref="T:StarSimLib.Data_Structures.Body"/> instances, possibly including a central attractor.
             </summary>
-            <param name="bodyCount">The number of <see cref="T:StarSimLib.Physics.Body"/> instances to generate.</param>
+            <param name="bodyCount">The number of <see cref="T:StarSimLib.Data_Structures.Body"/> instances to generate.</param>
             <param name="centralAttractor">Whether to have a central massive attractor.</param>
-            <returns>The generated <see cref="T:StarSimLib.Physics.Body"/> array.</returns>
+            <returns>The generated <see cref="T:StarSimLib.Data_Structures.Body"/> array.</returns>
         </member>
-        <member name="M:StarSimLib.Physics.BodyGenerator.GenerateShapes(System.Collections.Generic.IEnumerable{StarSimLib.Physics.Body})">
+        <member name="M:StarSimLib.Physics.BodyGenerator.GenerateShapes(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body})">
             <summary>
-            Generates a <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping each given <see cref="T:StarSimLib.Physics.Body"/> to a
+            Generates a <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping each given <see cref="T:StarSimLib.Data_Structures.Body"/> to a
             <see cref="T:SFML.Graphics.CircleShape"/> that represents the body instance in 2D space.
             </summary>
-            <param name="bodies">The <see cref="T:StarSimLib.Physics.Body"/> instances for which to generate the shapes.</param>
+            <param name="bodies">The <see cref="T:StarSimLib.Data_Structures.Body"/> instances for which to generate the shapes.</param>
             <returns>
-            A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Physics.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Data_Structures.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
             </returns>
         </member>
-        <member name="M:StarSimLib.Physics.BodyGenerator.GenerateShapes(System.Collections.Generic.IEnumerable{StarSimLib.Physics.Body},StarSimLib.Physics.MassToRadiusDelegate,StarSimLib.Physics.MassToColourDelegate)">
+        <member name="M:StarSimLib.Physics.BodyGenerator.GenerateShapes(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},StarSimLib.Physics.MassToRadiusDelegate,StarSimLib.Physics.MassToColourDelegate)">
             <summary>
-            Generates a <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping each given <see cref="T:StarSimLib.Physics.Body"/> to a
+            Generates a <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping each given <see cref="T:StarSimLib.Data_Structures.Body"/> to a
             <see cref="T:SFML.Graphics.CircleShape"/> that represents the body instance in 2D space.
             </summary>
-            <param name="bodies">The <see cref="T:StarSimLib.Physics.Body"/> instances for which to generate the shapes.</param>
+            <param name="bodies">The <see cref="T:StarSimLib.Data_Structures.Body"/> instances for which to generate the shapes.</param>
             <param name="massToRadiusDelegate">
-            The function to use to derive the radius of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Physics.Body"/>
+            The function to use to derive the radius of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Data_Structures.Body"/>
             instance from its mass.
             </param>
             <param name="massToColourDelegate">
-            The function to use to derive the colour of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Physics.Body"/>
+            The function to use to derive the colour of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Data_Structures.Body"/>
             instance from its mass.
             </param>
             <returns>
-            A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Physics.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Data_Structures.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
             </returns>
         </member>
         <member name="T:StarSimLib.Physics.UpdateDelegate">
             <summary>
-            Updates the given <see cref="T:StarSimLib.Physics.Body"/> collections individual bodies, using the given delta time.
+            Updates the given <see cref="T:StarSimLib.Data_Structures.Body"/> collections individual bodies, using the given delta time.
             </summary>
             <param name="bodies">The body collection.</param>
             <param name="deltaTime">The time step.</param>
         </member>
         <member name="T:StarSimLib.Physics.BodyUpdater">
             <summary>
-            Provides methods for updating <see cref="T:StarSimLib.Physics.Body"/> instance positions.
+            Provides methods for updating <see cref="T:StarSimLib.Data_Structures.Body"/> instance positions.
             </summary>
         </member>
-        <member name="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBruteForce(System.Collections.Generic.IEnumerable{StarSimLib.Physics.Body},System.Double)">
+        <member name="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBruteForce(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)">
             <summary>
-            Updates the positions of all the given <see cref="T:StarSimLib.Physics.Body"/>s with O(n^2) time complexity, with the given time step.
+            Updates the positions of all the given <see cref="T:StarSimLib.Data_Structures.Body"/>s with O(n^2) time complexity, with the given time step.
             </summary>
-            <param name="bodies">The collection of <see cref="T:StarSimLib.Physics.Body"/>s whose positions to update.</param>
+            <param name="bodies">The collection of <see cref="T:StarSimLib.Data_Structures.Body"/>s whose positions to update.</param>
             <param name="deltaTime">The time step.</param>
         </member>
         <member name="T:StarSimLib.Physics.OrbitGenerator">
             <summary>
-            Provides methods for initialising positions, velocities, and orbits for <see cref="T:StarSimLib.Physics.Body"/> instances.
+            Provides methods for initialising positions, velocities, and orbits for <see cref="T:StarSimLib.Data_Structures.Body"/> instances.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.OrbitGenerator.Rng">
@@ -1036,23 +1036,23 @@
         </member>
         <member name="F:StarSimLib.UI.InputHandler.bodyDrawer">
             <summary>
-            The renderer used to display the <see cref="T:StarSimLib.Physics.Body"/> instances on the screen.
+            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
             </summary>
         </member>
         <member name="F:StarSimLib.UI.InputHandler.managedBodies">
             <summary>
-            Holds all the <see cref="T:StarSimLib.Physics.Body"/> instances that should be simulated.
+            Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
             </summary>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.#ctor(StarSimLib.Physics.Body[]@,StarSimLib.Graphics.Drawer@)">
+        <member name="M:StarSimLib.UI.InputHandler.#ctor(StarSimLib.Data_Structures.Body[]@,StarSimLib.Graphics.Drawer@)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.UI.InputHandler"/> class.
             </summary>
             <param name="bodies">
-            A reference to the <see cref="T:StarSimLib.Physics.Body"/> instances which should be managed by this instance.
+            A reference to the <see cref="T:StarSimLib.Data_Structures.Body"/> instances which should be managed by this instance.
             </param>
             <param name="drawer">
-            A reference to the renderer used to display the <see cref="T:StarSimLib.Physics.Body"/> instances on the screen.
+            A reference to the renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
             </param>
         </member>
         <member name="P:StarSimLib.UI.InputHandler.IsSimulationPaused">
@@ -1062,7 +1062,7 @@
         </member>
         <member name="P:StarSimLib.UI.InputHandler.RecordOrbitTracers">
             <summary>
-            Whether to record previous <see cref="T:StarSimLib.Physics.Body"/> instance positions, in order to render an orbit tracer
+            Whether to record previous <see cref="T:StarSimLib.Data_Structures.Body"/> instance positions, in order to render an orbit tracer
             behind each body instance.
             </summary>
         </member>
