@@ -182,6 +182,16 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
+        /// Whether this instance is currently inside the bounds of the given <see cref="Octant"/> instance.
+        /// </summary>
+        /// <param name="octant">The octant to check.</param>
+        /// <returns>Whether this <see cref="Body"/> instance is inside the given <see cref="Octant"/> instance.</returns>
+        public bool InOctant(Octant octant)
+        {
+            return octant.ContainsPoint(position);
+        }
+
+        /// <summary>
         /// Resets the internal force vector.
         /// </summary>
         public void ResetForce()
