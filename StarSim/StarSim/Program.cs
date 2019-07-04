@@ -64,7 +64,8 @@ namespace StarSim
             bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
 
 #if DEBUG
-            bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
+            //bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
+            bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #else
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
