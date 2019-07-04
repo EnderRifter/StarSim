@@ -1,5 +1,4 @@
 ﻿using StarSimLib.Data_Structures;
-using StarSimLib.Physics;
 
 namespace StarSimLib
 {
@@ -11,7 +10,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of bodies that are rendered by default.
         /// </summary>
-        public const int BodyCount = 10000;
+        public const int BodyCount = 1_000;
 
         /// <summary>
         /// The mass of the central body, if it is included.
@@ -21,7 +20,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of degrees by which the view will be rotated in any given direction.
         /// </summary>
-        public const double EulerRotationStep = 0.5;
+        public const double EulerRotationStep = 1;
 
         /// <summary>
         /// The frame rate limit for the program.

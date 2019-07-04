@@ -72,41 +72,46 @@ namespace StarSimLib.Data_Structures
         /// <param name="newBody">The <see cref="Body"/> instance to add.</param>
         public void AddBody(Body newBody)
         {
-            if (body == null)
+            while (true)
             {
-                // this is an empty instance that has not yet had any bodies added to it.
-                body = newBody;
-            }
-            else if (IsExternal())
-            {
-                // this instance is 'external' and contains another body. figure out where the new body should go and
-                // create a new octant tree instance to hold the new body
-                foreach (OctantTree tree in childTrees)
+                if (body == null)
                 {
-                    if (body.IsInOctant(tree.octant))
+                    // this is an empty instance that has not yet had any bodies added to it.
+                    body = newBody;
+                }
+                else if (IsExternal())
+                {
+                    // this instance is 'external' and contains another body. figure out where the new body should go and
+                    // create a new octant tree instance to hold the new body
+                    foreach (OctantTree tree in childTrees)
                     {
-                        tree.AddBody(body);
+                        if (body.IsInOctant(tree.octant))
+                        {
+                            tree.AddBody(body);
+                        }
+                    }
+
+                    continue;
+                }
+                else if (!IsExternal())
+                {
+                    // this instance already has a body to represent it, and it is not an 'external' tree instance, that is
+                    // it has child trees of its own. figure out in which child tree the new body should be stored and update
+                    // any further child nodes
+
+                    // make the held body an aggregate body
+                    body.Collide(newBody);
+
+                    foreach (OctantTree tree in childTrees)
+                    {
+                        if (newBody.IsInOctant(tree.octant))
+                        {
+                            tree.AddBody(newBody);
+                        }
                     }
                 }
 
-                AddBody(newBody);
-            }
-            else if (!IsExternal())
-            {
-                // this instance already has a body to represent it, and it is not an 'external' tree instance, that is
-                // it has child trees of its own. figure out in which child tree the new body should be stored and update
-                // any further child nodes
-
-                // make the held body an aggregate body
-                body.Collide(newBody);
-
-                foreach (OctantTree tree in childTrees)
-                {
-                    if (newBody.IsInOctant(tree.octant))
-                    {
-                        tree.AddBody(newBody);
-                    }
-                }
+                break;
             }
         }
 

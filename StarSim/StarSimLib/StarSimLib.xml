@@ -69,6 +69,13 @@
             The time step for the simulation.
             </summary>
         </member>
+        <member name="F:StarSimLib.Constants.TreeTheta">
+            <summary>
+            The tolerance of the mass grouping approximation in the simulation. A
+            body is only accelerated when the ratio of the tree's width to the
+            distance (from the tree's center of mass to the body) is less than this.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Constants.UniverseSize">
             <summary>
             The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body"/>s will be placed (1e18f).
@@ -151,7 +158,7 @@
             The unique id for this body.
             </summary>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Body.#ctor(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Vector4d,System.Double,System.UInt32,System.UInt32)">
+        <member name="M:StarSimLib.Data_Structures.Body.#ctor(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4,System.Double,System.UInt32,System.UInt32)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Body"/> class.
             </summary>
@@ -212,7 +219,7 @@
             </summary>
             <param name="otherBody">The other instance with which to collide.</param>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Body.DistanceTo(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Vector4d@)">
+        <member name="M:StarSimLib.Data_Structures.Body.DistanceTo(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Vector4@)">
             <summary>
             Finds and returns the distance between the current <see cref="T:StarSimLib.Data_Structures.Body"/> instance and the given <see cref="T:StarSimLib.Data_Structures.Body"/>.
             In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Data_Structures.Body"/> instances.
@@ -220,6 +227,13 @@
             <param name="body">The other <see cref="T:StarSimLib.Data_Structures.Body"/> instance to which to calculate the distance.</param>
             <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
             <returns>The distance to the other <see cref="T:StarSimLib.Data_Structures.Body"/> as a <see cref="T:System.Single"/>.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.IsInOctant(StarSimLib.Data_Structures.Octant)">
+            <summary>
+            Whether this instance is currently inside the bounds of the given <see cref="T:StarSimLib.Data_Structures.Octant"/> instance.
+            </summary>
+            <param name="octant">The octant to check.</param>
+            <returns>Whether this <see cref="T:StarSimLib.Data_Structures.Body"/> instance is inside the given <see cref="T:StarSimLib.Data_Structures.Octant"/> instance.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.ResetForce">
             <summary>
@@ -232,7 +246,7 @@
             </summary>
             <param name="deltaTime">The time step.</param>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Body.Update(StarSimLib.Data_Structures.Vector4d,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Body.Update(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
             Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> of the current body using the given force vector and time step.
             </summary>
@@ -349,26 +363,222 @@
             </summary>
             <param name="matrix4x4">The matrix to convert.</param>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Matrix4x4.op_Multiply(StarSimLib.Data_Structures.Matrix4x4,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Matrix4x4.op_Multiply(StarSimLib.Data_Structures.Matrix4x4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and a <see cref="T:StarSimLib.Data_Structures.Vector4d"/>. This is
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and a <see cref="T:StarSimLib.Data_Structures.Vector4"/>. This is
             the 'dot' operation for a vector and a matrix.
             </summary>
             <param name="matrix4x4">The matrix.</param>
             <param name="vector">The 3D vector.</param>
-            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and the <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and the <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Matrix4x4.op_Multiply(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Matrix4x4)">
+        <member name="M:StarSimLib.Data_Structures.Matrix4x4.op_Multiply(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Matrix4x4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and a <see cref="T:StarSimLib.Data_Structures.Vector4d"/>. This is
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and a <see cref="T:StarSimLib.Data_Structures.Vector4"/>. This is
             the 'dot' operation for a vector and a matrix.
             </summary>
             <param name="vector">The 3D vector.</param>
             <param name="matrix4x4">The matrix.</param>
-            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and the <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and the <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.ToString">
             <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.Data_Structures.PositionSpecifier">
+            <summary>
+            Enumerates the possible sub-octants positions.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.TopNorthWest">
+            <summary>
+            The child octant in the top layer, north west corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.TopNorthEast">
+            <summary>
+            The child octant in the top layer, north east corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.TopSouthEast">
+            <summary>
+            The child octant in the top layer, south east corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.TopSouthWest">
+            <summary>
+            The child octant in the top layer, south west corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.BottomNorthWest">
+            <summary>
+            The child octant in the bottom layer, north west corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.BottomNorthEast">
+            <summary>
+            The child octant in the bottom layer, north east corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.BottomSouthEast">
+            <summary>
+            The child octant in the bottom layer, south east corner.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.PositionSpecifier.BottomSouthWest">
+            <summary>
+            The child octant in the bottom layer, south west corner.
+            </summary>
+        </member>
+        <member name="T:StarSimLib.Data_Structures.Octant">
+            <summary>
+            Represents an octant of 3D space.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Octant.halfSideLength">
+            <summary>
+            The length of a half of 1 side of this instance, used to provide the side length of child instances.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Octant.midpoint">
+            <summary>
+            The centre of this instance.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Octant.quarterSideLength">
+            <summary>
+            The length of a quarter of 1 side of this instance, used to provide the midpoint of child instances.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Octant.sideLength">
+            <summary>
+            The length of 1 side of this instance.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.Octant.childOctants">
+            <summary>
+            The child octant instances of this instance.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Octant.#ctor(StarSimLib.Data_Structures.Vector4,System.Double)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Octant"/> class.
+            </summary>
+            <param name="midpoint">The central midpoint of this instance.</param>
+            <param name="length">The length of 1 complete side of this instance.</param>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Octant.Length">
+            <summary>
+            The length of 1 complete side of this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Octant.Item(StarSimLib.Data_Structures.PositionSpecifier)">
+            <summary>
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)"/>.
+            </summary>
+            <param name="specifier">Which child octant instance to return.</param>
+            <returns>The specified child octant instance.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Octant.GetOrSetChildOctant(StarSimLib.Data_Structures.Octant[]@,System.Int32,StarSimLib.Data_Structures.Vector4,System.Double)">
+            <summary>
+            Returns the specified child octant instance, or instantiates a new octant if the specified child instance
+            is <c>null</c>. The newly constructed instance will then be returned.
+            </summary>
+            <param name="octants">
+            A reference to the <see cref="T:StarSimLib.Data_Structures.Octant"/> array from which to get the specified instance.
+            </param>
+            <param name="index">The index in the array whose held instance to get or set.</param>
+            <param name="newMidpoint">The midpoint of the new child instance, if necessary.</param>
+            <param name="newSideLength">The side length of the new child instance, if necessary.</param>
+            <returns>The instance held at the specified index, or the newly created instance.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Octant.ContainsPoint(StarSimLib.Data_Structures.Vector4)">
+            <summary>
+            Whether the given point is within the bounds of this instance.
+            </summary>
+            <param name="point">
+            The point whose position to check. Only the first 3 dimensions are used, the 4th is ignored.
+            </param>
+            <returns>Whether the given point is within the bounds of this instance.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)">
+            <summary>
+            Returns the specified child octant instance.
+            </summary>
+            <param name="specifier">Which child octant instance to return.</param>
+            <returns>The specified child octant instance.</returns>
+        </member>
+        <member name="T:StarSimLib.Data_Structures.OctantTree">
+            <summary>
+            A tree of <see cref="T:StarSimLib.Data_Structures.Octant"/> instances, where each node has 8 children.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OctantTree.octant">
+            <summary>
+            The <see cref="T:StarSimLib.Data_Structures.Octant"/> of space managed by this instance.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OctantTree.body">
+            <summary>
+            The <see cref="T:StarSimLib.Data_Structures.Body"/> instance that is held in this instance, be it real or an aggregate.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OctantTree.childTrees">
+            <summary>
+            The child octant tree instances of this instance.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.#ctor(StarSimLib.Data_Structures.Octant)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.OctantTree"/> class.
+            </summary>
+            <param name="octant">The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the space managed by this instance.</param>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.OctantTree.Item(StarSimLib.Data_Structures.PositionSpecifier)">
+            <summary>
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)"/>.
+            </summary>
+            <param name="specifier">Which child octant tree instance to return.</param>
+            <returns>The specified child octant tree instance.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.GetOrSetSubTree(StarSimLib.Data_Structures.OctantTree[]@,System.Int32,StarSimLib.Data_Structures.Octant)">
+            <summary>
+            Returns the specified child octant tree instance, or instantiates a new octant tree if the specified child
+            instance is <c>null</c>. The newly constructed instance will then be returned.
+            </summary>
+            <param name="trees">
+            A reference to the <see cref="T:StarSimLib.Data_Structures.OctantTree"/> array from which to get the specified instance.
+            </param>
+            <param name="index">The index in the array whose held instance to get or set.</param>
+            <param name="newOctant">
+            The octant instance representing the space managed by the new child tree instance, if necessary.
+            </param>
+            <returns>The instance held at the specified index, or the newly created instance.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.AddBody(StarSimLib.Data_Structures.Body)">
+            <summary>
+            Adds the given <see cref="T:StarSimLib.Data_Structures.Body"/> instance to this tree instance or a child tree instance.
+            </summary>
+            <param name="newBody">The <see cref="T:StarSimLib.Data_Structures.Body"/> instance to add.</param>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.IsExternal">
+            <summary>
+            Whether this instance does not have any child instances and is thus an 'external' octant tree, or not.
+            </summary>
+            <returns>Whether this instance has no non-null child instance.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)">
+            <summary>
+            Returns the specified child octant tree instance.
+            </summary>
+            <param name="specifier">Which child octant tree instance to return.</param>
+            <returns>The specified child octant tree instance.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.UpdateForces(StarSimLib.Data_Structures.Body)">
+            <summary>
+            Recursively updates the forces on each <see cref="T:StarSimLib.Data_Structures.Body"/> instance held in this tree, with respect to the
+            given reference <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
+            </summary>
+            <param name="referenceBody">The body instance against which force updates are made.</param>
         </member>
         <member name="T:StarSimLib.Data_Structures.OrbitTracer">
             <summary>
@@ -406,7 +616,7 @@
         </member>
         <member name="P:StarSimLib.Data_Structures.OrbitTracer.PreviousPositions">
             <summary>
-            An <see cref="T:System.Collections.Generic.Queue`1"/> containing previous <see cref="T:StarSimLib.Data_Structures.Vector4d"/> positions of the body.
+            An <see cref="T:System.Collections.Generic.Queue`1"/> containing previous <see cref="T:StarSimLib.Data_Structures.Vector4"/> positions of the body.
             </summary>
         </member>
         <member name="M:StarSimLib.Data_Structures.OrbitTracer.Clear">
@@ -414,7 +624,7 @@
             Clears the <see cref="T:System.Collections.Generic.Queue`1"/> holding the previous positions.
             </summary>
         </member>
-        <member name="M:StarSimLib.Data_Structures.OrbitTracer.Enqueue(StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.OrbitTracer.Enqueue(StarSimLib.Data_Structures.Vector4)">
             <summary>
             Enqueues the current position on the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions"/> queue, to save it.
             Will dequeue positions from the queue if the number of stored positions exceeds the
@@ -427,270 +637,270 @@
             Represents a rotation as a set of 4 values.
             </summary>
         </member>
-        <member name="T:StarSimLib.Data_Structures.Vector4d">
+        <member name="T:StarSimLib.Data_Structures.Vector4">
             <summary>
             A 4D vector with <see cref="T:System.Double"/> components.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.W">
+        <member name="F:StarSimLib.Data_Structures.Vector4.W">
             <summary>
             The w component of the vector.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.X">
+        <member name="F:StarSimLib.Data_Structures.Vector4.X">
             <summary>
             The x component of the vector.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.Y">
+        <member name="F:StarSimLib.Data_Structures.Vector4.Y">
             <summary>
             The y component of the vector.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.Z">
+        <member name="F:StarSimLib.Data_Structures.Vector4.Z">
             <summary>
             The z component of the vector.
             </summary>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.#ctor(System.Double,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.#ctor(System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4d"/> struct. Sets Z and W to 0.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4"/> struct. Sets Z and W to 0.
             </summary>
             <param name="x">The x component.</param>
             <param name="y">The y component.</param>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.#ctor(System.Double,System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4d"/> struct. Sets W to 0.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4"/> struct. Sets W to 0.
             </summary>
             <param name="x">The x component.</param>
             <param name="y">The y component.</param>
             <param name="z">The z component.</param>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4d"/> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4"/> struct.
             </summary>
             <param name="x">The x component.</param>
             <param name="y">The y component.</param>
             <param name="z">The z component.</param>
             <param name="w">The w component.</param>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Subtraction(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the subtraction operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4d"/>s.
+            Implements the subtraction operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Subtraction(StarSimLib.Data_Structures.Vector4d,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Subtraction(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Subtraction(StarSimLib.Data_Structures.Vector4d,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Subtraction(System.Double,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Multiply(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4d"/>s.
+            Implements the multiplication operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Multiply(StarSimLib.Data_Structures.Vector4d,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Multiply(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Multiply(StarSimLib.Data_Structures.Vector4d,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Multiply(System.Double,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Division(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the division operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4d"/>s.
+            Implements the division operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Division(StarSimLib.Data_Structures.Vector4d,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Division(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Division(StarSimLib.Data_Structures.Vector4d,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Division(System.Double,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Addition(StarSimLib.Data_Structures.Vector4d,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the addition operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4d"/>s.
+            Implements the addition operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Addition(StarSimLib.Data_Structures.Vector4d,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Addition(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a (X, Y, Z, W) tuple.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Addition(StarSimLib.Data_Structures.Vector4d,System.Double)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.op_Addition(System.Double,StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4d"/> and a scalar <see cref="T:System.Double"/> value.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
-        <member name="P:StarSimLib.Data_Structures.Vector4d.Item(System.Int32)">
+        <member name="P:StarSimLib.Data_Structures.Vector4.Item(System.Int32)">
             <summary>
             Indexes the vector as a 1D array.
             </summary>
             <param name="i">The column index.</param>
             <returns>The value at the specified field.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.Abs">
+        <member name="M:StarSimLib.Data_Structures.Vector4.Abs">
             <summary>
-            Returns the absolute value of this <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.
+            Returns the absolute value of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>.
             </summary>
-            <returns>The absolute value (magnitude) of this <see cref="T:StarSimLib.Data_Structures.Vector4d"/>, as a <see cref="T:System.Double"/>.</returns>
+            <returns>The absolute value (magnitude) of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>, as a <see cref="T:System.Double"/>.</returns>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.Magnitude">
+        <member name="M:StarSimLib.Data_Structures.Vector4.Magnitude">
             <summary>
-            Returns the magnitude of this <see cref="T:StarSimLib.Data_Structures.Vector4d"/>.
+            Returns the magnitude of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>.
             </summary>
-            <returns>The magnitude (absolute value) of this <see cref="T:StarSimLib.Data_Structures.Vector4d"/>, as a <see cref="T:System.Double"/>.</returns>
+            <returns>The magnitude (absolute value) of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>, as a <see cref="T:System.Double"/>.</returns>
         </member>
-        <member name="T:StarSimLib.Data_Structures.Vector4d.UnitVectors">
+        <member name="T:StarSimLib.Data_Structures.Vector4.UnitVectors">
             <summary>
             Holds unit vectors.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.UnitVectors.Backwards">
+        <member name="F:StarSimLib.Data_Structures.Vector4.UnitVectors.Backwards">
             <summary>
             The negative unit vector for the Z axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.UnitVectors.Down">
+        <member name="F:StarSimLib.Data_Structures.Vector4.UnitVectors.Down">
             <summary>
             The negative unit vector for the Y axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.UnitVectors.Forwards">
+        <member name="F:StarSimLib.Data_Structures.Vector4.UnitVectors.Forwards">
             <summary>
             The positive unit vector for the Z axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.UnitVectors.Left">
+        <member name="F:StarSimLib.Data_Structures.Vector4.UnitVectors.Left">
             <summary>
             The positive unit vector for the X axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.UnitVectors.Right">
+        <member name="F:StarSimLib.Data_Structures.Vector4.UnitVectors.Right">
             <summary>
             The negative unit vector for the X axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Vector4d.UnitVectors.Up">
+        <member name="F:StarSimLib.Data_Structures.Vector4.UnitVectors.Up">
             <summary>
             The positive unit vector for the Y axis.
             </summary>
         </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4d.ToString">
+        <member name="M:StarSimLib.Data_Structures.Vector4.ToString">
             <inheritdoc />
         </member>
         <member name="T:StarSimLib.Extensions.Vector3fExtensions">
@@ -880,9 +1090,9 @@
             Current zoom level of the drawer.
             </summary>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.ProjectPoint(StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Graphics.Drawer.ProjectPoint(StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Projects the given <see cref="T:StarSimLib.Data_Structures.Vector4d"/> point from world space into screen space.
+            Projects the given <see cref="T:StarSimLib.Data_Structures.Vector4"/> point from world space into screen space.
             </summary>
             <param name="point">The point to project.</param>
             <returns>The projected point.</returns>
@@ -999,6 +1209,19 @@
             Provides methods for updating <see cref="T:StarSimLib.Data_Structures.Body"/> instance positions.
             </summary>
         </member>
+        <member name="F:StarSimLib.Physics.BodyUpdater.UniverseOctant">
+            <summary>
+            Represents the main universe. Anything outside this octant of space is not updated when using the
+            <see cref="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBarnesHut(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)"/> update method.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBarnesHut(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)">
+            <summary>
+            Updates the positions of all the given <see cref="T:StarSimLib.Data_Structures.Body"/>s with O(n^2) time complexity, with the given time step.
+            </summary>
+            <param name="bodies">The collection of <see cref="T:StarSimLib.Data_Structures.Body"/>s whose positions to update.</param>
+            <param name="deltaTime">The time step.</param>
+        </member>
         <member name="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBruteForce(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)">
             <summary>
             Updates the positions of all the given <see cref="T:StarSimLib.Data_Structures.Body"/>s with O(n^2) time complexity, with the given time step.
@@ -1016,7 +1239,7 @@
             Random number generator.
             </summary>
         </member>
-        <member name="M:StarSimLib.Physics.OrbitGenerator.RandomOrbit(StarSimLib.Data_Structures.Vector4d)">
+        <member name="M:StarSimLib.Physics.OrbitGenerator.RandomOrbit(StarSimLib.Data_Structures.Vector4)">
             <summary>
             Returns a randomised orbit around a central, heavy mass.
             </summary>

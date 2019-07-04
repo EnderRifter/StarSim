@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using SFML.Graphics;
-using SFML.System;
 using SFML.Window;
 using StarSimLib;
 using StarSimLib.Data_Structures;
@@ -63,11 +62,13 @@ namespace StarSim
 
             bodies = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
             bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
+
 #if DEBUG
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
 #else
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
+
             bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
             inputHandler = new InputHandler(ref bodies, ref bodyDrawer);
             Rng = new Random();
