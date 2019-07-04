@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
 using StarSimLib.Data_Structures;
-using StarSimLib.Physics;
 
 namespace StarSimLib.Graphics
 {

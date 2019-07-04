@@ -2,7 +2,6 @@
 using SFML.Window;
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
-using StarSimLib.Physics;
 
 namespace StarSimLib.UI
 {

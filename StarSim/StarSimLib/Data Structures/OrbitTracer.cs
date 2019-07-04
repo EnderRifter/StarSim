@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using StarSimLib.Physics;
 
 namespace StarSimLib.Data_Structures
 {
