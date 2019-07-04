@@ -159,8 +159,9 @@ namespace StarSimLib.Data_Structures
         /// <param name="otherBody">The other instance with which to collide.</param>
         public void Collide(Body otherBody)
         {
-            mass += otherBody.Mass;
-            velocity += otherBody.Velocity;
+            mass += otherBody.mass;
+            velocity += otherBody.velocity;
+            force += otherBody.force;
         }
 
         /// <summary>
@@ -186,7 +187,7 @@ namespace StarSimLib.Data_Structures
         /// </summary>
         /// <param name="octant">The octant to check.</param>
         /// <returns>Whether this <see cref="Body"/> instance is inside the given <see cref="Octant"/> instance.</returns>
-        public bool InOctant(Octant octant)
+        public bool IsInOctant(Octant octant)
         {
             return octant.ContainsPoint(position);
         }

@@ -77,16 +77,36 @@ namespace StarSimLib.Data_Structures
                 // this is an empty instance that has not yet had any bodies added to it.
                 body = newBody;
             }
+            else if (IsExternal())
+            {
+                // this instance is 'external' and contains another body. figure out where the new body should go and
+                // create a new octant tree instance to hold the new body
+                foreach (OctantTree tree in childTrees)
+                {
+                    if (body.IsInOctant(tree.octant))
+                    {
+                        tree.AddBody(body);
+                    }
+                }
+
+                AddBody(newBody);
+            }
             else if (!IsExternal())
             {
                 // this instance already has a body to represent it, and it is not an 'external' tree instance, that is
                 // it has child trees of its own. figure out in which child tree the new body should be stored and update
-                // any further child nodes with recursion
-            }
-            else if (IsExternal())
-            {
-                // this instance is 'external' and contains another body. figure out where the new body should go and
-                // create a new octant tree instance to hold the new body. no recursion is necessary
+                // any further child nodes
+
+                // make the held body an aggregate body
+                body.Collide(newBody);
+
+                foreach (OctantTree tree in childTrees)
+                {
+                    if (newBody.IsInOctant(tree.octant))
+                    {
+                        tree.AddBody(newBody);
+                    }
+                }
             }
         }
 
@@ -132,6 +152,36 @@ namespace StarSimLib.Data_Structures
                 default:
                     throw new ArgumentOutOfRangeException(nameof(specifier), specifier,
                         "The given specifier was outside of the valid range.");
+            }
+        }
+
+        /// <summary>
+        /// Recursively updates the forces on each <see cref="Body"/> instance held in this tree, with respect to the
+        /// given reference <see cref="Body"/> instance.
+        /// </summary>
+        /// <param name="referenceBody">The body instance against which force updates are made.</param>
+        public void UpdateForces(Body referenceBody)
+        {
+            if (IsExternal())
+            {
+                // since this tree instance is 'external' it has no children. we can treat it as a single body
+                if (body != referenceBody)
+                {
+                    referenceBody?.AddForce(body);
+                }
+            }
+            else if (octant.Length / body.DistanceTo(referenceBody, out _) < Constants.TreeTheta)
+            {
+                // otherwise if the octant length divided by the distance to the body (the width to distance ratio) is
+                // within a defined tolerance, we consider the tree to be effectively a single massive body
+                referenceBody?.AddForce(body);
+            }
+            else
+            {
+                foreach (OctantTree tree in childTrees)
+                {
+                    tree?.UpdateForces(referenceBody);
+                }
             }
         }
     }

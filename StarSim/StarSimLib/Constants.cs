@@ -69,6 +69,13 @@ namespace StarSimLib
         public const double TimeStep = SecondsPerTick * (SimulationRate / (float)FrameRate) * SimulationRate;
 
         /// <summary>
+        /// The tolerance of the mass grouping approximation in the simulation. A
+        /// body is only accelerated when the ratio of the tree's width to the
+        /// distance (from the tree's center of mass to the body) is less than this.
+        /// </summary>
+        public const double TreeTheta = 0.5;
+
+        /// <summary>
         /// The maximum radius within which <see cref="Body"/>s will be placed (1e18f).
         /// </summary>
         public const double UniverseSize = 1e18f;
