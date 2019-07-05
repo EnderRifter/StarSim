@@ -102,11 +102,29 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
+        /// The central point for this instance.
+        /// </summary>
+        public Vector4 Midpoint
+        {
+            get { return midpoint; }
+        }
+
+        /// <summary>
         /// Indexes this instance, shorthand for <see cref="SubOctant(PositionSpecifier)"/>.
         /// </summary>
         /// <param name="specifier">Which child octant instance to return.</param>
         /// <returns>The specified child octant instance.</returns>
         public Octant this[PositionSpecifier specifier]
+        {
+            get { return SubOctant(specifier); }
+        }
+
+        /// <summary>
+        /// Indexes this instance, shorthand for <see cref="SubOctant(PositionSpecifier)"/>.
+        /// </summary>
+        /// <param name="specifier">Which child octant instance to return.</param>
+        /// <returns>The specified child octant instance.</returns>
+        public Octant this[int specifier]
         {
             get { return SubOctant(specifier); }
         }
@@ -151,6 +169,19 @@ namespace StarSimLib.Data_Structures
         /// </summary>
         /// <param name="specifier">Which child octant instance to return.</param>
         /// <returns>The specified child octant instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the given specifier does not equate to one of the values in the <see cref="PositionSpecifier"/> enum.
+        /// </exception>
+        public Octant SubOctant(int specifier) => SubOctant((PositionSpecifier)specifier);
+
+        /// <summary>
+        /// Returns the specified child octant instance.
+        /// </summary>
+        /// <param name="specifier">Which child octant instance to return.</param>
+        /// <returns>The specified child octant instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the given specifier does not equate to one of the values in the <see cref="PositionSpecifier"/> enum.
+        /// </exception>
         public Octant SubOctant(PositionSpecifier specifier)
         {
             switch (specifier)

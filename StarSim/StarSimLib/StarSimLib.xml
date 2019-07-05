@@ -471,7 +471,19 @@
             The length of 1 complete side of this instance.
             </summary>
         </member>
+        <member name="P:StarSimLib.Data_Structures.Octant.Midpoint">
+            <summary>
+            The central point for this instance.
+            </summary>
+        </member>
         <member name="P:StarSimLib.Data_Structures.Octant.Item(StarSimLib.Data_Structures.PositionSpecifier)">
+            <summary>
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)"/>.
+            </summary>
+            <param name="specifier">Which child octant instance to return.</param>
+            <returns>The specified child octant instance.</returns>
+        </member>
+        <member name="P:StarSimLib.Data_Structures.Octant.Item(System.Int32)">
             <summary>
             Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)"/>.
             </summary>
@@ -500,12 +512,25 @@
             </param>
             <returns>Whether the given point is within the bounds of this instance.</returns>
         </member>
+        <member name="M:StarSimLib.Data_Structures.Octant.SubOctant(System.Int32)">
+            <summary>
+            Returns the specified child octant instance.
+            </summary>
+            <param name="specifier">Which child octant instance to return.</param>
+            <returns>The specified child octant instance.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
+            </exception>
+        </member>
         <member name="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)">
             <summary>
             Returns the specified child octant instance.
             </summary>
             <param name="specifier">Which child octant instance to return.</param>
             <returns>The specified child octant instance.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
+            </exception>
         </member>
         <member name="T:StarSimLib.Data_Structures.OctantTree">
             <summary>
@@ -540,6 +565,13 @@
             <param name="specifier">Which child octant tree instance to return.</param>
             <returns>The specified child octant tree instance.</returns>
         </member>
+        <member name="P:StarSimLib.Data_Structures.OctantTree.Item(System.Int32)">
+            <summary>
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)"/>.
+            </summary>
+            <param name="specifier">Which child octant tree instance to return.</param>
+            <returns>The specified child octant tree instance.</returns>
+        </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.GetOrSetSubTree(StarSimLib.Data_Structures.OctantTree[]@,System.Int32,StarSimLib.Data_Structures.Octant)">
             <summary>
             Returns the specified child octant tree instance, or instantiates a new octant tree if the specified child
@@ -566,12 +598,25 @@
             </summary>
             <returns>Whether this instance has no non-null child instance.</returns>
         </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.SubTree(System.Int32)">
+            <summary>
+            Returns the specified child octant tree instance.
+            </summary>
+            <param name="specifier">Which child octant tree instance to return.</param>
+            <returns>The specified child octant tree instance.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
+            </exception>
+        </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)">
             <summary>
             Returns the specified child octant tree instance.
             </summary>
             <param name="specifier">Which child octant tree instance to return.</param>
             <returns>The specified child octant tree instance.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
+            </exception>
         </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.UpdateForces(StarSimLib.Data_Structures.Body)">
             <summary>

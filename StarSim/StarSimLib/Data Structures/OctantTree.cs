@@ -45,6 +45,16 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
+        /// Indexes this instance, shorthand for <see cref="SubTree(PositionSpecifier)"/>.
+        /// </summary>
+        /// <param name="specifier">Which child octant tree instance to return.</param>
+        /// <returns>The specified child octant tree instance.</returns>
+        public OctantTree this[int specifier]
+        {
+            get { return SubTree(specifier); }
+        }
+
+        /// <summary>
         /// Returns the specified child octant tree instance, or instantiates a new octant tree if the specified child
         /// instance is <c>null</c>. The newly constructed instance will then be returned.
         /// </summary>
@@ -72,46 +82,47 @@ namespace StarSimLib.Data_Structures
         /// <param name="newBody">The <see cref="Body"/> instance to add.</param>
         public void AddBody(Body newBody)
         {
-            while (true)
+            if (body == null)
             {
-                if (body == null)
+                // this is an empty instance that has not yet had any bodies added to it.
+                body = newBody;
+            }
+            else if (IsExternal())
+            {
+                // this instance is 'external' and contains another body. figure out where the new body should go and
+                // create a new octant tree instance to hold the new body
+                for (int i = 0; i < childTrees.Length; i++)
                 {
-                    // this is an empty instance that has not yet had any bodies added to it.
-                    body = newBody;
-                }
-                else if (IsExternal())
-                {
-                    // this instance is 'external' and contains another body. figure out where the new body should go and
-                    // create a new octant tree instance to hold the new body
-                    foreach (OctantTree tree in childTrees)
+                    OctantTree tree = SubTree(i);
+
+                    if (body.IsInOctant(tree.octant))
                     {
-                        if (body.IsInOctant(tree.octant))
-                        {
-                            tree.AddBody(body);
-                        }
-                    }
-
-                    continue;
-                }
-                else if (!IsExternal())
-                {
-                    // this instance already has a body to represent it, and it is not an 'external' tree instance, that is
-                    // it has child trees of its own. figure out in which child tree the new body should be stored and update
-                    // any further child nodes
-
-                    // make the held body an aggregate body
-                    body.Collide(newBody);
-
-                    foreach (OctantTree tree in childTrees)
-                    {
-                        if (newBody.IsInOctant(tree.octant))
-                        {
-                            tree.AddBody(newBody);
-                        }
+                        tree.AddBody(body);
+                        break;
                     }
                 }
 
-                break;
+                AddBody(newBody);
+            }
+            else if (!IsExternal())
+            {
+                // this instance already has a body to represent it, and it is not an 'external' tree instance, that is
+                // it has child trees of its own. figure out in which child tree the new body should be stored and update
+                // any further child nodes
+
+                // make the held body an aggregate body
+                body.Collide(newBody);
+
+                for (int i = 0; i < childTrees.Length; i++)
+                {
+                    OctantTree tree = SubTree(i);
+
+                    if (newBody.IsInOctant(tree.octant))
+                    {
+                        tree.AddBody(newBody);
+                        break;
+                    }
+                }
             }
         }
 
@@ -126,33 +137,46 @@ namespace StarSimLib.Data_Structures
         /// </summary>
         /// <param name="specifier">Which child octant tree instance to return.</param>
         /// <returns>The specified child octant tree instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the given specifier does not equate to one of the values in the <see cref="PositionSpecifier"/> enum.
+        /// </exception>
+        public OctantTree SubTree(int specifier) => SubTree((PositionSpecifier)specifier);
+
+        /// <summary>
+        /// Returns the specified child octant tree instance.
+        /// </summary>
+        /// <param name="specifier">Which child octant tree instance to return.</param>
+        /// <returns>The specified child octant tree instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the given specifier does not equate to one of the values in the <see cref="PositionSpecifier"/> enum.
+        /// </exception>
         public OctantTree SubTree(PositionSpecifier specifier)
         {
             switch (specifier)
             {
                 case PositionSpecifier.TopNorthWest:
-                    return GetOrSetSubTree(ref childTrees, 0, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 0, octant?[0]);
 
                 case PositionSpecifier.TopNorthEast:
-                    return GetOrSetSubTree(ref childTrees, 1, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 1, octant?[1]);
 
                 case PositionSpecifier.TopSouthEast:
-                    return GetOrSetSubTree(ref childTrees, 2, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 2, octant?[2]);
 
                 case PositionSpecifier.TopSouthWest:
-                    return GetOrSetSubTree(ref childTrees, 3, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 3, octant?[3]);
 
                 case PositionSpecifier.BottomNorthWest:
-                    return GetOrSetSubTree(ref childTrees, 4, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 4, octant?[4]);
 
                 case PositionSpecifier.BottomNorthEast:
-                    return GetOrSetSubTree(ref childTrees, 5, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 5, octant?[5]);
 
                 case PositionSpecifier.BottomSouthEast:
-                    return GetOrSetSubTree(ref childTrees, 6, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 6, octant?[6]);
 
                 case PositionSpecifier.BottomSouthWest:
-                    return GetOrSetSubTree(ref childTrees, 7, octant?[specifier]);
+                    return GetOrSetSubTree(ref childTrees, 7, octant?[7]);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(specifier), specifier,
@@ -183,9 +207,11 @@ namespace StarSimLib.Data_Structures
             }
             else
             {
-                foreach (OctantTree tree in childTrees)
+                for (int i = 0; i < childTrees.Length; i++)
                 {
-                    tree?.UpdateForces(referenceBody);
+                    OctantTree tree = SubTree(i);
+
+                    tree.UpdateForces(referenceBody);
                 }
             }
         }
