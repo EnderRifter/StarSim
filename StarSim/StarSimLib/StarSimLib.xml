@@ -1167,6 +1167,15 @@
             Current zoom level of the drawer.
             </summary>
         </member>
+        <member name="M:StarSimLib.Graphics.Drawer.LinearInterpolate(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4,System.Double)">
+            <summary>
+            Linearly interpolates between a and b by the given percentage dt (0 = 100% a, 1 = 100% b).
+            </summary>
+            <param name="a">One of the starting values between which to interpolate.</param>
+            <param name="b">One of the starting values between which to interpolate.</param>
+            <param name="dt">The percentage by which to interpolate, capped between 0 and 1.</param>
+            <returns>The interpolated value.</returns>
+        </member>
         <member name="M:StarSimLib.Graphics.Drawer.ProjectPoint(StarSimLib.Data_Structures.Vector4)">
             <summary>
             Projects the given <see cref="T:StarSimLib.Data_Structures.Vector4"/> point from world space into screen space.

@@ -259,6 +259,28 @@ namespace StarSimLib.Graphics
         }
 
         /// <summary>
+        /// Linearly interpolates between a and b by the given percentage dt (0 = 100% a, 1 = 100% b).
+        /// </summary>
+        /// <param name="a">One of the starting values between which to interpolate.</param>
+        /// <param name="b">One of the starting values between which to interpolate.</param>
+        /// <param name="dt">The percentage by which to interpolate, capped between 0 and 1.</param>
+        /// <returns>The interpolated value.</returns>
+        private Vector4 LinearInterpolate(Vector4 a, Vector4 b, double dt)
+        {
+            // the maximum distance between the two points
+            double distance = (b - a).Abs();
+
+            // caps the percentage first between 1 and -Infinity, and then between 1 and 0
+            dt = dt > 1 ? 1 : dt;
+            dt = dt < 0 ? 0 : dt;
+
+            /* formula: C = A + dt(B - A) / distance */
+            Vector4 c = a + dt * (b - a) / distance;
+
+            return c;
+        }
+
+        /// <summary>
         /// Projects the given <see cref="Vector4"/> point from world space into screen space.
         /// </summary>
         /// <param name="point">The point to project.</param>
@@ -346,7 +368,10 @@ namespace StarSimLib.Graphics
                 {
                     Vector4[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
 
-                    /* use linear interpolation to make the tail look smooth */
+                    // we cache the colours used for the orbit tracers, and pack them into a 4D vector
+                    Color tailColour = Color.Cyan, black = Color.Black;
+                    Vector4 cyanVector = new Vector4(tailColour.A, tailColour.R, tailColour.G, tailColour.B);
+                    Vector4 blackVector = new Vector4(black.A, black.R, black.G, black.B);
 
                     for (uint i = 0; i < orbitTracerPositions.Length; i++)
                     {
@@ -360,8 +385,20 @@ namespace StarSimLib.Graphics
                             (float)(pointScreenPosition.X * renderTarget.Size.X / 2 + originOffset.X),
                             (float)(pointScreenPosition.Y * renderTarget.Size.Y / 2 + originOffset.Y));
 
+                        // use linear interpolation to make the tail colour transition look smooth
+                        Vector4 interpolatedColourVector =
+                            LinearInterpolate(cyanVector, blackVector, (double)i / orbitTracerPositions.Length);
+
+                        // unpack the colour from a vector into a colour
+                        Color interpolatedColour = new Color(
+                            (byte)interpolatedColourVector.Y,
+                            (byte)interpolatedColourVector.Z,
+                            (byte)interpolatedColourVector.W,
+                            (byte)interpolatedColourVector.X
+                            );
+
                         // append the new vertex to the orbit tracer array
-                        orbitTracerVertexArray.Append(new Vertex(finalOrbitTracerPosition, Color.Cyan));
+                        orbitTracerVertexArray.Append(new Vertex(finalOrbitTracerPosition, interpolatedColour));
                     }
 
                     // single call to VertexArray.Draw() makes use of hardware acceleration without causing delays,
