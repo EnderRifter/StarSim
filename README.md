@@ -1,6 +1,4 @@
 # StarSim
-
-# coursework
 Some coursework for the OCR A-Level 2015 specification.
 
 # Description
