@@ -12,7 +12,7 @@ namespace StarSimLib.Data_Structures
         /// Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
         /// for less computation. The previous position will be saved once every 20 sampling opportunities.
         /// </summary>
-        private const int PositionSampleRate = 20;
+        private const int PositionSampleRate = 10;
 
         /// <summary>
         /// Backing field for the <see cref="PreviousPositions"/> property.
@@ -61,14 +61,6 @@ namespace StarSimLib.Data_Structures
             // position using linear interpolation to give a smooth shrinking motion
             if (++positionSampleCounter < PositionSampleRate)
             {
-                /*
-                double interpolationPercentage = positionSampleCounter / (float)PositionSampleRate;
-
-                previousPositions[0].X = (1 - interpolationPercentage) * previousPositions[0].X + interpolationPercentage * previousPositions[1].X;
-                previousPositions[0].Y = (1 - interpolationPercentage) * previousPositions[0].Y + interpolationPercentage * previousPositions[1].Y;
-                previousPositions[0].Z = (1 - interpolationPercentage) * previousPositions[0].Z + interpolationPercentage * previousPositions[1].Z;
-                */
-
                 return;
             }
 

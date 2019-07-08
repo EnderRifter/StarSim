@@ -10,7 +10,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of bodies that are rendered by default.
         /// </summary>
-        public const int BodyCount = 100;
+        public const int BodyCount = 10;
 
         /// <summary>
         /// The mass of the central body, if it is included.
@@ -66,7 +66,7 @@ namespace StarSimLib
         /// <summary>
         /// The number of previous positions that will be stored by a body
         /// </summary>
-        public const int StoredPreviousPositionCount = 30;
+        public const int StoredPreviousPositionCount = 100;
 
         /// <summary>
         /// The time step for the simulation.

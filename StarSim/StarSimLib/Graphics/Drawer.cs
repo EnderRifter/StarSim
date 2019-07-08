@@ -265,17 +265,16 @@ namespace StarSimLib.Graphics
         /// <param name="b">One of the starting values between which to interpolate.</param>
         /// <param name="dt">The percentage by which to interpolate, capped between 0 and 1.</param>
         /// <returns>The interpolated value.</returns>
-        private Vector4 LinearInterpolate(Vector4 a, Vector4 b, double dt)
+        private static Vector4 LinearInterpolate(Vector4 a, Vector4 b, double dt)
         {
-            // the maximum distance between the two points
-            double distance = (b - a).Abs();
-
-            // caps the percentage first between 1 and -Infinity, and then between 1 and 0
+            // caps the percentage first between 1 and -Infinity, and then between 1 and 0, and reverses it such
+            // that 0 is 100% a and 0% b, and that 1 is 0% a and 100% b.
+            dt = 1 - dt;
             dt = dt > 1 ? 1 : dt;
             dt = dt < 0 ? 0 : dt;
 
             /* formula: C = A + dt(B - A) / distance */
-            Vector4 c = a + dt * (b - a) / distance;
+            Vector4 c = a + dt * (b - a) / 1;
 
             return c;
         }
@@ -369,9 +368,9 @@ namespace StarSimLib.Graphics
                     Vector4[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
 
                     // we cache the colours used for the orbit tracers, and pack them into a 4D vector
-                    Color tailColour = Color.Cyan, black = Color.Black;
-                    Vector4 cyanVector = new Vector4(tailColour.A, tailColour.R, tailColour.G, tailColour.B);
-                    Vector4 blackVector = new Vector4(black.A, black.R, black.G, black.B);
+                    Color tracerColour = Color.Cyan, black = Color.Transparent;
+                    Vector4 tracerVector = new Vector4(tracerColour.R, tracerColour.G, tracerColour.B, tracerColour.A);
+                    Vector4 blackVector = new Vector4(black.R, black.G, black.B, black.A);
 
                     for (uint i = 0; i < orbitTracerPositions.Length; i++)
                     {
@@ -387,14 +386,14 @@ namespace StarSimLib.Graphics
 
                         // use linear interpolation to make the tail colour transition look smooth
                         Vector4 interpolatedColourVector =
-                            LinearInterpolate(cyanVector, blackVector, (double)i / orbitTracerPositions.Length);
+                            LinearInterpolate(tracerVector, blackVector, i / (double)orbitTracerPositions.Length);
 
                         // unpack the colour from a vector into a colour
                         Color interpolatedColour = new Color(
+                            (byte)interpolatedColourVector.X,
                             (byte)interpolatedColourVector.Y,
                             (byte)interpolatedColourVector.Z,
-                            (byte)interpolatedColourVector.W,
-                            (byte)interpolatedColourVector.X
+                            (byte)interpolatedColourVector.W
                             );
 
                         // append the new vertex to the orbit tracer array

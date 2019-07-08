@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Timers;
 using SFML.Graphics;
 using SFML.Window;
 using StarSimLib;
@@ -15,6 +16,11 @@ namespace StarSim
     /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// The interval between timer refreshes, in milliseconds.
+        /// </summary>
+        private const double TimerRefreshIntervalMs = 500;
+
         /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
         /// </summary>
@@ -42,9 +48,24 @@ namespace StarSim
         private static readonly InputHandler inputHandler;
 
         /// <summary>
+        /// Timer that manages FPS counter and other miscellaneous counters.
+        /// </summary>
+        private static readonly Timer miscTimer;
+
+        /// <summary>
         /// The SFML.NET window to which everything is rendered.
         /// </summary>
         private static readonly RenderWindow window;
+
+        /// <summary>
+        /// The current amount of frames per second.
+        /// </summary>
+        private static double fps;
+
+        /// <summary>
+        /// Counts the frames elapsed since the last timer pulse, so that the FPS can be tracked.
+        /// </summary>
+        private static uint framesElapsed;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Program"/> class,
@@ -52,7 +73,7 @@ namespace StarSim
         static Program()
         {
             // we construct a new window instance, but immediately hide it so that we can configure the rest of the app
-            window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator", Styles.Default, new ContextSettings());
+            window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator: FPS ", Styles.Default, new ContextSettings());
             window.SetVisible(false);
 
             bodies = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
@@ -66,6 +87,16 @@ namespace StarSim
 
             bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
             inputHandler = new InputHandler(ref bodies, ref bodyDrawer);
+
+            // constructs a new timer and attaches a timer event handler that updates the fps and window title every interval
+            miscTimer = new Timer(TimerRefreshIntervalMs) { AutoReset = true, Enabled = true };
+            miscTimer.Elapsed += (sender, args) =>
+            {
+                fps = framesElapsed / (TimerRefreshIntervalMs / 1000);
+
+                framesElapsed = 0;
+                window.SetTitle($"N-Body Simulator: FPS {fps}");
+            };
         }
 
         /// <summary>
@@ -80,6 +111,7 @@ namespace StarSim
 
             // we reveal the window so that the user may interact with our program
             window.SetVisible(true);
+            miscTimer.Start();
 
             // we configure the window and its close handler, so that we may close the window once we are done with it
             window.SetFramerateLimit(Constants.FrameRate);
@@ -108,8 +140,12 @@ namespace StarSim
                 bodyDrawer.DrawBodies();
 
                 window.Display();
+
+                // increment the fps counter
+                framesElapsed++;
             }
 
+            miscTimer.Stop();
             Console.WriteLine("Goodbye, World!");
             Console.WriteLine("Press 'enter' to quit...");
             Console.ReadLine();
