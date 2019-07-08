@@ -188,42 +188,42 @@ namespace StarSimLib.Data_Structures
             {
                 case PositionSpecifier.TopNorthWest:
                     return GetOrSetChildOctant(ref childOctants, 0,
-                        midpoint + new Vector4(-halfSideLength, +halfSideLength, +halfSideLength),
+                        midpoint + new Vector4(-quarterSideLength, +quarterSideLength, +quarterSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.TopNorthEast:
                     return GetOrSetChildOctant(ref childOctants, 1,
-                        midpoint + new Vector4(+halfSideLength, +halfSideLength, +halfSideLength),
+                        midpoint + new Vector4(+quarterSideLength, +quarterSideLength, +quarterSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.TopSouthEast:
                     return GetOrSetChildOctant(ref childOctants, 2,
-                        midpoint + new Vector4(+halfSideLength, +halfSideLength, -halfSideLength),
+                        midpoint + new Vector4(+quarterSideLength, +quarterSideLength, -quarterSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.TopSouthWest:
                     return GetOrSetChildOctant(ref childOctants, 3,
-                        midpoint + new Vector4(-halfSideLength, +halfSideLength, -halfSideLength),
+                        midpoint + new Vector4(-quarterSideLength, +quarterSideLength, -quarterSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomNorthWest:
                     return GetOrSetChildOctant(ref childOctants, 4,
-                        midpoint + new Vector4(-halfSideLength, -halfSideLength, +halfSideLength),
+                        midpoint + new Vector4(-quarterSideLength, -quarterSideLength, +quarterSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomNorthEast:
                     return GetOrSetChildOctant(ref childOctants, 5,
-                        midpoint + new Vector4(+halfSideLength, -halfSideLength, +halfSideLength),
+                        midpoint + new Vector4(+quarterSideLength, -quarterSideLength, +quarterSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomSouthEast:
                     return GetOrSetChildOctant(ref childOctants, 6,
-                        midpoint + new Vector4(+halfSideLength, -halfSideLength, -halfSideLength),
+                        midpoint + new Vector4(+quarterSideLength, -quarterSideLength, -quarterSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomSouthWest:
                     return GetOrSetChildOctant(ref childOctants, 7,
-                        midpoint + new Vector4(-halfSideLength, -halfSideLength, -halfSideLength),
+                        midpoint + new Vector4(-quarterSideLength, -quarterSideLength, -quarterSideLength),
                         halfSideLength);
 
                 default:

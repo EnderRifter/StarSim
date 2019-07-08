@@ -586,11 +586,6 @@
             The <see cref="T:StarSimLib.Data_Structures.Body"/> instance that is held in this instance, be it real or an aggregate.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.OctantTree.bodyCount">
-            <summary>
-            The total number of bodies held in this instance.
-            </summary>
-        </member>
         <member name="F:StarSimLib.Data_Structures.OctantTree.centreOfAggregateMass">
             <summary>
             The point at which all the mass seems to be concentrated.

@@ -36,8 +36,6 @@ namespace StarSimLib.Physics
             {
                 if (body.IsInOctant(universeOctant))
                 {
-                    Console.WriteLine($"Body (during tree construction): {body}");
-
                     // only update a body's position if it is within the bounds of the universe
                     barnesHutTree.AddBody(body);
                 }
@@ -46,8 +44,6 @@ namespace StarSimLib.Physics
             // we update the positions of the bodies in the populated tree
             foreach (Body body in bodyEnumerable)
             {
-                Console.WriteLine($"Body (before position update): {body}");
-
                 if (body == null)
                 {
                     continue;
@@ -61,8 +57,6 @@ namespace StarSimLib.Physics
 
                     body.Update(deltaTime);
                 }
-
-                Console.WriteLine($"Body (after position update): {body}");
             }
         }
 
