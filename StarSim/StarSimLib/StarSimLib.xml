@@ -72,7 +72,7 @@
         </member>
         <member name="F:StarSimLib.Constants.TimeStep">
             <summary>
-            The time step for the simulation.
+            The default time step for the simulation.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.TreeTheta">
@@ -688,7 +688,7 @@
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate">
             <summary>
             Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
-            for less computation. The previous position will be saved once every 20 sampling opportunities.
+            for less computation. The previous position will be saved once every 15 sampling opportunities.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions">

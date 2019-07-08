@@ -367,10 +367,10 @@ namespace StarSimLib.Graphics
                 {
                     Vector4[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
 
-                    // we cache the colours used for the orbit tracers, and pack them into a 4D vector
-                    Color tracerColour = Color.Cyan, black = Color.Transparent;
+                    // we cache the colours used for the orbit tracers and the background, and pack them into a 4D vector
+                    Color tracerColour = Color.Cyan, bgColour = Color.Transparent;
                     Vector4 tracerVector = new Vector4(tracerColour.R, tracerColour.G, tracerColour.B, tracerColour.A);
-                    Vector4 blackVector = new Vector4(black.R, black.G, black.B, black.A);
+                    Vector4 bgVector = new Vector4(bgColour.R, bgColour.G, bgColour.B, bgColour.A);
 
                     for (uint i = 0; i < orbitTracerPositions.Length; i++)
                     {
@@ -386,7 +386,7 @@ namespace StarSimLib.Graphics
 
                         // use linear interpolation to make the tail colour transition look smooth
                         Vector4 interpolatedColourVector =
-                            LinearInterpolate(tracerVector, blackVector, i / (double)orbitTracerPositions.Length);
+                            LinearInterpolate(tracerVector, bgVector, i / (double)orbitTracerPositions.Length);
 
                         // unpack the colour from a vector into a colour
                         Color interpolatedColour = new Color(
