@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarSimLib", "StarSimLib\St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarSim", "StarSim\StarSim.csproj", "{E7DA74EF-E69A-4165-BF3D-5B641D991D75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarSimGui", "StarSimGui\StarSimGui.csproj", "{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,18 +41,6 @@ Global
 		{E7DA74EF-E69A-4165-BF3D-5B641D991D75}.Release|x64.Build.0 = Release|x64
 		{E7DA74EF-E69A-4165-BF3D-5B641D991D75}.Release|x86.ActiveCfg = Release|x86
 		{E7DA74EF-E69A-4165-BF3D-5B641D991D75}.Release|x86.Build.0 = Release|x86
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Debug|x64.ActiveCfg = Debug|x64
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Debug|x64.Build.0 = Debug|x64
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Debug|x86.ActiveCfg = Debug|x86
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Debug|x86.Build.0 = Debug|x86
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Release|x64.ActiveCfg = Release|x64
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Release|x64.Build.0 = Release|x64
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Release|x86.ActiveCfg = Release|x86
-		{83F04A74-D9DB-4C8C-ABDC-3610099BCC51}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

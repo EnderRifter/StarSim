@@ -96,16 +96,6 @@
             The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the rendered universe.
             </summary>
         </member>
-        <member name="M:StarSimLib.Constants.ConvertEnumerableToString``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String})">
-            <summary>
-            Converts an enumerable to its string form.
-            </summary>
-            <typeparam name="T">The type of item held in the enumerable.</typeparam>
-            <param name="enumerable">The enumerable instance to convert.</param>
-            <param name="itemPrinter">
-            The function used to convert a single item to a string, defaults to <see cref="M:System.Object.ToString"/></param>
-            <returns>The string representing the given enumerable.</returns>
-        </member>
         <member name="T:StarSimLib.Contexts.SimulatorContext">
             <summary>
             Represents the solar simulation database.
