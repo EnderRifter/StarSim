@@ -735,11 +735,6 @@
             current position if the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate"/> is met.
             </summary>
         </member>
-        <member name="T:StarSimLib.Data_Structures.Quaternion">
-            <summary>
-            Represents a rotation as a set of 4 values.
-            </summary>
-        </member>
         <member name="T:StarSimLib.Data_Structures.Vector4">
             <summary>
             A 4D vector with <see cref="T:System.Double"/> components.
@@ -1005,18 +1000,6 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.ToString">
             <inheritdoc />
-        </member>
-        <member name="T:StarSimLib.Extensions.Vector3fExtensions">
-            <summary>
-            Provides additional functionality to the <see cref="T:SFML.System.Vector3f"/> struct.
-            </summary>
-        </member>
-        <member name="M:StarSimLib.Extensions.Vector3fExtensions.Magnitude(SFML.System.Vector3f)">
-            <summary>
-            Returns the magnitude of the given <see cref="T:SFML.System.Vector3f"/>.
-            </summary>
-            <param name="vector">The vector whose magnitude to return.</param>
-            <returns>The magnitude of the given <see cref="T:SFML.System.Vector3f"/>.</returns>
         </member>
         <member name="T:StarSimLib.Graphics.RotationDirection">
             <summary>
