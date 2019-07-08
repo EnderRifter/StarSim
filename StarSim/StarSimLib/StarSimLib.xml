@@ -91,6 +91,11 @@
             The amount by which the zoom level will be increased or decreased.
             </summary>
         </member>
+        <member name="F:StarSimLib.Constants.UniverseOctant">
+            <summary>
+            The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the rendered universe.
+            </summary>
+        </member>
         <member name="M:StarSimLib.Constants.ConvertEnumerableToString``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String})">
             <summary>
             Converts an enumerable to its string form.
@@ -497,6 +502,12 @@
             <param name="midpoint">The central midpoint of this instance.</param>
             <param name="length">The length of 1 complete side of this instance.</param>
         </member>
+        <member name="M:StarSimLib.Data_Structures.Octant.#ctor(StarSimLib.Data_Structures.Octant)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Octant"/> class.
+            </summary>
+            <param name="octant">The previous instance to make a copy of.</param>
+        </member>
         <member name="P:StarSimLib.Data_Structures.Octant.Length">
             <summary>
             The length of 1 complete side of this instance.
@@ -616,6 +627,12 @@
             <param name="specifier">Which child octant tree instance to return.</param>
             <returns>The specified child octant tree instance.</returns>
         </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.AddToChildTree(StarSimLib.Data_Structures.Body)">
+            <summary>
+            Adds the given body to one of the child trees of this instance.
+            </summary>
+            <param name="newBody">The body to add.</param>
+        </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.GetOrSetSubTree(StarSimLib.Data_Structures.OctantTree[]@,System.Int32,StarSimLib.Data_Structures.Octant)">
             <summary>
             Returns the specified child octant tree instance, or instantiates a new octant tree if the specified child
@@ -687,12 +704,6 @@
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions">
             <summary>
             Backing field for the <see cref="P:StarSimLib.Data_Structures.OrbitTracer.PreviousPositions"/> property.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Data_Structures.OrbitTracer.dequeuedPosition">
-            <summary>
-            Due to the <see cref="T:System.Collections.Generic.Queue`1"/>s inability to fetch the second-to-last element, we must explicitly
-            cache it in order to use it in interpolation  calculations later.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.positionSampleCounter">
@@ -1010,6 +1021,7 @@
         <member name="T:StarSimLib.Graphics.RotationDirection">
             <summary>
             Enumerates all possible rotation directions (i.e. north, east, south, west, clockwise, anticlockwise).
+            Here, camera forward is north.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.RotationDirection.North">

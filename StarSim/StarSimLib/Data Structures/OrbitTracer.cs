@@ -20,12 +20,6 @@ namespace StarSimLib.Data_Structures
         private readonly Queue<Vector4> previousPositions;
 
         /// <summary>
-        /// Due to the <see cref="Queue{T}"/>s inability to fetch the second-to-last element, we must explicitly
-        /// cache it in order to use it in interpolation  calculations later.
-        /// </summary>
-        private Vector4 dequeuedPosition;
-
-        /// <summary>
         /// Counts the number of sampling opportunities that have gone by since the last position sample. Resets once
         /// it reaches the value of <see cref="PositionSampleRate"/>.
         /// </summary>
@@ -82,7 +76,7 @@ namespace StarSimLib.Data_Structures
 
             if (previousPositions.Count >= Constants.StoredPreviousPositionCount)
             {
-                dequeuedPosition = previousPositions.Dequeue();
+                previousPositions.Dequeue();
             }
 
             // reset the counter

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Physics
@@ -27,7 +28,7 @@ namespace StarSimLib.Physics
             IEnumerable<Body> bodyEnumerable = bodies as Body[] ?? bodies.ToArray();
 
             // root octant represents the main universe. Anything outside this octant of space is not updated
-            Octant universeOctant = new Octant(new Vector4(), Constants.UniverseSize * 1.1);
+            Octant universeOctant = new Octant(Constants.UniverseOctant);
 
             OctantTree barnesHutTree = new OctantTree(universeOctant);
 
@@ -41,23 +42,21 @@ namespace StarSimLib.Physics
                 }
             }
 
-            // we update the positions of the bodies in the populated tree
-            foreach (Body body in bodyEnumerable)
+            // we update the positions of the bodies in the populated tree in a parallel manner, using the thread pool
+            Parallel.ForEach(bodyEnumerable, body =>
             {
-                if (body == null)
+                if (body != null)
                 {
-                    continue;
+                    body.ResetForce();
+
+                    if (body.IsInOctant(universeOctant))
+                    {
+                        barnesHutTree.UpdateForces(body);
+
+                        body.Update(deltaTime);
+                    }
                 }
-
-                body.ResetForce();
-
-                if (body.IsInOctant(universeOctant))
-                {
-                    barnesHutTree.UpdateForces(body);
-
-                    body.Update(deltaTime);
-                }
-            }
+            });
         }
 
         /// <summary>

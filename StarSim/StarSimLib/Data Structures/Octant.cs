@@ -94,6 +94,21 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
+        /// Initialises a new instance of the <see cref="Octant"/> class.
+        /// </summary>
+        /// <param name="octant">The previous instance to make a copy of.</param>
+        public Octant(Octant octant)
+        {
+            midpoint = octant.Midpoint;
+            sideLength = octant.sideLength;
+            halfSideLength = octant.halfSideLength;
+            quarterSideLength = octant.quarterSideLength;
+
+            childOctants = new Octant[8];
+            octant.childOctants.CopyTo(childOctants, 0);
+        }
+
+        /// <summary>
         /// The length of 1 complete side of this instance.
         /// </summary>
         public double Length

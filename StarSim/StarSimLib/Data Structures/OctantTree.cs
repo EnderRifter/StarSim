@@ -64,6 +64,10 @@ namespace StarSimLib.Data_Structures
             get { return SubTree(specifier); }
         }
 
+        /// <summary>
+        /// Adds the given body to one of the child trees of this instance.
+        /// </summary>
+        /// <param name="newBody">The body to add.</param>
         private void AddToChildTree(Body newBody)
         {
             // don't create subtrees if it violates the minimum width limit, to prevent infinitely deep trees and thus

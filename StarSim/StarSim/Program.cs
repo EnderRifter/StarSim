@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using SFML.Graphics;
 using SFML.Window;
 using StarSimLib;
@@ -32,25 +31,20 @@ namespace StarSim
         private static readonly UpdateDelegate bodyPositionUpdater;
 
         /// <summary>
+        /// Maps a <see cref="Body"/> to the <see cref="CircleShape"/> that represents it, and is drawn to the
+        /// screen at the <see cref="Body"/>s position.
+        /// </summary>
+        private static readonly Dictionary<Body, CircleShape> bodyShapeMap;
+
+        /// <summary>
         /// The input handler to use to provide interactivity to the simulator.
         /// </summary>
         private static readonly InputHandler inputHandler;
 
         /// <summary>
-        /// Caches a random number generator to use for all randomised positions and velocities.
-        /// </summary>
-        private static readonly Random Rng;
-
-        /// <summary>
         /// The SFML.NET window to which everything is rendered.
         /// </summary>
         private static readonly RenderWindow window;
-
-        /// <summary>
-        /// Maps a <see cref="Body"/> to the <see cref="CircleShape"/> that represents it, and is drawn to the
-        /// screen at the <see cref="Body"/>s position.
-        /// </summary>
-        private static Dictionary<Body, CircleShape> bodyShapeMap;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Program"/> class,
@@ -65,22 +59,19 @@ namespace StarSim
             bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
 
 #if DEBUG
-            //bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
-            bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
+            bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
 #else
             bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
 
             bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
             inputHandler = new InputHandler(ref bodies, ref bodyDrawer);
-            Rng = new Random();
         }
 
         /// <summary>
         /// Entry point for our application.
         /// </summary>
-        /// <param name="args">Any command line arguments passed to the program.</param>
-        private static void Main(string[] args)
+        private static void Main()
         {
             Console.WriteLine("Hello, World!");
             Console.WriteLine("Press 'enter' to continue...");

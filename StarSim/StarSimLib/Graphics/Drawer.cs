@@ -8,6 +8,7 @@ namespace StarSimLib.Graphics
 {
     /// <summary>
     /// Enumerates all possible rotation directions (i.e. north, east, south, west, clockwise, anticlockwise).
+    /// Here, camera forward is north.
     /// </summary>
     public enum RotationDirection
     {
@@ -56,7 +57,7 @@ namespace StarSimLib.Graphics
         /// The furthest distance that can be seen on the <see cref="RenderTarget"/>. Any bodies that are further
         /// from the camera than this distance are culled and not rendered.
         /// </summary>
-        private const double FarDistance = 1 * Constants.UniverseSize;
+        private const double FarDistance = Constants.UniverseSize;
 
         /// <summary>
         /// The default field of view for the drawer in degrees.
@@ -114,6 +115,8 @@ namespace StarSimLib.Graphics
         /// </summary>
         private double currentFieldOfView = FieldOfView;
 
+#pragma warning disable IDE0044  // Set field to readonly
+
         /// <summary>
         /// Projection matrix used for mapping from 3D to 2D.
         /// </summary>
@@ -138,6 +141,8 @@ namespace StarSimLib.Graphics
         /// The rotation matrix for the z axis.
         /// </summary>
         private Matrix4x4 zRotationMatrix;
+
+#pragma warning restore IDE0044
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Drawer"/> class.
@@ -340,6 +345,8 @@ namespace StarSimLib.Graphics
                 if (body.RecordPreviousPositions)
                 {
                     Vector4[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
+
+                    /* use linear interpolation to make the tail look smooth */
 
                     for (uint i = 0; i < orbitTracerPositions.Length; i++)
                     {

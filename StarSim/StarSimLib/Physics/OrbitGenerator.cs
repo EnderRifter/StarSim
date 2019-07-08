@@ -29,18 +29,12 @@ namespace StarSimLib.Physics
 
             double absAngle = Math.Atan(Math.Abs(position.X / position.Y));
             double velocityTheta = Math.PI / 2 - absAngle;
-            double velocityPhi = Rng.NextDouble() * Math.PI;
 
             double vertical = Math.Min(2e8 / distanceToCentralBody, 2e4);
 
             double vx = -1 * Math.Sign(position.Y) * Math.Cos(velocityTheta) * velocityMagnitude;
             double vy = (Rng.NextDouble() - 0.5) * vertical;
             double vz = Math.Sign(position.X) * Math.Sin(velocityTheta) * velocityMagnitude;
-
-            // TODO: Implement 3d velocities and rendering
-            // mapping of the 3d values to 2d values
-            vy = vz;
-            vz = 0;
 
             // Randomly orient the orbit
             return !(Rng.NextDouble() <= 0.5f) ? new Vector4(vx, vy, vz) : new Vector4(-vx, -vy, -vz);

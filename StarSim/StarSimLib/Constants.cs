@@ -13,7 +13,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of bodies that are rendered by default.
         /// </summary>
-        public const int BodyCount = 100;
+        public const int BodyCount = 1_000;
 
         /// <summary>
         /// The mass of the central body, if it is included.
@@ -91,6 +91,11 @@ namespace StarSimLib
         /// The amount by which the zoom level will be increased or decreased.
         /// </summary>
         public const double ZoomStep = 0.05;
+
+        /// <summary>
+        /// The <see cref="Octant"/> instance representing the rendered universe.
+        /// </summary>
+        public static readonly Octant UniverseOctant = new Octant(new Vector4(), UniverseSize);
 
         /// <summary>
         /// Converts an enumerable to its string form.
