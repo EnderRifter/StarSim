@@ -188,42 +188,42 @@ namespace StarSimLib.Data_Structures
             {
                 case PositionSpecifier.TopNorthWest:
                     return GetOrSetChildOctant(ref childOctants, 0,
-                        midpoint + new Vector4(-quarterSideLength, +quarterSideLength, +quarterSideLength),
+                        midpoint + new Vector4(-halfSideLength, +halfSideLength, +halfSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.TopNorthEast:
                     return GetOrSetChildOctant(ref childOctants, 1,
-                        midpoint + new Vector4(+quarterSideLength, +quarterSideLength, +quarterSideLength),
+                        midpoint + new Vector4(+halfSideLength, +halfSideLength, +halfSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.TopSouthEast:
                     return GetOrSetChildOctant(ref childOctants, 2,
-                        midpoint + new Vector4(+quarterSideLength, +quarterSideLength, -quarterSideLength),
+                        midpoint + new Vector4(+halfSideLength, +halfSideLength, -halfSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.TopSouthWest:
                     return GetOrSetChildOctant(ref childOctants, 3,
-                        midpoint + new Vector4(-quarterSideLength, +quarterSideLength, -quarterSideLength),
+                        midpoint + new Vector4(-halfSideLength, +halfSideLength, -halfSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomNorthWest:
                     return GetOrSetChildOctant(ref childOctants, 4,
-                        midpoint + new Vector4(-quarterSideLength, -quarterSideLength, +quarterSideLength),
+                        midpoint + new Vector4(-halfSideLength, -halfSideLength, +halfSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomNorthEast:
                     return GetOrSetChildOctant(ref childOctants, 5,
-                        midpoint + new Vector4(+quarterSideLength, -quarterSideLength, +quarterSideLength),
+                        midpoint + new Vector4(+halfSideLength, -halfSideLength, +halfSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomSouthEast:
                     return GetOrSetChildOctant(ref childOctants, 6,
-                        midpoint + new Vector4(+quarterSideLength, -quarterSideLength, -quarterSideLength),
+                        midpoint + new Vector4(+halfSideLength, -halfSideLength, -halfSideLength),
                         halfSideLength);
 
                 case PositionSpecifier.BottomSouthWest:
                     return GetOrSetChildOctant(ref childOctants, 7,
-                        midpoint + new Vector4(-quarterSideLength, -quarterSideLength, -quarterSideLength),
+                        midpoint + new Vector4(-halfSideLength, -halfSideLength, -halfSideLength),
                         halfSideLength);
 
                 default:
@@ -231,5 +231,19 @@ namespace StarSimLib.Data_Structures
                         "The given specifier is outside of the valid range.");
             }
         }
+
+        #region Overrides of Object
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"Octant - Width: {sideLength}, Midpoint: {midpoint} " +
+                   $"TNW: {childOctants[0]?.ToString() ?? "null"}, TNE: {childOctants[1]?.ToString() ?? "null"}, " +
+                   $"TSE: {childOctants[2]?.ToString() ?? "null"}, TSW: {childOctants[3]?.ToString() ?? "null"}, " +
+                   $"BNW: {childOctants[4]?.ToString() ?? "null"}, BNE: {childOctants[5]?.ToString() ?? "null"}, " +
+                   $"BSE: {childOctants[6]?.ToString() ?? "null"}, BSW: {childOctants[7]?.ToString() ?? "null"}";
+        }
+
+        #endregion Overrides of Object
     }
 }

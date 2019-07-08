@@ -116,11 +116,11 @@ namespace StarSimLib.Data_Structures
         }
 
         /// <summary>
-        /// Gets the force vector for the attraction between <see cref="Body"/> A and <see cref="Body"/> B.
+        /// Computes the force vector for the gravitational attraction between <see cref="Body"/> A and <see cref="Body"/> B.
         /// </summary>
         /// <param name="a">The first <see cref="Body"/> instance.</param>
         /// <param name="b">The second <see cref="Body"/> instance.</param>
-        /// <returns></returns>
+        /// <returns>The computed force vector for the gravitational attraction.</returns>
         public static Vector4 GetForceBetween(Body a, Body b)
         {
             // Inlines the Body.DistanceTo(Body) as the position deltas need to be cached for later,
@@ -131,10 +131,42 @@ namespace StarSimLib.Data_Structures
 
             // The distance between two bodies can be found via taking the magnitude of their displacements,
             // as shown here via pythagoras
-            double distance = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+            double distance2 = dx * dx + dy * dy + dz * dz;
+            double distance = Math.Sqrt(distance2);
 
             double numerator = Constants.G * a.Mass * b.Mass;
-            double denominator = distance * distance + Constants.SofteningFactor2;
+            double denominator = distance2 + Constants.SofteningFactor2;
+
+            // Using the equation Force = Gravitational Constant * Mass(a) * Mass(b) / distance(a, b)^2
+            // with a softening factor, we get the attraction force vector between the 2 bodies
+            double force = numerator / denominator;
+
+            return new Vector4(force * dx / distance, force * dy / distance, force * dz / distance);
+        }
+
+        /// <summary>
+        /// Computes the force vector for the gravitational attraction between the <see cref="Body"/> A and the mass at
+        /// the given position.
+        /// </summary>
+        /// <param name="a">The <see cref="Body"/> instance.</param>
+        /// <param name="positionB">The position at which the given mass can be thought of as acting.</param>
+        /// <param name="massB">The mass for which to compute the gravitational attraction.</param>
+        /// <returns>The computed force vector for the gravitational attraction.</returns>
+        public static Vector4 GetForceBetween(Body a, Vector4 positionB, double massB)
+        {
+            // Inlines the Body.DistanceTo(Body) as the position deltas need to be cached for later,
+            // as well as to gain a small performance increase
+            double dx = positionB.X - a.Position.X,
+                   dy = positionB.Y - a.Position.Y,
+                   dz = positionB.Z - a.Position.Z;
+
+            // The distance between two bodies can be found via taking the magnitude of their displacements,
+            // as shown here via pythagoras
+            double distance2 = dx * dx + dy * dy + dz * dz;
+            double distance = Math.Sqrt(distance2);
+
+            double numerator = Constants.G * a.Mass * massB;
+            double denominator = distance2 + Constants.SofteningFactor2;
 
             // Using the equation Force = Gravitational Constant * Mass(a) * Mass(b) / distance(a, b)^2
             // with a softening factor, we get the attraction force vector between the 2 bodies
@@ -151,6 +183,15 @@ namespace StarSimLib.Data_Structures
         public void AddForce(Body otherBody)
         {
             force += GetForceBetween(this, otherBody);
+        }
+
+        /// <summary>
+        /// Updates the current force vector for this instance, by adding the given vector to it.
+        /// </summary>
+        /// <param name="forceVector">The force vector to add to this instances internal force vector.</param>
+        public void AddForce(Vector4 forceVector)
+        {
+            force += forceVector;
         }
 
         /// <summary>

@@ -34,6 +34,12 @@
             The gravitational constant (m^3 kg^-1 s^-2).
             </summary>
         </member>
+        <member name="F:StarSimLib.Constants.MinimumTreeWidth">
+            <summary>
+            The minimum width of a tree. Subtrees are not created when if their width would be smaller than this value,
+            to prevent widths of NaN as a result of division errors.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Constants.SecondsPerTick">
             <summary>
             The number of seconds that each simulation tick represents.
@@ -71,9 +77,8 @@
         </member>
         <member name="F:StarSimLib.Constants.TreeTheta">
             <summary>
-            The tolerance of the mass grouping approximation in the simulation. A
-            body is only accelerated when the ratio of the tree's width to the
-            distance (from the tree's center of mass to the body) is less than this.
+            The tolerance of the mass grouping approximation in the simulation. A body is only accelerated when the
+            ratio of the tree's width to the distance (from the tree's center of mass to the body) is less than this.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.UniverseSize">
@@ -85,6 +90,16 @@
             <summary>
             The amount by which the zoom level will be increased or decreased.
             </summary>
+        </member>
+        <member name="M:StarSimLib.Constants.ConvertEnumerableToString``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String})">
+            <summary>
+            Converts an enumerable to its string form.
+            </summary>
+            <typeparam name="T">The type of item held in the enumerable.</typeparam>
+            <param name="enumerable">The enumerable instance to convert.</param>
+            <param name="itemPrinter">
+            The function used to convert a single item to a string, defaults to <see cref="M:System.Object.ToString"/></param>
+            <returns>The string representing the given enumerable.</returns>
         </member>
         <member name="T:StarSimLib.Contexts.SimulatorContext">
             <summary>
@@ -200,11 +215,21 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.GetForceBetween(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Body)">
             <summary>
-            Gets the force vector for the attraction between <see cref="T:StarSimLib.Data_Structures.Body"/> A and <see cref="T:StarSimLib.Data_Structures.Body"/> B.
+            Computes the force vector for the gravitational attraction between <see cref="T:StarSimLib.Data_Structures.Body"/> A and <see cref="T:StarSimLib.Data_Structures.Body"/> B.
             </summary>
             <param name="a">The first <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
             <param name="b">The second <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
-            <returns></returns>
+            <returns>The computed force vector for the gravitational attraction.</returns>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.GetForceBetween(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Vector4,System.Double)">
+            <summary>
+            Computes the force vector for the gravitational attraction between the <see cref="T:StarSimLib.Data_Structures.Body"/> A and the mass at
+            the given position.
+            </summary>
+            <param name="a">The <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
+            <param name="positionB">The position at which the given mass can be thought of as acting.</param>
+            <param name="massB">The mass for which to compute the gravitational attraction.</param>
+            <returns>The computed force vector for the gravitational attraction.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.AddForce(StarSimLib.Data_Structures.Body)">
             <summary>
@@ -212,6 +237,12 @@
             internal total force vector.
             </summary>
             <param name="otherBody">The other body to calculate the force between.</param>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.Body.AddForce(StarSimLib.Data_Structures.Vector4)">
+            <summary>
+            Updates the current force vector for this instance, by adding the given vector to it.
+            </summary>
+            <param name="forceVector">The force vector to add to this instances internal force vector.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.Collide(StarSimLib.Data_Structures.Body)">
             <summary>
@@ -532,6 +563,9 @@
             Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
             </exception>
         </member>
+        <member name="M:StarSimLib.Data_Structures.Octant.ToString">
+            <inheritdoc />
+        </member>
         <member name="T:StarSimLib.Data_Structures.OctantTree">
             <summary>
             A tree of <see cref="T:StarSimLib.Data_Structures.Octant"/> instances, where each node has 8 children.
@@ -542,9 +576,24 @@
             The <see cref="T:StarSimLib.Data_Structures.Octant"/> of space managed by this instance.
             </summary>
         </member>
+        <member name="F:StarSimLib.Data_Structures.OctantTree.aggregateMass">
+            <summary>
+            The aggregate mass of all the bodies held in this instance.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Data_Structures.OctantTree.body">
             <summary>
             The <see cref="T:StarSimLib.Data_Structures.Body"/> instance that is held in this instance, be it real or an aggregate.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OctantTree.bodyCount">
+            <summary>
+            The total number of bodies held in this instance.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Data_Structures.OctantTree.centreOfAggregateMass">
+            <summary>
+            The point at which all the mass seems to be concentrated.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OctantTree.childTrees">
@@ -624,6 +673,9 @@
             given reference <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
             </summary>
             <param name="referenceBody">The body instance against which force updates are made.</param>
+        </member>
+        <member name="M:StarSimLib.Data_Structures.OctantTree.ToString">
+            <inheritdoc />
         </member>
         <member name="T:StarSimLib.Data_Structures.OrbitTracer">
             <summary>
@@ -1252,12 +1304,6 @@
         <member name="T:StarSimLib.Physics.BodyUpdater">
             <summary>
             Provides methods for updating <see cref="T:StarSimLib.Data_Structures.Body"/> instance positions.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.Physics.BodyUpdater.UniverseOctant">
-            <summary>
-            Represents the main universe. Anything outside this octant of space is not updated when using the
-            <see cref="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBarnesHut(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)"/> update method.
             </summary>
         </member>
         <member name="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBarnesHut(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)">

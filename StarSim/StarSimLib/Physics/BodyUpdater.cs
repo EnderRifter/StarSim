@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarSimLib.Data_Structures;
 
@@ -17,12 +18,6 @@ namespace StarSimLib.Physics
     public static class BodyUpdater
     {
         /// <summary>
-        /// Represents the main universe. Anything outside this octant of space is not updated when using the
-        /// <see cref="UpdateBodiesBarnesHut"/> update method.
-        /// </summary>
-        public static readonly Octant UniverseOctant = new Octant(new Vector4(), Constants.UniverseSize);
-
-        /// <summary>
         /// Updates the positions of all the given <see cref="Body"/>s with O(n^2) time complexity, with the given time step.
         /// </summary>
         /// <param name="bodies">The collection of <see cref="Body"/>s whose positions to update.</param>
@@ -30,13 +25,19 @@ namespace StarSimLib.Physics
         public static void UpdateBodiesBarnesHut(IEnumerable<Body> bodies, double deltaTime)
         {
             IEnumerable<Body> bodyEnumerable = bodies as Body[] ?? bodies.ToArray();
-            OctantTree barnesHutTree = new OctantTree(UniverseOctant);
+
+            // root octant represents the main universe. Anything outside this octant of space is not updated
+            Octant universeOctant = new Octant(new Vector4(), Constants.UniverseSize * 1.1);
+
+            OctantTree barnesHutTree = new OctantTree(universeOctant);
 
             // we construct our barnes-hut octant tree
             foreach (Body body in bodyEnumerable)
             {
-                if (body.IsInOctant(UniverseOctant))
+                if (body.IsInOctant(universeOctant))
                 {
+                    Console.WriteLine($"Body (during tree construction): {body}");
+
                     // only update a body's position if it is within the bounds of the universe
                     barnesHutTree.AddBody(body);
                 }
@@ -45,14 +46,23 @@ namespace StarSimLib.Physics
             // we update the positions of the bodies in the populated tree
             foreach (Body body in bodyEnumerable)
             {
+                Console.WriteLine($"Body (before position update): {body}");
+
+                if (body == null)
+                {
+                    continue;
+                }
+
                 body.ResetForce();
 
-                if (body.IsInOctant(UniverseOctant))
+                if (body.IsInOctant(universeOctant))
                 {
                     barnesHutTree.UpdateForces(body);
 
                     body.Update(deltaTime);
                 }
+
+                Console.WriteLine($"Body (after position update): {body}");
             }
         }
 

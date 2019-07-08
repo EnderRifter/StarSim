@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using SFML.Graphics;
 using SFML.Window;
 using StarSimLib;
@@ -103,6 +104,8 @@ namespace StarSim
 
             bodyDrawer.DrawBodies();
 
+            ulong frameCounter = 0;
+
             while (window.IsOpen)
             {
                 window.Clear();
@@ -111,11 +114,14 @@ namespace StarSim
                 if (!inputHandler.IsSimulationPaused)
                 {
                     bodyPositionUpdater(bodies, Constants.TimeStep);
+                    Console.WriteLine($"Finished physics frame: {frameCounter++}");
                 }
 
                 bodyDrawer.DrawBodies();
 
                 window.Display();
+
+                //Console.Read();
             }
 
             Console.WriteLine("Goodbye, World!");

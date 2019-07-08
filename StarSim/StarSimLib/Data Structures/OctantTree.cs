@@ -14,9 +14,24 @@ namespace StarSimLib.Data_Structures
         private readonly Octant octant;
 
         /// <summary>
+        /// The aggregate mass of all the bodies held in this instance.
+        /// </summary>
+        private double aggregateMass;
+
+        /// <summary>
         /// The <see cref="Body"/> instance that is held in this instance, be it real or an aggregate.
         /// </summary>
         private Body body;
+
+        /// <summary>
+        /// The total number of bodies held in this instance.
+        /// </summary>
+        private int bodyCount;
+
+        /// <summary>
+        /// The point at which all the mass seems to be concentrated.
+        /// </summary>
+        private Vector4 centreOfAggregateMass;
 
         /// <summary>
         /// The child octant tree instances of this instance.
@@ -30,6 +45,11 @@ namespace StarSimLib.Data_Structures
         public OctantTree(Octant octant)
         {
             this.octant = octant;
+            body = null;
+
+            bodyCount = 0;
+            aggregateMass = 0;
+            centreOfAggregateMass = new Vector4();
 
             childTrees = new OctantTree[8];
         }
@@ -52,6 +72,27 @@ namespace StarSimLib.Data_Structures
         public OctantTree this[int specifier]
         {
             get { return SubTree(specifier); }
+        }
+
+        private void AddToChildTree(Body newBody)
+        {
+            for (int subTreeIndex = 0; subTreeIndex < 8; subTreeIndex++)
+            {
+                Vector4 subtreeLocation = octant[subTreeIndex].Midpoint;
+
+                // determine if the body is contained within the bounds of the subtree under
+                // consideration
+                if (Math.Abs(subtreeLocation.X - newBody.Position.X) <= octant.Length / 2
+                    && Math.Abs(subtreeLocation.Y - newBody.Position.Y) <= octant.Length / 2
+                    && Math.Abs(subtreeLocation.Z - newBody.Position.Z) <= octant.Length / 2)
+                {
+                    if (childTrees[subTreeIndex] == null)
+                        childTrees[subTreeIndex] =
+                            new OctantTree(octant[subTreeIndex]);
+                    childTrees[subTreeIndex].AddBody(newBody);
+                    return;
+                }
+            }
         }
 
         /// <summary>
@@ -82,48 +123,40 @@ namespace StarSimLib.Data_Structures
         /// <param name="newBody">The <see cref="Body"/> instance to add.</param>
         public void AddBody(Body newBody)
         {
-            if (body == null)
+            centreOfAggregateMass = (aggregateMass * centreOfAggregateMass + newBody.Mass * newBody.Position) / (aggregateMass + newBody.Mass);
+            aggregateMass += newBody.Mass;
+            bodyCount++;
+
+            if (bodyCount == 1)
             {
                 // this is an empty instance that has not yet had any bodies added to it.
                 body = newBody;
             }
+            else
+            {
+                AddToChildTree(newBody);
+
+                if (bodyCount == 2)
+                {
+                    AddToChildTree(body);
+                }
+            }
+            /*
             else if (IsExternal())
             {
                 // this instance is 'external' and contains another body. figure out where the new body should go and
                 // create a new octant tree instance to hold the new body
-                for (int i = 0; i < childTrees.Length; i++)
-                {
-                    OctantTree tree = SubTree(i);
-
-                    if (body.IsInOctant(tree.octant))
-                    {
-                        tree.AddBody(body);
-                        break;
-                    }
-                }
-
-                AddBody(newBody);
+                AddToChildTree(newBody);
+                AddToChildTree(body);
             }
             else if (!IsExternal())
             {
                 // this instance already has a body to represent it, and it is not an 'external' tree instance, that is
                 // it has child trees of its own. figure out in which child tree the new body should be stored and update
                 // any further child nodes
-
-                // make the held body an aggregate body
-                body.Collide(newBody);
-
-                for (int i = 0; i < childTrees.Length; i++)
-                {
-                    OctantTree tree = SubTree(i);
-
-                    if (newBody.IsInOctant(tree.octant))
-                    {
-                        tree.AddBody(newBody);
-                        break;
-                    }
-                }
+                AddToChildTree(newBody);
             }
+            */
         }
 
         /// <summary>
@@ -191,10 +224,11 @@ namespace StarSimLib.Data_Structures
         /// <param name="referenceBody">The body instance against which force updates are made.</param>
         public void UpdateForces(Body referenceBody)
         {
+            /*
             if (IsExternal())
             {
                 // since this tree instance is 'external' it has no children. we can treat it as a single body
-                if (body != referenceBody)
+                if (body != null && body != referenceBody)
                 {
                     referenceBody?.AddForce(body);
                 }
@@ -203,7 +237,10 @@ namespace StarSimLib.Data_Structures
             {
                 // otherwise if the octant length divided by the distance to the body (the width to distance ratio) is
                 // within a defined tolerance, we consider the tree to be effectively a single massive body
-                referenceBody?.AddForce(body);
+                if (body != null)
+                {
+                    referenceBody?.AddForce(body);
+                }
             }
             else
             {
@@ -211,9 +248,57 @@ namespace StarSimLib.Data_Structures
                 {
                     OctantTree tree = SubTree(i);
 
-                    tree.UpdateForces(referenceBody);
+                    if (body != null)
+                    {
+                        tree.UpdateForces(referenceBody);
+                        break;
+                    }
+                }
+
+                foreach (OctantTree subtree in childTrees)
+                {
+                    subtree?.UpdateForces(referenceBody);
+                }
+            }
+            */
+
+            double dx = centreOfAggregateMass.X - referenceBody.Position.X;
+            double dy = centreOfAggregateMass.Y - referenceBody.Position.Y;
+            double dz = centreOfAggregateMass.Z - referenceBody.Position.Z;
+            double distance2 = dx * dx + dy * dy + dz * dz;
+
+            // Case 1. The tree contains only one body and it is not the one in the
+            //         tree so we can perform the acceleration.
+            //
+            // Case 2. The width to distance ratio is within the defined tolerance so
+            //         we consider the tree to be effectively a single massive body and
+            //         perform the acceleration.
+            if (bodyCount == 1 && referenceBody != body || octant.Length * octant.Length < Constants.TreeTheta * Constants.TreeTheta * distance2)
+            {
+                referenceBody.AddForce(Body.GetForceBetween(referenceBody, centreOfAggregateMass, aggregateMass));
+            }
+            // Case 3. More granularity is needed so we accelerate at the subtrees.
+            else if (childTrees != null)
+            {
+                foreach (OctantTree subtree in childTrees)
+                {
+                    subtree?.UpdateForces(referenceBody);
                 }
             }
         }
+
+        #region Overrides of Object
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"Tree - Octant: {octant?.ToString() ?? "null"}, Body: {body?.ToString() ?? "null"}, " +
+                   $"TNW: {childTrees[0]?.ToString() ?? "null"}, TNE: {childTrees[1]?.ToString() ?? "null"}, " +
+                   $"TSE: {childTrees[2]?.ToString() ?? "null"}, TSW: {childTrees[3]?.ToString() ?? "null"}, " +
+                   $"BNW: {childTrees[4]?.ToString() ?? "null"}, BNE: {childTrees[5]?.ToString() ?? "null"}, " +
+                   $"BSE: {childTrees[6]?.ToString() ?? "null"}, BSW: {childTrees[7]?.ToString() ?? "null"}";
+        }
+
+        #endregion Overrides of Object
     }
 }
