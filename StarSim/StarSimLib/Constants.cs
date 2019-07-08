@@ -96,37 +96,5 @@ namespace StarSimLib
         /// The <see cref="Octant"/> instance representing the rendered universe.
         /// </summary>
         public static readonly Octant UniverseOctant = new Octant(new Vector4(), UniverseSize);
-
-        /// <summary>
-        /// Converts an enumerable to its string form.
-        /// </summary>
-        /// <typeparam name="T">The type of item held in the enumerable.</typeparam>
-        /// <param name="enumerable">The enumerable instance to convert.</param>
-        /// <param name="itemPrinter">
-        /// The function used to convert a single item to a string, defaults to <see cref="object.ToString()"/></param>
-        /// <returns>The string representing the given enumerable.</returns>
-        public static string ConvertEnumerableToString<T>(IEnumerable<T> enumerable, Func<T, string> itemPrinter = null)
-        {
-            StringBuilder enumerableStringBuilder = new StringBuilder("[");
-
-            if (itemPrinter == null)
-            {
-                foreach (T item in enumerable)
-                {
-                    enumerableStringBuilder.Append($"{item?.ToString() ?? "null"},");
-                }
-            }
-            else
-            {
-                foreach (T item in enumerable)
-                {
-                    enumerableStringBuilder.Append($"{itemPrinter(item) ?? "null"},");
-                }
-            }
-
-            enumerableStringBuilder.Append("]");
-
-            return enumerableStringBuilder.ToString();
-        }
     }
 }
