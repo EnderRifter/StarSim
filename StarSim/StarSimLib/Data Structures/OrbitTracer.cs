@@ -10,9 +10,9 @@ namespace StarSimLib.Data_Structures
     {
         /// <summary>
         /// Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
-        /// for less computation. The previous position will be saved once every 15 sampling opportunities.
+        /// for less computation. The previous position will be saved once every 10 sampling opportunities.
         /// </summary>
-        private const int PositionSampleRate = 15;
+        private const int PositionSampleRate = 10;
 
         /// <summary>
         /// Backing field for the <see cref="PreviousPositions"/> property.

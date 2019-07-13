@@ -10,7 +10,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of bodies that are rendered by default.
         /// </summary>
-        public const int BodyCount = 100;
+        public const int BodyCount = 50;
 
         /// <summary>
         /// The mass of the central body, if it is included.
@@ -71,7 +71,7 @@ namespace StarSimLib
         /// <summary>
         /// The default time step for the simulation.
         /// </summary>
-        public const double TimeStep = SecondsPerTick * (SimulationRate / (float)FrameRate) * SimulationRate;
+        public const double TimeStep = SecondsPerTick * (SimulationRate / (double)FrameRate) * SimulationRate;
 
         /// <summary>
         /// The tolerance of the mass grouping approximation in the simulation. A body is only accelerated when the

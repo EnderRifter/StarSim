@@ -117,11 +117,96 @@
             </summary>
             <param name="options">Any <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions"/> that should be set on this instance.</param>
         </member>
+        <member name="P:StarSimLib.Contexts.SimulatorContext.Bodies">
+            <summary>
+            Holds the <see cref="T:StarSimLib.Models.Body"/> entities in the database. Also allows querying the database via LINQ.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Contexts.SimulatorContext.BodyToSystemJoins">
+            <summary>
+            Holds the <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities in the database. Also allows querying the database via LINQ.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Contexts.SimulatorContext.Systems">
+            <summary>
+            Holds the <see cref="T:StarSimLib.Models.System"/> entities in the database. Also allows querying the database via LINQ.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Contexts.SimulatorContext.Users">
+            <summary>
+            Holds the <see cref="T:StarSimLib.Models.User"/> entities in the database. Also allows querying the database via LINQ.
+            </summary>
+        </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
             <inheritdoc />
         </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.Cryptography.CryptographyHelper">
+            <summary>
+            Provides helper methods for manipulating password salts and hashes.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Cryptography.CryptographyHelper.cryptoServiceProvider">
+            <summary>
+            The cryptographically secure random number generator to use to generate cryptographically strong sequences
+            of bytes.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Cryptography.CryptographyHelper.HashIterations">
+            <summary>
+            The number of iterations used when deriving the password hash from the salted password.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Cryptography.CryptographyHelper.HashLength">
+            <summary>
+            The number of bytes of hash to return
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Cryptography.CryptographyHelper.SaltByteCount">
+            <summary>
+            The number of bytes per password salt.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Cryptography.CryptographyHelper.BytesToString(System.Byte[])">
+            <summary>
+            Returns the string representation of the given bytes.
+            </summary>
+            <param name="contents">The byte contents to convert.</param>
+            <returns>The string that represents the given bytes.</returns>
+        </member>
+        <member name="M:StarSimLib.Cryptography.CryptographyHelper.GenerateHash(System.Byte[],System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Returns the hash of the given salted password (password with salt prepended) with the given number of iterations.
+            </summary>
+            <param name="password">The password to hash.</param>
+            <param name="salt">The salt to prepend to the password.</param>
+            <param name="hashLength">The number of bytes of hash to return.</param>
+            <param name="iterations">The number of iterations of hashing algorithm to perform.</param>
+            <returns>The given number of bytes of hashed salted password.</returns>
+        </member>
+        <member name="M:StarSimLib.Cryptography.CryptographyHelper.GenerateSalt(System.Int32)">
+            <summary>
+            Returns a cryptographically strong sequence of bytes of the given length to function as a password salt.
+            </summary>
+            <param name="length">The number of bytes that should make up the salt.</param>
+            <returns>The generated salt.</returns>
+        </member>
+        <member name="M:StarSimLib.Cryptography.CryptographyHelper.HashesEqual(System.Byte[],System.Byte[])">
+            <summary>
+            Determines whether the two hashes given are equal.
+            </summary>
+            <param name="a">The first hash to compare.</param>
+            <param name="b">The second hash to compare.</param>
+            <returns>Whether the two hashes are equal.</returns>
+        </member>
+        <member name="M:StarSimLib.Cryptography.CryptographyHelper.StringToBytes(System.String)">
+            <summary>
+            Returns the bytes of the given string.
+            </summary>
+            <param name="contents">The string contents to convert.</param>
+            <returns>The bytes that make up the given string.</returns>
         </member>
         <member name="T:StarSimLib.Data_Structures.Body">
             <summary>
@@ -688,7 +773,7 @@
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate">
             <summary>
             Sample rate for the previous position. Used to improve performance and get a longer orbit tracer tail
-            for less computation. The previous position will be saved once every 15 sampling opportunities.
+            for less computation. The previous position will be saved once every 10 sampling opportunities.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions">
@@ -1207,6 +1292,193 @@
             Scales this instances view by the given amount.
             </summary>
             <param name="scaleMultiplier">The multiplier by which to scale the viewport of this instances render target.</param>
+        </member>
+        <member name="T:StarSimLib.Models.Body">
+            <summary>
+            Represents a known stellar body in the database. Maps to a <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Models.Body.#ctor(System.UInt64,System.String,System.Double)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.Body"/> class.
+            </summary>
+            <param name="id">The unique id for this instance.</param>
+            <param name="name">The name for this instance.</param>
+            <param name="mass">The mass for this instance.</param>
+        </member>
+        <member name="P:StarSimLib.Models.Body.BodyToSystemJoins">
+            <summary>
+            The <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities that map this <see cref="T:StarSimLib.Models.Body"/> to the <see cref="T:StarSimLib.Models.System"/>
+            entities that hold it.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.Body.Id">
+            <summary>
+            The unique primary key for this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.Body.Mass">
+            <summary>
+            The mass of this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.Body.Name">
+            <summary>
+            The displayed name of this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.Body.Timestamp">
+            <summary>
+            A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
+            multiple access to the same field.
+            </summary>
+        </member>
+        <member name="T:StarSimLib.Models.BodyToSystemJoin">
+            <summary>
+            Maps a <see cref="T:StarSimLib.Models.Body"/> entity and <see cref="T:StarSimLib.Models.System"/> entity in a many-to-many relationship in the database.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Models.BodyToSystemJoin.#ctor(System.UInt64,System.UInt64,System.UInt64)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> class.
+            </summary>
+            <param name="id">The unique id for this instance.</param>
+            <param name="bodyId">The id of the body mapped by this instance.</param>
+            <param name="systemId">The id of the system mapped by this instance.</param>
+        </member>
+        <member name="P:StarSimLib.Models.BodyToSystemJoin.Body">
+            <summary>
+            The <see cref="T:StarSimLib.Models.Body"/> instance mapped by this join instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.BodyToSystemJoin.BodyId">
+            <summary>
+            The Id of the <see cref="T:StarSimLib.Models.Body"/> instance mapped by this join instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.BodyToSystemJoin.Id">
+            <summary>
+            The unique primary key for this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.BodyToSystemJoin.System">
+            <summary>
+            The <see cref="T:StarSimLib.Models.System"/> instance mapped by this join instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.BodyToSystemJoin.SystemId">
+            <summary>
+            The Id of the <see cref="T:StarSimLib.Models.System"/> instance mapped by this join instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.BodyToSystemJoin.Timestamp">
+            <summary>
+            A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
+            multiple access to the same field.
+            </summary>
+        </member>
+        <member name="T:StarSimLib.Models.System">
+            <summary>
+            Represents a star system in the database, with a collection of child <see cref="T:StarSimLib.Models.Body"/> instances.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.System"/> class.
+            </summary>
+            <param name="id">The unique id of this instance.</param>
+            <param name="name">The name of this instance.</param>
+        </member>
+        <member name="P:StarSimLib.Models.System.BodyToSystemJoins">
+            <summary>
+            The <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities that map this <see cref="T:StarSimLib.Models.System"/> to the <see cref="T:StarSimLib.Models.Body"/>
+            entities that it holds.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.System.Creator">
+            <summary>
+            The <see cref="T:StarSimLib.Models.User"/> who created this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.System.CreatorId">
+            <summary>
+            The Id of the <see cref="T:StarSimLib.Models.User"/> who created this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.System.Id">
+            <summary>
+            The unique primary key for this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.System.Name">
+            <summary>
+            The displayed name of this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.System.Timestamp">
+            <summary>
+            A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
+            multiple access to the same field.
+            </summary>
+        </member>
+        <member name="T:StarSimLib.Models.User">
+            <summary>
+            Represents a user in the database.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.User"/> class.
+            </summary>
+            <param name="id">The unique id of this instance.</param>
+            <param name="username">The username of this instance.</param>
+            <param name="email">The optional email of this instance.</param>
+        </member>
+        <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,System.Byte[],System.Byte[],System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.User"/> class.
+            </summary>
+            <param name="id">The unique id of this instance.</param>
+            <param name="username">The username of this instance.</param>
+            <param name="passwordHash">The hash of the salted password of this instance.</param>
+            <param name="passwordSalt">The salt used to hash the password.</param>
+            <param name="email">The optional email of this instance.</param>
+        </member>
+        <member name="P:StarSimLib.Models.User.CreatedSystems">
+            <summary>
+            The <see cref="T:StarSimLib.Models.System"/> entities that this <see cref="T:StarSimLib.Models.User"/> has created.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.Email">
+            <summary>
+            The email address of this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.Id">
+            <summary>
+            The unique primary key for this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.PasswordHash">
+            <summary>
+            The hash of this instance's salted password.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.PasswordSalt">
+            <summary>
+            The salt prepended to this instance's password prior to hashing.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.Timestamp">
+            <summary>
+            A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
+            multiple access to the same field.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.Username">
+            <summary>
+            The displayed username of this instance.
+            </summary>
         </member>
         <member name="T:StarSimLib.Physics.MassToColourDelegate">
             <summary>
