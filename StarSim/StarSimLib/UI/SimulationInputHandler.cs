@@ -8,31 +8,31 @@ namespace StarSimLib.UI
     /// <summary>
     /// Provides user input handling functions.
     /// </summary>
-    public class InputHandler
+    public class SimulationInputHandler
     {
-        /// <summary>
-        /// The renderer used to display the <see cref="Body"/> instances on the screen.
-        /// </summary>
-        private readonly Drawer bodyDrawer;
-
         /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
         /// </summary>
         private readonly Body[] managedBodies;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="InputHandler"/> class.
+        /// The renderer used to display the <see cref="Body"/> instances on the screen.
+        /// </summary>
+        private readonly SimulationDrawer simulationDrawer;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SimulationInputHandler"/> class.
         /// </summary>
         /// <param name="bodies">
         /// A reference to the <see cref="Body"/> instances which should be managed by this instance.
         /// </param>
-        /// <param name="drawer">
+        /// <param name="simulationDrawer">
         /// A reference to the renderer used to display the <see cref="Body"/> instances on the screen.
         /// </param>
-        public InputHandler(ref Body[] bodies, ref Drawer drawer)
+        public SimulationInputHandler(ref Body[] bodies, ref SimulationDrawer simulationDrawer)
         {
             managedBodies = bodies;
-            bodyDrawer = drawer;
+            this.simulationDrawer = simulationDrawer;
         }
 
         /// <summary>
@@ -80,44 +80,44 @@ namespace StarSimLib.UI
 
                 case Keyboard.Key.W:
                     // rotate the view north
-                    bodyDrawer.Rotate(RotationDirection.North, Constants.EulerRotationStep);
+                    simulationDrawer.Rotate(RotationDirection.North, Constants.EulerRotationStep);
                     msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the x axis. " +
-                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                          $"View Rotation: ({simulationDrawer.XAngle},{simulationDrawer.YAngle},{simulationDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.A:
                     // rotate the view west
-                    bodyDrawer.Rotate(RotationDirection.West, Constants.EulerRotationStep);
+                    simulationDrawer.Rotate(RotationDirection.West, Constants.EulerRotationStep);
                     msg = $"Rotated by {Constants.EulerRotationStep} degrees clockwise in the y axis. " +
-                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                          $"View Rotation: ({simulationDrawer.XAngle},{simulationDrawer.YAngle},{simulationDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.S:
                     // rotate the view south
-                    bodyDrawer.Rotate(RotationDirection.South, Constants.EulerRotationStep);
+                    simulationDrawer.Rotate(RotationDirection.South, Constants.EulerRotationStep);
                     msg = $"Rotated by {Constants.EulerRotationStep} degrees clockwise in the x axis. " +
-                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                          $"View Rotation: ({simulationDrawer.XAngle},{simulationDrawer.YAngle},{simulationDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.D:
                     // rotate the view east
-                    bodyDrawer.Rotate(RotationDirection.East, Constants.EulerRotationStep);
+                    simulationDrawer.Rotate(RotationDirection.East, Constants.EulerRotationStep);
                     msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the y axis. " +
-                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                          $"View Rotation: ({simulationDrawer.XAngle},{simulationDrawer.YAngle},{simulationDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.Q:
                     // rotate the view anti-clockwise
-                    bodyDrawer.Rotate(RotationDirection.Anticlockwise, Constants.EulerRotationStep);
+                    simulationDrawer.Rotate(RotationDirection.Anticlockwise, Constants.EulerRotationStep);
                     msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the z axis. " +
-                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                          $"View Rotation: ({simulationDrawer.XAngle},{simulationDrawer.YAngle},{simulationDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.E:
                     // rotate the view clockwise
-                    bodyDrawer.Rotate(RotationDirection.Clockwise, Constants.EulerRotationStep);
+                    simulationDrawer.Rotate(RotationDirection.Clockwise, Constants.EulerRotationStep);
                     msg = $"Rotated by {Constants.EulerRotationStep} degrees anticlockwise in the z axis. " +
-                          $"View Rotation: ({bodyDrawer.XAngle},{bodyDrawer.YAngle},{bodyDrawer.ZAngle})";
+                          $"View Rotation: ({simulationDrawer.XAngle},{simulationDrawer.YAngle},{simulationDrawer.ZAngle})";
                     break;
 
                 case Keyboard.Key.Comma:
@@ -198,14 +198,14 @@ namespace StarSimLib.UI
         {
             if (eventArgs.Delta > 0)
             {
-                bodyDrawer.Scale(1 + Constants.ZoomStep);
+                simulationDrawer.Scale(1 + Constants.ZoomStep);
             }
             else if (eventArgs.Delta < 0)
             {
-                bodyDrawer.Scale(1 - Constants.ZoomStep);
+                simulationDrawer.Scale(1 - Constants.ZoomStep);
             }
 
-            Console.WriteLine($"Current field of view (zoom level): {bodyDrawer.FOV} ({bodyDrawer.ZoomLevel})");
+            Console.WriteLine($"Current field of view (zoom level): {simulationDrawer.FOV} ({simulationDrawer.ZoomLevel})");
         }
     }
 }

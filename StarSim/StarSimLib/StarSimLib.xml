@@ -1112,106 +1112,106 @@
             Represents an anticlockwise rotation in the z-axis.
             </summary>
         </member>
-        <member name="T:StarSimLib.Graphics.Drawer">
+        <member name="T:StarSimLib.Graphics.SimulationDrawer">
             <summary>
             Represents a drawer capable of rendering bodies to a <see cref="T:SFML.Graphics.RenderTarget"/>.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.DegToRad">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.DegToRad">
             <summary>
             Conversion from degrees to radians, as used by the <see cref="T:System.Math"/> functions.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.FarDistance">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.FarDistance">
             <summary>
             The furthest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>. Any bodies that are further
             from the camera than this distance are culled and not rendered.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.FieldOfView">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.FieldOfView">
             <summary>
             The default field of view for the drawer in degrees.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.NearDistance">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.NearDistance">
             <summary>
             The closest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>. Any bodies that are closer
             to the camera than this distance (i.e. behind the camera) are culled and not rendered.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.cameraTranslationVector">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.cameraTranslationVector">
             <summary>
             The vector by which all projected points are translated away from the camera and halfway into the view frustum.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.aspectRatio">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.aspectRatio">
             <summary>
             The aspect ratio of the render target. Allows for normalisation of the <see cref="T:SFML.Graphics.RenderTarget"/> space
             into a normal plane ([-1, -1] = top left, [1, 1] = bottom right), instead of having to deal with a
             variable render space.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.managedBodies">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.managedBodies">
             <summary>
             Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.managedBodyShapeMap">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.managedBodyShapeMap">
             <summary>
             Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.CircleShape"/> that represents it, and is drawn to the
             screen at the <see cref="T:StarSimLib.Data_Structures.Body"/>s position.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.managedBodyTracerVertexArrayMap">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.managedBodyTracerVertexArrayMap">
             <summary>
             Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.VertexArray"/> that holds its orbit tracer vertices, and
             is drawn to the screen behind the <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.originOffset">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.originOffset">
             <summary>
             The offset that has to be applied to the positions of a <see cref="T:SFML.Graphics.CircleShape"/>, so that they appear
             to be in the centre of the render target and not the top left corner.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.renderTarget">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.renderTarget">
             <summary>
             The target to which the managed bodies will be drawn.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.currentFieldOfView">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.currentFieldOfView">
             <summary>
             The current value for the field of view, in degrees. Used to zoom the view in and out.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.projectionMatrix">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.projectionMatrix">
             <summary>
             Projection matrix used for mapping from 3D to 2D.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.rotation">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.rotation">
             <summary>
             The 3D rotation.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.xRotationMatrix">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.xRotationMatrix">
             <summary>
             The rotation matrix for the x axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.yRotationMatrix">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.yRotationMatrix">
             <summary>
             The rotation matrix for the y axis.
             </summary>
         </member>
-        <member name="F:StarSimLib.Graphics.Drawer.zRotationMatrix">
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.zRotationMatrix">
             <summary>
             The rotation matrix for the z axis.
             </summary>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.#ctor(SFML.Graphics.RenderTarget,StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@)">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.#ctor(SFML.Graphics.RenderTarget,StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Graphics.Drawer"/> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Graphics.SimulationDrawer"/> class.
             </summary>
             <param name="target">The target to which the managed bodies should be rendered.</param>
             <param name="bodies">
@@ -1222,37 +1222,37 @@
             represents it, and is drawn to the screen at the <see cref="T:StarSimLib.Data_Structures.Body"/> instance's position.
             </param>
         </member>
-        <member name="P:StarSimLib.Graphics.Drawer.InverseScaleFactor">
+        <member name="P:StarSimLib.Graphics.SimulationDrawer.InverseScaleFactor">
             <summary>
             Inverse scale factor used in the projection matrix.
             </summary>
         </member>
-        <member name="P:StarSimLib.Graphics.Drawer.FOV">
+        <member name="P:StarSimLib.Graphics.SimulationDrawer.FOV">
             <summary>
             Current field-of-view.
             </summary>
         </member>
-        <member name="P:StarSimLib.Graphics.Drawer.XAngle">
+        <member name="P:StarSimLib.Graphics.SimulationDrawer.XAngle">
             <summary>
             Current angle of rotation in the x axis.
             </summary>
         </member>
-        <member name="P:StarSimLib.Graphics.Drawer.YAngle">
+        <member name="P:StarSimLib.Graphics.SimulationDrawer.YAngle">
             <summary>
             Current angle of rotation in the x axis.
             </summary>
         </member>
-        <member name="P:StarSimLib.Graphics.Drawer.ZAngle">
+        <member name="P:StarSimLib.Graphics.SimulationDrawer.ZAngle">
             <summary>
             Current angle of rotation in the x axis.
             </summary>
         </member>
-        <member name="P:StarSimLib.Graphics.Drawer.ZoomLevel">
+        <member name="P:StarSimLib.Graphics.SimulationDrawer.ZoomLevel">
             <summary>
             Current zoom level of the drawer.
             </summary>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.LinearInterpolate(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4,System.Double)">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.LinearInterpolate(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
             Linearly interpolates between a and b by the given percentage dt (0 = 100% a, 1 = 100% b).
             </summary>
@@ -1261,33 +1261,33 @@
             <param name="dt">The percentage by which to interpolate, capped between 0 and 1.</param>
             <returns>The interpolated value.</returns>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.ProjectPoint(StarSimLib.Data_Structures.Vector4)">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.ProjectPoint(StarSimLib.Data_Structures.Vector4)">
             <summary>
             Projects the given <see cref="T:StarSimLib.Data_Structures.Vector4"/> point from world space into screen space.
             </summary>
             <param name="point">The point to project.</param>
             <returns>The projected point.</returns>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.UpdateRotationMatrices">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.UpdateRotationMatrices">
             <summary>
             Updates the rotation matrices for the view.
             </summary>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.DrawBodies">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.DrawBodies">
             <summary>
             Draws each <see cref="T:StarSimLib.Data_Structures.Body"/> instance that is managed by this drawer to the <see cref="T:SFML.Graphics.RenderTarget"/> specified
             in the constructor, using the current view settings (rotation, zoom, etc.) to project the positions from 3D to 2D.
             This method should be called every frame, as without it the view isn't updated and neither are rotation or zoom.
             </summary>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.Rotate(StarSimLib.Graphics.RotationDirection,System.Double)">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.Rotate(StarSimLib.Graphics.RotationDirection,System.Double)">
             <summary>
             Rotates the view in the given direction, by the specified angle (in degrees).
             </summary>
             <param name="direction">The direction in which to rotate the view.</param>
             <param name="angle">The angle by which to rotate in the given direction.</param>
         </member>
-        <member name="M:StarSimLib.Graphics.Drawer.Scale(System.Double)">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.Scale(System.Double)">
             <summary>
             Scales this instances view by the given amount.
             </summary>
@@ -1604,84 +1604,150 @@
             </summary>
             <returns>A 3D position vector.</returns>
         </member>
-        <member name="T:StarSimLib.UI.InputHandler">
+        <member name="T:StarSimLib.UI.SimulationInputHandler">
             <summary>
             Provides user input handling functions.
             </summary>
         </member>
-        <member name="F:StarSimLib.UI.InputHandler.bodyDrawer">
-            <summary>
-            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.UI.InputHandler.managedBodies">
+        <member name="F:StarSimLib.UI.SimulationInputHandler.managedBodies">
             <summary>
             Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
             </summary>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.#ctor(StarSimLib.Data_Structures.Body[]@,StarSimLib.Graphics.Drawer@)">
+        <member name="F:StarSimLib.UI.SimulationInputHandler.simulationDrawer">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.UI.InputHandler"/> class.
+            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.SimulationInputHandler.#ctor(StarSimLib.Data_Structures.Body[]@,StarSimLib.Graphics.SimulationDrawer@)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationInputHandler"/> class.
             </summary>
             <param name="bodies">
             A reference to the <see cref="T:StarSimLib.Data_Structures.Body"/> instances which should be managed by this instance.
             </param>
-            <param name="drawer">
+            <param name="simulationDrawer">
             A reference to the renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
             </param>
         </member>
-        <member name="P:StarSimLib.UI.InputHandler.IsSimulationPaused">
+        <member name="P:StarSimLib.UI.SimulationInputHandler.IsSimulationPaused">
             <summary>
             Whether the simulation is paused at any given time.
             </summary>
         </member>
-        <member name="P:StarSimLib.UI.InputHandler.RecordOrbitTracers">
+        <member name="P:StarSimLib.UI.SimulationInputHandler.RecordOrbitTracers">
             <summary>
             Whether to record previous <see cref="T:StarSimLib.Data_Structures.Body"/> instance positions, in order to render an orbit tracer
             behind each body instance.
             </summary>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
+        <member name="M:StarSimLib.UI.SimulationInputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
             <summary>
             Handles key presses.
             </summary>
             <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
             <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key press.</param>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.HandleKeyReleased(System.Object,SFML.Window.KeyEventArgs)">
+        <member name="M:StarSimLib.UI.SimulationInputHandler.HandleKeyReleased(System.Object,SFML.Window.KeyEventArgs)">
             <summary>
             Handles key releases.
             </summary>
             <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
             <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key release.</param>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.HandleMouseMoved(System.Object,SFML.Window.MouseMoveEventArgs)">
+        <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMouseMoved(System.Object,SFML.Window.MouseMoveEventArgs)">
             <summary>
             Handles motions of the mouse.
             </summary>
             <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
             <param name="eventArgs">The <see cref="T:SFML.Window.MouseMoveEventArgs"/> associated with the mouse movement.</param>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.HandleMousePressed(System.Object,SFML.Window.MouseButtonEventArgs)">
+        <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMousePressed(System.Object,SFML.Window.MouseButtonEventArgs)">
             <summary>
             Handles key presses of the mouse.
             </summary>
             <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
             <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse press.</param>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.HandleMouseReleased(System.Object,SFML.Window.MouseButtonEventArgs)">
+        <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMouseReleased(System.Object,SFML.Window.MouseButtonEventArgs)">
             <summary>
             Handles key releases of the mouse.
             </summary>
             <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
             <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse release.</param>
         </member>
-        <member name="M:StarSimLib.UI.InputHandler.HandleMouseScrolled(System.Object,SFML.Window.MouseWheelScrollEventArgs)">
+        <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMouseScrolled(System.Object,SFML.Window.MouseWheelScrollEventArgs)">
             <summary>
             Handles scrolling of the mouse wheel.
             </summary>
             <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
             <param name="eventArgs">The <see cref="T:SFML.Window.MouseWheelScrollEventArgs"/> associated with the mouse scroll.</param>
+        </member>
+        <member name="T:StarSimLib.UI.SimulationScreen">
+            <summary>
+            Encapsulates the simulation.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.TimerRefreshIntervalMs">
+            <summary>
+            The interval between timer refreshes, in milliseconds.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.bodies">
+            <summary>
+            Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.bodyPositionUpdater">
+            <summary>
+            The body position update algorithm to use.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.bodyShapeMap">
+            <summary>
+            Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.CircleShape"/> that represents it, and is drawn to the
+            screen at the <see cref="T:StarSimLib.Data_Structures.Body"/>s position.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.miscTimer">
+            <summary>
+            Timer that manages FPS counter and other miscellaneous counters.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.simulationDrawer">
+            <summary>
+            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.simulationInputHandler">
+            <summary>
+            The input handler to use to provide interactivity to the simulator.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.window">
+            <summary>
+            The SFML.NET window to which everything is rendered.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.fps">
+            <summary>
+            The current amount of frames per second.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.framesElapsed">
+            <summary>
+            Counts the frames elapsed since the last timer pulse, so that the FPS can be tracked.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.SimulationScreen.#ctor(StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@,StarSimLib.Physics.UpdateDelegate)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationScreen"/> class,
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.SimulationScreen.Run">
+            <summary>
+            Runs the screen until it is closed.
+            </summary>
         </member>
     </members>
 </doc>

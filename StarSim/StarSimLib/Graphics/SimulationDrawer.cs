@@ -46,7 +46,7 @@ namespace StarSimLib.Graphics
     /// <summary>
     /// Represents a drawer capable of rendering bodies to a <see cref="RenderTarget"/>.
     /// </summary>
-    public class Drawer
+    public class SimulationDrawer
     {
         /// <summary>
         /// Conversion from degrees to radians, as used by the <see cref="Math"/> functions.
@@ -145,7 +145,7 @@ namespace StarSimLib.Graphics
 #pragma warning restore IDE0044
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Drawer"/> class.
+        /// Initialises a new instance of the <see cref="SimulationDrawer"/> class.
         /// </summary>
         /// <param name="target">The target to which the managed bodies should be rendered.</param>
         /// <param name="bodies">
@@ -155,7 +155,7 @@ namespace StarSimLib.Graphics
         /// A reference to the dictionary mapping a <see cref="Body"/> instance to the <see cref="CircleShape"/> that
         /// represents it, and is drawn to the screen at the <see cref="Body"/> instance's position.
         /// </param>
-        public Drawer(RenderTarget target, ref Body[] bodies, ref Dictionary<Body, CircleShape> bodyShapeMap)
+        public SimulationDrawer(RenderTarget target, ref Body[] bodies, ref Dictionary<Body, CircleShape> bodyShapeMap)
         {
             renderTarget = target;
             originOffset = target.Size / 2;

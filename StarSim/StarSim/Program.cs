@@ -24,24 +24,9 @@ namespace StarSim
     internal class Program
     {
         /// <summary>
-        /// The interval between timer refreshes, in milliseconds.
-        /// </summary>
-        private const double TimerRefreshIntervalMs = 500;
-
-        /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
         /// </summary>
         private static readonly Body[] bodies;
-
-        /// <summary>
-        /// The renderer used to display the <see cref="Body"/> instances on the screen.
-        /// </summary>
-        private static readonly Drawer bodyDrawer;
-
-        /// <summary>
-        /// The body position update algorithm to use.
-        /// </summary>
-        private static readonly UpdateDelegate bodyPositionUpdater;
 
         /// <summary>
         /// Maps a <see cref="Body"/> to the <see cref="CircleShape"/> that represents it, and is drawn to the
@@ -55,29 +40,14 @@ namespace StarSim
         private static readonly SimulatorContext databaseContext;
 
         /// <summary>
-        /// The input handler to use to provide interactivity to the simulator.
+        /// The simulation which we will render, once the user sets it up.
         /// </summary>
-        private static readonly InputHandler inputHandler;
-
-        /// <summary>
-        /// Timer that manages FPS counter and other miscellaneous counters.
-        /// </summary>
-        private static readonly Timer miscTimer;
+        private static readonly SimulationScreen simulationScreen;
 
         /// <summary>
         /// The SFML.NET window to which everything is rendered.
         /// </summary>
         private static readonly RenderWindow window;
-
-        /// <summary>
-        /// The current amount of frames per second.
-        /// </summary>
-        private static double fps;
-
-        /// <summary>
-        /// Counts the frames elapsed since the last timer pulse, so that the FPS can be tracked.
-        /// </summary>
-        private static uint framesElapsed;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Program"/> class,
@@ -95,23 +65,12 @@ namespace StarSim
             bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
 
 #if DEBUG
-            bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
+            UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
 #else
-            bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
+            UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
 
-            bodyDrawer = new Drawer(window, ref bodies, ref bodyShapeMap);
-            inputHandler = new InputHandler(ref bodies, ref bodyDrawer);
-
-            // constructs a new timer and attaches a timer event handler that updates the fps and window title every interval
-            miscTimer = new Timer(TimerRefreshIntervalMs) { AutoReset = true, Enabled = true };
-            miscTimer.Elapsed += (sender, args) =>
-            {
-                fps = framesElapsed / (TimerRefreshIntervalMs / 1000);
-
-                framesElapsed = 0;
-                window.SetTitle($"N-Body Simulator: FPS {fps}");
-            };
+            simulationScreen = new SimulationScreen(ref bodies, ref bodyShapeMap, bodyPositionUpdater);
         }
 
         /// <summary>
@@ -148,46 +107,11 @@ namespace StarSim
         {
             Console.WriteLine("Hello, World!");
             Console.WriteLine("Press 'enter' to continue...");
-
             Console.ReadLine();
 
-            // we reveal the window so that the user may interact with our program
-            window.SetVisible(true);
-            miscTimer.Start();
+            // run simulation
+            simulationScreen.Run();
 
-            // we configure the window and its close handler, so that we may close the window once we are done with it
-            window.SetFramerateLimit(Constants.FrameRate);
-            window.Closed += (sender, eventArgs) => ((RenderWindow)sender).Close();
-
-            // we apply event handlers to allow for interactivity inside the window
-            window.KeyPressed += inputHandler.HandleKeyPressed;
-            //window.KeyReleased += inputHandler.HandleKeyReleased;
-            window.MouseButtonPressed += inputHandler.HandleMousePressed;
-            window.MouseButtonReleased += inputHandler.HandleMouseReleased;
-            //window.MouseMoved += inputHandler.HandleMouseMoved;
-            window.MouseWheelScrolled += inputHandler.HandleMouseScrolled;
-
-            bodyDrawer.DrawBodies();
-
-            while (window.IsOpen)
-            {
-                window.Clear();
-                window.DispatchEvents();
-
-                if (!inputHandler.IsSimulationPaused)
-                {
-                    bodyPositionUpdater(bodies, Constants.TimeStep);
-                }
-
-                bodyDrawer.DrawBodies();
-
-                window.Display();
-
-                // increment the fps counter
-                framesElapsed++;
-            }
-
-            miscTimer.Stop();
             Console.WriteLine("Goodbye, World!");
             Console.WriteLine("Press 'enter' to quit...");
             Console.ReadLine();
