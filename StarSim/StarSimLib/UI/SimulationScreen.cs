@@ -110,10 +110,10 @@ namespace StarSimLib.UI
 
             // we apply event handlers to allow for interactivity inside the window
             window.KeyPressed += simulationInputHandler.HandleKeyPressed;
-            //window.KeyReleased += inputHandler.HandleKeyReleased;
+            window.KeyReleased += simulationInputHandler.HandleKeyReleased;
             window.MouseButtonPressed += simulationInputHandler.HandleMousePressed;
             window.MouseButtonReleased += simulationInputHandler.HandleMouseReleased;
-            //window.MouseMoved += inputHandler.HandleMouseMoved;
+            window.MouseMoved += simulationInputHandler.HandleMouseMoved;
             window.MouseWheelScrolled += simulationInputHandler.HandleMouseScrolled;
 
             simulationDrawer.DrawBodies();

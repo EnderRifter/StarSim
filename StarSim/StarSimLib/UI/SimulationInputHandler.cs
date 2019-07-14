@@ -166,7 +166,7 @@ namespace StarSimLib.UI
         /// <param name="eventArgs">The <see cref="MouseMoveEventArgs"/> associated with the mouse movement.</param>
         public void HandleMouseMoved(object sender, MouseMoveEventArgs eventArgs)
         {
-            Console.WriteLine($"Mouse moved: {eventArgs.X} {eventArgs.Y}");
+            //Console.WriteLine($"Mouse moved: {eventArgs.X} {eventArgs.Y}");
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace StarSimLib.UI
         /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the mouse press.</param>
         public void HandleMousePressed(object sender, MouseButtonEventArgs eventArgs)
         {
-            Console.WriteLine($"Mouse pressed: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
+            //Console.WriteLine($"Mouse pressed: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace StarSimLib.UI
         /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the mouse release.</param>
         public void HandleMouseReleased(object sender, MouseButtonEventArgs eventArgs)
         {
-            Console.WriteLine($"Mouse released: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
+            //Console.WriteLine($"Mouse released: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
         }
 
         /// <summary>
