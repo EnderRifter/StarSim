@@ -14,26 +14,14 @@ namespace StarSimLib.GUI.Components
         private readonly Sprite sprite;
 
         /// <summary>
-        /// The rectangular entity used for this instances sprite.
-        /// </summary>
-        private IntRect intRect;
-
-        /// <summary>
-        /// The texture used for this instances sprite.
-        /// </summary>
-        private Texture texture;
-
-        /// <summary>
         /// Initialises a new instance of the <see cref="Component"/> class.
         /// </summary>
         /// <param name="position">The position of this instance.</param>
-        /// <param name="size">The size of this instance.</param>
-        /// <param name="texture">The texture of this instance.</param>
-        protected Component(Vector2i position, Vector2i size, Texture texture)
+        /// <param name="sprite">The sprite that should represent this instance.</param>
+        protected Component(Vector2f position, Sprite sprite)
         {
-            intRect = new IntRect(position, size);
-            this.texture = texture;
-            sprite = new Sprite(this.texture, intRect);
+            this.sprite = sprite;
+            this.sprite.Position = position;
         }
 
         /// <summary>

@@ -22,4 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\StarSimLib\StarSimLib.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="resources\chessboard.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

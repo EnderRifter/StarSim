@@ -9,6 +9,11 @@ namespace StarSimLib.GUI
     public interface IInputHandler
     {
         /// <summary>
+        /// The <see cref="Screen"/> instance whose input to manage.
+        /// </summary>
+        Screen HandledScreen { get; set; }
+
+        /// <summary>
         /// Handles key presses.
         /// </summary>
         /// <param name="sender">The <see cref="Window"/> that sent the event.</param>

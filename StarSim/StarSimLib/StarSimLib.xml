@@ -1303,23 +1303,12 @@
             The sprite representing this component.
             </summary>
         </member>
-        <member name="F:StarSimLib.GUI.Components.Component.intRect">
-            <summary>
-            The rectangular entity used for this instances sprite.
-            </summary>
-        </member>
-        <member name="F:StarSimLib.GUI.Components.Component.texture">
-            <summary>
-            The texture used for this instances sprite.
-            </summary>
-        </member>
-        <member name="M:StarSimLib.GUI.Components.Component.#ctor(SFML.System.Vector2i,SFML.System.Vector2i,SFML.Graphics.Texture)">
+        <member name="M:StarSimLib.GUI.Components.Component.#ctor(SFML.System.Vector2f,SFML.Graphics.Sprite)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.GUI.Components.Component"/> class.
             </summary>
             <param name="position">The position of this instance.</param>
-            <param name="size">The size of this instance.</param>
-            <param name="texture">The texture of this instance.</param>
+            <param name="sprite">The sprite that should represent this instance.</param>
         </member>
         <member name="P:StarSimLib.GUI.Components.Component.Position">
             <summary>
@@ -1341,7 +1330,7 @@
             Represents an image.
             </summary>
         </member>
-        <member name="M:StarSimLib.GUI.Components.Image.#ctor(SFML.System.Vector2i,SFML.System.Vector2i,SFML.Graphics.Texture)">
+        <member name="M:StarSimLib.GUI.Components.Image.#ctor(SFML.System.Vector2f,SFML.Graphics.Sprite)">
             <inheritdoc />
         </member>
         <member name="T:StarSimLib.GUI.IInputHandler">
@@ -1762,6 +1751,32 @@
             </summary>
             <returns>A 3D position vector.</returns>
         </member>
+        <member name="T:StarSimLib.UI.MainMenuInputHandler">
+            <summary>
+            Provides user input handling functions for the main menu.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuInputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuInputHandler.HandleKeyReleased(System.Object,SFML.Window.KeyEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuInputHandler.HandleMouseMoved(System.Object,SFML.Window.MouseMoveEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuInputHandler.HandleMousePressed(System.Object,SFML.Window.MouseButtonEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuInputHandler.HandleMouseReleased(System.Object,SFML.Window.MouseButtonEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuInputHandler.HandleMouseScrolled(System.Object,SFML.Window.MouseWheelScrollEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuInputHandler.HandleScreenClosed(System.Object,System.EventArgs)">
+            <inheritdoc />
+        </member>
         <member name="T:StarSimLib.UI.MainMenuScreen">
             <summary>
             Encapsulates the main menu screen.
@@ -1784,7 +1799,7 @@
         </member>
         <member name="T:StarSimLib.UI.SimulationInputHandler">
             <summary>
-            Provides user input handling functions.
+            Provides user input handling functions for the simulation.
             </summary>
         </member>
         <member name="F:StarSimLib.UI.SimulationInputHandler.managedBodies">

@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography;
 using System.Text;
-using System.Timers;
 using SFML.Graphics;
 using SFML.Window;
 using StarSimLib;
 using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Data_Structures;
-using StarSimLib.Graphics;
 using StarSimLib.GUI;
 using StarSimLib.Physics;
 using StarSimLib.UI;
@@ -41,14 +35,14 @@ namespace StarSim
         private static readonly SimulatorContext databaseContext;
 
         /// <summary>
+        /// The main menu from which we will start other screens.
+        /// </summary>
+        private static readonly MainMenuScreen mainMenuScreen;
+
+        /// <summary>
         /// The simulation which we will render, once the user sets it up.
         /// </summary>
         private static readonly SimulationScreen simulationScreen;
-
-        /// <summary>
-        /// The SFML.NET window to which everything is rendered.
-        /// </summary>
-        private static readonly RenderWindow window;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Program"/> class,
@@ -58,10 +52,6 @@ namespace StarSim
             // set up the database context for the program
             databaseContext = new SimulatorContext();
 
-            // we construct a new window instance, but immediately hide it so that we can configure the rest of the app
-            window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulator: FPS ", Styles.Default, new ContextSettings());
-            window.SetVisible(false);
-
             bodies = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
             bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
 
@@ -70,6 +60,11 @@ namespace StarSim
 #else
             UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
+
+            RenderWindow mainMenuWindow = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: Main Menu");
+            IInputHandler mainMenuInputHandler = new MainMenuInputHandler();
+
+            mainMenuScreen = new MainMenuScreen(mainMenuWindow, mainMenuInputHandler);
 
             RenderWindow simulationWindow = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: FPS ");
             IInputHandler simulationInputHandler = new SimulationInputHandler(ref bodies);
@@ -113,8 +108,11 @@ namespace StarSim
             Console.WriteLine("Press 'enter' to continue...");
             Console.ReadLine();
 
+            // run main menu
+            mainMenuScreen.Run();
+
             // run simulation
-            simulationScreen.Run();
+            //simulationScreen.Run();
 
             Console.WriteLine("Goodbye, World!");
             Console.WriteLine("Press 'enter' to quit...");

@@ -9,7 +9,7 @@ namespace StarSimLib.GUI.Components
     public class Image : Component
     {
         /// <inheritdoc />
-        public Image(Vector2i position, Vector2i size, Texture texture) : base(position, size, texture)
+        public Image(Vector2f position, Sprite sprite) : base(position, sprite)
         {
         }
     }

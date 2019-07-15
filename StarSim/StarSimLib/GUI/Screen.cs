@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using System.Threading.Tasks;
+using SFML.Graphics;
 
 namespace StarSimLib.GUI
 {
@@ -27,8 +28,7 @@ namespace StarSimLib.GUI
             renderWindow = window;
 
             this.inputHandler = inputHandler;
-
-            renderWindow.Closed += (sender, eventArgs) => ((RenderWindow)sender).Close();
+            inputHandler.HandledScreen = this;
 
             // we apply event handlers to allow for interactivity inside the window
             renderWindow.KeyPressed += this.inputHandler.HandleKeyPressed;
@@ -37,6 +37,7 @@ namespace StarSimLib.GUI
             renderWindow.MouseButtonReleased += this.inputHandler.HandleMouseReleased;
             renderWindow.MouseMoved += this.inputHandler.HandleMouseMoved;
             renderWindow.MouseWheelScrolled += this.inputHandler.HandleMouseScrolled;
+            renderWindow.Closed += this.inputHandler.HandleScreenClosed;
 
             renderWindow.SetVisible(false);
 

@@ -1,5 +1,8 @@
-﻿using SFML.Graphics;
+﻿using System.Collections.Generic;
+using SFML.Graphics;
+using SFML.System;
 using StarSimLib.GUI;
+using StarSimLib.GUI.Components;
 
 namespace StarSimLib.UI
 {
@@ -8,9 +11,34 @@ namespace StarSimLib.UI
     /// </summary>
     public class MainMenuScreen : Screen
     {
+        private readonly List<Component> components;
+
         /// <inheritdoc />
         public MainMenuScreen(RenderWindow window, IInputHandler inputHandler) : base(window, inputHandler)
         {
+            components = new List<Component>
+                         {
+                             new GUI.Components.Image(new Vector2f(10, 10), new Sprite(
+                                 new Texture(@"resources/chessboard.jpg",
+                                     new IntRect(new Vector2i(100, 100), new Vector2i(800, 800))),
+                                 new IntRect(new Vector2i(10, 10), new Vector2i(80, 80)))),
+                             new GUI.Components.Image(new Vector2f(200, 10), new Sprite(
+                                 new Texture(@"resources/chessboard.jpg",
+                                     new IntRect(new Vector2i(100, 100), new Vector2i(800, 800))),
+                                 new IntRect(new Vector2i(10, 10), new Vector2i(80, 80)))),
+                             new GUI.Components.Image(new Vector2f(10, 200), new Sprite(
+                                 new Texture(@"resources/chessboard.jpg",
+                                     new IntRect(new Vector2i(100, 100), new Vector2i(800, 800))),
+                                 new IntRect(new Vector2i(10, 10), new Vector2i(80, 80)))),
+                             new GUI.Components.Image(new Vector2f(200, 200), new Sprite(
+                                 new Texture(@"resources/chessboard.jpg",
+                                     new IntRect(new Vector2i(100, 100), new Vector2i(800, 800))),
+                                 new IntRect(new Vector2i(10, 10), new Vector2i(80, 80)))),
+                             new GUI.Components.Image(new Vector2f(400, 400), new Sprite(
+                                 new Texture(@"resources/chessboard.jpg",
+                                     new IntRect(new Vector2i(100, 100), new Vector2i(800, 800))),
+                                 new IntRect(new Vector2i(10, 10), new Vector2i(80, 80))))
+                         };
         }
 
         #region Overrides of Screen
@@ -28,6 +56,10 @@ namespace StarSimLib.UI
         /// <inheritdoc />
         protected override void DrawFrame(RenderTarget renderTarget, RenderStates renderStates)
         {
+            foreach (Component component in components)
+            {
+                component.Draw(renderTarget, renderStates);
+            }
         }
 
         /// <inheritdoc />

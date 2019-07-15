@@ -1,5 +1,4 @@
 ﻿using System;
-using SFML.Graphics;
 using SFML.Window;
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
@@ -8,7 +7,7 @@ using StarSimLib.GUI;
 namespace StarSimLib.UI
 {
     /// <summary>
-    /// Provides user input handling functions.
+    /// Provides user input handling functions for the simulation.
     /// </summary>
     public class SimulationInputHandler : IInputHandler
     {
@@ -32,6 +31,9 @@ namespace StarSimLib.UI
         {
             managedBodies = bodies;
         }
+
+        /// <inheritdoc />
+        public Screen HandledScreen { get; set; }
 
         /// <summary>
         /// Whether the simulation is paused at any given time.
@@ -185,7 +187,7 @@ namespace StarSimLib.UI
         /// <inheritdoc />
         public void HandleScreenClosed(object sender, EventArgs eventArgs)
         {
-            ((RenderWindow)sender).Close();
+            ((Window)sender).Close();
         }
 
         /// <summary>
