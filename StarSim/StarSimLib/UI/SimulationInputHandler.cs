@@ -1,14 +1,16 @@
 ﻿using System;
+using SFML.Graphics;
 using SFML.Window;
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
+using StarSimLib.GUI;
 
 namespace StarSimLib.UI
 {
     /// <summary>
     /// Provides user input handling functions.
     /// </summary>
-    public class SimulationInputHandler
+    public class SimulationInputHandler : IInputHandler
     {
         /// <summary>
         /// Holds all the <see cref="Body"/> instances that should be simulated.
@@ -18,7 +20,7 @@ namespace StarSimLib.UI
         /// <summary>
         /// The renderer used to display the <see cref="Body"/> instances on the screen.
         /// </summary>
-        private readonly SimulationDrawer simulationDrawer;
+        private SimulationDrawer simulationDrawer;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SimulationInputHandler"/> class.
@@ -26,13 +28,9 @@ namespace StarSimLib.UI
         /// <param name="bodies">
         /// A reference to the <see cref="Body"/> instances which should be managed by this instance.
         /// </param>
-        /// <param name="simulationDrawer">
-        /// A reference to the renderer used to display the <see cref="Body"/> instances on the screen.
-        /// </param>
-        public SimulationInputHandler(ref Body[] bodies, ref SimulationDrawer simulationDrawer)
+        public SimulationInputHandler(ref Body[] bodies)
         {
             managedBodies = bodies;
-            this.simulationDrawer = simulationDrawer;
         }
 
         /// <summary>
@@ -46,11 +44,7 @@ namespace StarSimLib.UI
         /// </summary>
         public bool RecordOrbitTracers { get; set; }
 
-        /// <summary>
-        /// Handles key presses.
-        /// </summary>
-        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
-        /// <param name="eventArgs">The <see cref="KeyEventArgs"/> associated with the key press.</param>
+        /// <inheritdoc />
         public void HandleKeyPressed(object sender, KeyEventArgs eventArgs)
         {
             string msg = "";
@@ -138,11 +132,7 @@ namespace StarSimLib.UI
             }
         }
 
-        /// <summary>
-        /// Handles key releases.
-        /// </summary>
-        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
-        /// <param name="eventArgs">The <see cref="KeyEventArgs"/> associated with the key release.</param>
+        /// <inheritdoc />
         public void HandleKeyReleased(object sender, KeyEventArgs eventArgs)
         {
             string msg = "";
@@ -159,41 +149,25 @@ namespace StarSimLib.UI
             }
         }
 
-        /// <summary>
-        /// Handles motions of the mouse.
-        /// </summary>
-        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
-        /// <param name="eventArgs">The <see cref="MouseMoveEventArgs"/> associated with the mouse movement.</param>
+        /// <inheritdoc />
         public void HandleMouseMoved(object sender, MouseMoveEventArgs eventArgs)
         {
             //Console.WriteLine($"Mouse moved: {eventArgs.X} {eventArgs.Y}");
         }
 
-        /// <summary>
-        /// Handles key presses of the mouse.
-        /// </summary>
-        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
-        /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the mouse press.</param>
+        /// <inheritdoc />
         public void HandleMousePressed(object sender, MouseButtonEventArgs eventArgs)
         {
             //Console.WriteLine($"Mouse pressed: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
         }
 
-        /// <summary>
-        /// Handles key releases of the mouse.
-        /// </summary>
-        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
-        /// <param name="eventArgs">The <see cref="MouseButtonEventArgs"/> associated with the mouse release.</param>
+        /// <inheritdoc />
         public void HandleMouseReleased(object sender, MouseButtonEventArgs eventArgs)
         {
             //Console.WriteLine($"Mouse released: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
         }
 
-        /// <summary>
-        /// Handles scrolling of the mouse wheel.
-        /// </summary>
-        /// <param name="sender">The <see cref="Window"/> that sent the event.</param>
-        /// <param name="eventArgs">The <see cref="MouseWheelScrollEventArgs"/> associated with the mouse scroll.</param>
+        /// <inheritdoc />
         public void HandleMouseScrolled(object sender, MouseWheelScrollEventArgs eventArgs)
         {
             if (eventArgs.Delta > 0)
@@ -206,6 +180,21 @@ namespace StarSimLib.UI
             }
 
             Console.WriteLine($"Current field of view (zoom level): {simulationDrawer.FOV} ({simulationDrawer.ZoomLevel})");
+        }
+
+        /// <inheritdoc />
+        public void HandleScreenClosed(object sender, EventArgs eventArgs)
+        {
+            ((RenderWindow)sender).Close();
+        }
+
+        /// <summary>
+        /// Sets the simulation drawer.
+        /// </summary>
+        /// <param name="drawer"></param>
+        public void SetSimulationDrawer(SimulationDrawer drawer)
+        {
+            simulationDrawer = drawer;
         }
     }
 }

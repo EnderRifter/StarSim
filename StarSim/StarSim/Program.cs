@@ -13,6 +13,7 @@ using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
+using StarSimLib.GUI;
 using StarSimLib.Physics;
 using StarSimLib.UI;
 
@@ -70,7 +71,10 @@ namespace StarSim
             UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
 
-            simulationScreen = new SimulationScreen(ref bodies, ref bodyShapeMap, bodyPositionUpdater);
+            RenderWindow simulationWindow = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: FPS ");
+            IInputHandler simulationInputHandler = new SimulationInputHandler(ref bodies);
+
+            simulationScreen = new SimulationScreen(simulationWindow, simulationInputHandler, ref bodies, ref bodyShapeMap, bodyPositionUpdater);
         }
 
         /// <summary>

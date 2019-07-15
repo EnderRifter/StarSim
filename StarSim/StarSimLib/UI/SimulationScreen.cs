@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Timers;
 using SFML.Graphics;
-using SFML.Window;
-using StarSimLib.Contexts;
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
+using StarSimLib.GUI;
 using StarSimLib.Physics;
 
 namespace StarSimLib.UI
@@ -14,7 +11,7 @@ namespace StarSimLib.UI
     /// <summary>
     /// Encapsulates the simulation.
     /// </summary>
-    public class SimulationScreen
+    public class SimulationScreen : Screen
     {
         /// <summary>
         /// The interval between timer refreshes, in milliseconds.
@@ -53,11 +50,6 @@ namespace StarSimLib.UI
         private readonly SimulationInputHandler simulationInputHandler;
 
         /// <summary>
-        /// The SFML.NET window to which everything is rendered.
-        /// </summary>
-        private readonly RenderWindow window;
-
-        /// <summary>
         /// The current amount of frames per second.
         /// </summary>
         private double fps;
@@ -68,21 +60,24 @@ namespace StarSimLib.UI
         private uint framesElapsed;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="SimulationScreen"/> class,
+        /// Initialises a new instance of the <see cref="SimulationScreen"/> class.
         /// </summary>
-        public SimulationScreen(ref Body[] bodies, ref Dictionary<Body, CircleShape> bodyShapeMap, UpdateDelegate bodyPositionUpdater)
+        /// <param name="renderWindow">The render window to which to display this instance.</param>
+        /// <param name="inputHandler">The input handler for this instance.</param>
+        /// <param name="bodies">The bodies managed by this instance.</param>
+        /// <param name="bodyShapeMap">The shapes for the bodies managed by this instance.</param>
+        /// <param name="bodyPositionUpdater">The body position update delegate for this instance.</param>
+        public SimulationScreen(RenderWindow renderWindow, IInputHandler inputHandler, ref Body[] bodies,
+            ref Dictionary<Body, CircleShape> bodyShapeMap, UpdateDelegate bodyPositionUpdater) : base(renderWindow, inputHandler)
         {
-            // we construct a new window instance, but immediately hide it so that we can configure the rest of the app
-            window = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: FPS ", Styles.Default, new ContextSettings());
-            window.SetVisible(false);
-
             this.bodies = bodies;
             this.bodyShapeMap = bodyShapeMap;
 
             this.bodyPositionUpdater = bodyPositionUpdater;
 
-            simulationDrawer = new SimulationDrawer(window, ref bodies, ref bodyShapeMap);
-            simulationInputHandler = new SimulationInputHandler(ref bodies, ref simulationDrawer);
+            simulationDrawer = new SimulationDrawer(renderWindow, ref bodies, ref bodyShapeMap);
+            simulationInputHandler = (SimulationInputHandler)inputHandler;
+            simulationInputHandler.SetSimulationDrawer(simulationDrawer);
 
             // constructs a new timer and attaches a timer event handler that updates the fps and window title every interval
             miscTimer = new Timer(TimerRefreshIntervalMs) { AutoReset = true, Enabled = true };
@@ -91,52 +86,45 @@ namespace StarSimLib.UI
                 fps = framesElapsed / (TimerRefreshIntervalMs / 1000);
 
                 framesElapsed = 0;
-                window.SetTitle($"N-Body Simulator: FPS {fps}");
+                renderWindow.SetTitle($"N-Body Simulator: FPS {fps}");
             };
         }
 
-        /// <summary>
-        /// Runs the screen until it is closed.
-        /// </summary>
-        public void Run()
+        #region Overrides of Screen
+
+        /// <inheritdoc />
+        protected override void CleanupScreen(RenderTarget renderTarget, RenderStates renderStates)
         {
-            // we reveal the window so that the user may interact with our program
-            window.SetVisible(true);
-            miscTimer.Start();
+            miscTimer.Stop();
+        }
 
-            // we configure the window and its close handler, so that we may close the window once we are done with it
-            window.SetFramerateLimit(Constants.FrameRate);
-            window.Closed += (sender, eventArgs) => ((RenderWindow)sender).Close();
+        /// <inheritdoc />
+        protected override void ConstructScreen()
+        {
+            // cap the frame rate of the screen to limit the speed of the simulation
+            renderWindow.SetFramerateLimit(Constants.FrameRate);
+        }
 
-            // we apply event handlers to allow for interactivity inside the window
-            window.KeyPressed += simulationInputHandler.HandleKeyPressed;
-            window.KeyReleased += simulationInputHandler.HandleKeyReleased;
-            window.MouseButtonPressed += simulationInputHandler.HandleMousePressed;
-            window.MouseButtonReleased += simulationInputHandler.HandleMouseReleased;
-            window.MouseMoved += simulationInputHandler.HandleMouseMoved;
-            window.MouseWheelScrolled += simulationInputHandler.HandleMouseScrolled;
+        /// <inheritdoc />
+        protected override void DrawFrame(RenderTarget renderTarget, RenderStates renderStates)
+        {
+            if (!simulationInputHandler.IsSimulationPaused)
+            {
+                bodyPositionUpdater(bodies, Constants.TimeStep);
+            }
 
             simulationDrawer.DrawBodies();
 
-            while (window.IsOpen)
-            {
-                window.Clear();
-                window.DispatchEvents();
-
-                if (!simulationInputHandler.IsSimulationPaused)
-                {
-                    bodyPositionUpdater(bodies, Constants.TimeStep);
-                }
-
-                simulationDrawer.DrawBodies();
-
-                window.Display();
-
-                // increment the fps counter
-                framesElapsed++;
-            }
-
-            miscTimer.Stop();
+            // increment the fps counter
+            framesElapsed++;
         }
+
+        /// <inheritdoc />
+        protected override void SetupScreen(RenderTarget renderTarget, RenderStates renderStates)
+        {
+            miscTimer.Start();
+        }
+
+        #endregion Overrides of Screen
     }
 }

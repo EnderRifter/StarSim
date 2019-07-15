@@ -1293,6 +1293,164 @@
             </summary>
             <param name="scaleMultiplier">The multiplier by which to scale the viewport of this instances render target.</param>
         </member>
+        <member name="T:StarSimLib.GUI.Components.Component">
+            <summary>
+            Base class for all GUI components, such as text boxes, buttons, etc.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.GUI.Components.Component.sprite">
+            <summary>
+            The sprite representing this component.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.GUI.Components.Component.intRect">
+            <summary>
+            The rectangular entity used for this instances sprite.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.GUI.Components.Component.texture">
+            <summary>
+            The texture used for this instances sprite.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.GUI.Components.Component.#ctor(SFML.System.Vector2i,SFML.System.Vector2i,SFML.Graphics.Texture)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.GUI.Components.Component"/> class.
+            </summary>
+            <param name="position">The position of this instance.</param>
+            <param name="size">The size of this instance.</param>
+            <param name="texture">The texture of this instance.</param>
+        </member>
+        <member name="P:StarSimLib.GUI.Components.Component.Position">
+            <summary>
+            The position of this component.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.GUI.Components.Component.DrawInternal(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <summary>
+            Draws this component to the given <see cref="T:SFML.Graphics.RenderTarget"/>, with the given <see cref="T:SFML.Graphics.RenderStates"/>.
+            </summary>
+            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
+            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> for the drawing action.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.Components.Component.Draw(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.GUI.Components.Image">
+            <summary>
+            Represents an image.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.GUI.Components.Image.#ctor(SFML.System.Vector2i,SFML.System.Vector2i,SFML.Graphics.Texture)">
+            <inheritdoc />
+        </member>
+        <member name="T:StarSimLib.GUI.IInputHandler">
+            <summary>
+            Describes an input handler that allows screen interactivity.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.GUI.IInputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
+            <summary>
+            Handles key presses.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key press.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.IInputHandler.HandleKeyReleased(System.Object,SFML.Window.KeyEventArgs)">
+            <summary>
+            Handles key releases.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key release.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.IInputHandler.HandleMouseMoved(System.Object,SFML.Window.MouseMoveEventArgs)">
+            <summary>
+            Handles motions of the mouse.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseMoveEventArgs"/> associated with the mouse movement.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.IInputHandler.HandleMousePressed(System.Object,SFML.Window.MouseButtonEventArgs)">
+            <summary>
+            Handles key presses of the mouse.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse press.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.IInputHandler.HandleMouseReleased(System.Object,SFML.Window.MouseButtonEventArgs)">
+            <summary>
+            Handles key releases of the mouse.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse release.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.IInputHandler.HandleMouseScrolled(System.Object,SFML.Window.MouseWheelScrollEventArgs)">
+            <summary>
+            Handles scrolling of the mouse wheel.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseWheelScrollEventArgs"/> associated with the mouse scroll.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.IInputHandler.HandleScreenClosed(System.Object,System.EventArgs)">
+            <summary>
+            Handles the screen closing.
+            </summary>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:System.EventArgs"/> associated with the screen close.</param>
+        </member>
+        <member name="T:StarSimLib.GUI.Screen">
+            <summary>
+            Base class for screens that include user interactivity.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.GUI.Screen.inputHandler">
+            <summary>
+            The input handler to use for this instance.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.GUI.Screen.renderWindow">
+            <summary>
+            The window to which this instance is drawn.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.GUI.Screen.#ctor(SFML.Graphics.RenderWindow,StarSimLib.GUI.IInputHandler)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.GUI.Screen"/> class.
+            </summary>
+            <param name="window"></param>
+            <param name="inputHandler"></param>
+        </member>
+        <member name="M:StarSimLib.GUI.Screen.CleanupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <summary>
+            Cleans up the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget"/> with the given <see cref="T:SFML.Graphics.RenderStates"/>.
+            </summary>
+            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
+            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> to use for the drawing.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.Screen.ConstructScreen">
+            <summary>
+            Called during the constructor to allow for custom setup, before the child constructor is called.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.GUI.Screen.DrawFrame(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <summary>
+            Draws the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget"/> with the given <see cref="T:SFML.Graphics.RenderStates"/>.
+            </summary>
+            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
+            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> to use for the drawing.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.Screen.SetupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <summary>
+            Sets up the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget"/> with the given <see cref="T:SFML.Graphics.RenderStates"/>.
+            </summary>
+            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
+            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> to use for the drawing.</param>
+        </member>
+        <member name="M:StarSimLib.GUI.Screen.Run">
+            <summary>
+            Displays the screen until it is closed.
+            </summary>
+        </member>
         <member name="T:StarSimLib.Models.Body">
             <summary>
             Represents a known stellar body in the database. Maps to a <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
@@ -1604,6 +1762,26 @@
             </summary>
             <returns>A 3D position vector.</returns>
         </member>
+        <member name="T:StarSimLib.UI.MainMenuScreen">
+            <summary>
+            Encapsulates the main menu screen.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuScreen.#ctor(SFML.Graphics.RenderWindow,StarSimLib.GUI.IInputHandler)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuScreen.CleanupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuScreen.ConstructScreen">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuScreen.DrawFrame(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.MainMenuScreen.SetupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <inheritdoc />
+        </member>
         <member name="T:StarSimLib.UI.SimulationInputHandler">
             <summary>
             Provides user input handling functions.
@@ -1619,15 +1797,12 @@
             The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
             </summary>
         </member>
-        <member name="M:StarSimLib.UI.SimulationInputHandler.#ctor(StarSimLib.Data_Structures.Body[]@,StarSimLib.Graphics.SimulationDrawer@)">
+        <member name="M:StarSimLib.UI.SimulationInputHandler.#ctor(StarSimLib.Data_Structures.Body[]@)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationInputHandler"/> class.
             </summary>
             <param name="bodies">
             A reference to the <see cref="T:StarSimLib.Data_Structures.Body"/> instances which should be managed by this instance.
-            </param>
-            <param name="simulationDrawer">
-            A reference to the renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
             </param>
         </member>
         <member name="P:StarSimLib.UI.SimulationInputHandler.IsSimulationPaused">
@@ -1642,46 +1817,31 @@
             </summary>
         </member>
         <member name="M:StarSimLib.UI.SimulationInputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
-            <summary>
-            Handles key presses.
-            </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key press.</param>
+            <inheritdoc />
         </member>
         <member name="M:StarSimLib.UI.SimulationInputHandler.HandleKeyReleased(System.Object,SFML.Window.KeyEventArgs)">
-            <summary>
-            Handles key releases.
-            </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key release.</param>
+            <inheritdoc />
         </member>
         <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMouseMoved(System.Object,SFML.Window.MouseMoveEventArgs)">
-            <summary>
-            Handles motions of the mouse.
-            </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseMoveEventArgs"/> associated with the mouse movement.</param>
+            <inheritdoc />
         </member>
         <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMousePressed(System.Object,SFML.Window.MouseButtonEventArgs)">
-            <summary>
-            Handles key presses of the mouse.
-            </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse press.</param>
+            <inheritdoc />
         </member>
         <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMouseReleased(System.Object,SFML.Window.MouseButtonEventArgs)">
-            <summary>
-            Handles key releases of the mouse.
-            </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse release.</param>
+            <inheritdoc />
         </member>
         <member name="M:StarSimLib.UI.SimulationInputHandler.HandleMouseScrolled(System.Object,SFML.Window.MouseWheelScrollEventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.SimulationInputHandler.HandleScreenClosed(System.Object,System.EventArgs)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.SimulationInputHandler.SetSimulationDrawer(StarSimLib.Graphics.SimulationDrawer)">
             <summary>
-            Handles scrolling of the mouse wheel.
+            Sets the simulation drawer.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseWheelScrollEventArgs"/> associated with the mouse scroll.</param>
+            <param name="drawer"></param>
         </member>
         <member name="T:StarSimLib.UI.SimulationScreen">
             <summary>
@@ -1724,11 +1884,6 @@
             The input handler to use to provide interactivity to the simulator.
             </summary>
         </member>
-        <member name="F:StarSimLib.UI.SimulationScreen.window">
-            <summary>
-            The SFML.NET window to which everything is rendered.
-            </summary>
-        </member>
         <member name="F:StarSimLib.UI.SimulationScreen.fps">
             <summary>
             The current amount of frames per second.
@@ -1739,15 +1894,27 @@
             Counts the frames elapsed since the last timer pulse, so that the FPS can be tracked.
             </summary>
         </member>
-        <member name="M:StarSimLib.UI.SimulationScreen.#ctor(StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@,StarSimLib.Physics.UpdateDelegate)">
+        <member name="M:StarSimLib.UI.SimulationScreen.#ctor(SFML.Graphics.RenderWindow,StarSimLib.GUI.IInputHandler,StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@,StarSimLib.Physics.UpdateDelegate)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationScreen"/> class,
+            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationScreen"/> class.
             </summary>
+            <param name="renderWindow">The render window to which to display this instance.</param>
+            <param name="inputHandler">The input handler for this instance.</param>
+            <param name="bodies">The bodies managed by this instance.</param>
+            <param name="bodyShapeMap">The shapes for the bodies managed by this instance.</param>
+            <param name="bodyPositionUpdater">The body position update delegate for this instance.</param>
         </member>
-        <member name="M:StarSimLib.UI.SimulationScreen.Run">
-            <summary>
-            Runs the screen until it is closed.
-            </summary>
+        <member name="M:StarSimLib.UI.SimulationScreen.CleanupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.SimulationScreen.ConstructScreen">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.SimulationScreen.DrawFrame(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <inheritdoc />
+        </member>
+        <member name="M:StarSimLib.UI.SimulationScreen.SetupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
+            <inheritdoc />
         </member>
     </members>
 </doc>
