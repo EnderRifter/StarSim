@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 
-namespace StarSimLib.GUI
+namespace StarSimLib.UI
 {
     /// <summary>
     /// Base class for screens that include user interactivity.

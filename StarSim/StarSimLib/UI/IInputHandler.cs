@@ -1,7 +1,7 @@
 ﻿using System;
 using SFML.Window;
 
-namespace StarSimLib.GUI
+namespace StarSimLib.UI
 {
     /// <summary>
     /// Describes an input handler that allows screen interactivity.

@@ -3,7 +3,6 @@ using System.Timers;
 using SFML.Graphics;
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
-using StarSimLib.GUI;
 using StarSimLib.Physics;
 
 namespace StarSimLib.UI

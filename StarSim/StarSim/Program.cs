@@ -7,7 +7,6 @@ using StarSimLib;
 using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Data_Structures;
-using StarSimLib.GUI;
 using StarSimLib.Physics;
 using StarSimLib.UI;
 
@@ -35,11 +34,6 @@ namespace StarSim
         private static readonly SimulatorContext databaseContext;
 
         /// <summary>
-        /// The main menu from which we will start other screens.
-        /// </summary>
-        private static readonly MainMenuScreen mainMenuScreen;
-
-        /// <summary>
         /// The simulation which we will render, once the user sets it up.
         /// </summary>
         private static readonly SimulationScreen simulationScreen;
@@ -60,11 +54,6 @@ namespace StarSim
 #else
             UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
-
-            RenderWindow mainMenuWindow = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: Main Menu");
-            IInputHandler mainMenuInputHandler = new MainMenuInputHandler();
-
-            mainMenuScreen = new MainMenuScreen(mainMenuWindow, mainMenuInputHandler);
 
             RenderWindow simulationWindow = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: FPS ");
             IInputHandler simulationInputHandler = new SimulationInputHandler(ref bodies);
@@ -108,11 +97,8 @@ namespace StarSim
             Console.WriteLine("Press 'enter' to continue...");
             Console.ReadLine();
 
-            // run main menu
-            mainMenuScreen.Run();
-
             // run simulation
-            //simulationScreen.Run();
+            simulationScreen.Run();
 
             Console.WriteLine("Goodbye, World!");
             Console.WriteLine("Press 'enter' to quit...");
