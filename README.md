@@ -2,7 +2,7 @@
 Some coursework for the OCR A-Level 2015 specification.
 
 # Description
-A solar system simulator, that will be viewed in 2 or 3 dimensions, that accurately simulates the orbits of bodies around each other.
+A solar system simulator, that will be viewed in 3 dimensions, that accurately simulates the orbits of bodies around each other.
 
 # Features
 - Allows a user to generate a random solar system
