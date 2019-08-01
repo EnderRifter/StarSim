@@ -13,24 +13,24 @@
     <vm:UserLoginViewModel />
   </Design.DataContext>
 
-  <DockPanel>
-    <StackPanel Margin="4" Orientation="Vertical" DockPanel.Dock="Top">
+  <StackPanel>
+    <StackPanel Margin="4" Orientation="Vertical">
       <TextBlock Text="Username:" HorizontalAlignment="Center" DockPanel.Dock="Top" />
       <TextBox Text="{Binding Username, Mode=TwoWay}" Width="200" HorizontalAlignment="Center" />
       <TextBlock Text="Password:" HorizontalAlignment="Center" DockPanel.Dock="Top" />
       <TextBox Text="{Binding Password, Mode=TwoWay}" Width="200" PasswordChar="*" HorizontalAlignment="Center" />
-      <Separator Margin="2" DockPanel.Dock="Top" />
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DataContext="{Binding LoginFeedback}">
-        <TextBlock Text="Error: " Foreground="Red" IsVisible="{Binding IsError}" />
-        <TextBlock Text="{Binding Message}" Foreground="Red" IsVisible="{Binding IsError}" />
-        <TextBlock Text="Login Successful!" Foreground="Green" IsVisible="{Binding IsSuccess}" />
-      </StackPanel>
     </StackPanel>
-    <Separator Margin="2" DockPanel.Dock="Top" />
-    <StackPanel Orientation="Vertical" Margin="4" DockPanel.Dock="Bottom">
+    <Separator Margin="2" />
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DataContext="{Binding LoginFeedback}">
+      <TextBlock Text="Error: " Foreground="Red" IsVisible="{Binding IsError}" />
+      <TextBlock Text="{Binding Message}" Foreground="Red" IsVisible="{Binding IsError}" />
+      <TextBlock Text="Login Successful!" Foreground="Green" IsVisible="{Binding IsSuccess}" />
+    </StackPanel>
+    <Separator Margin="2" />
+    <StackPanel Orientation="Vertical" Margin="4">
       <Button Command="{Binding OnLoginCommand}" Height="50">Login</Button>
       <Separator Margin="2" />
       <Button Command="{Binding OnLogoutCommand}" Height="50">Logout</Button>
     </StackPanel>
-  </DockPanel>
+  </StackPanel>
 </UserControl>
