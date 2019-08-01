@@ -13,10 +13,12 @@ namespace StarSimLib.Models
         /// Initialises a new instance of the <see cref="System"/> class.
         /// </summary>
         /// <param name="id">The unique id of this instance.</param>
+        /// <param name="creatorId">The unique id of the creator of this instance.</param>
         /// <param name="name">The name of this instance.</param>
-        public System(ulong id, string name)
+        public System(ulong id, ulong creatorId, string name)
         {
             Id = id;
+            CreatorId = creatorId;
             Name = name;
         }
 
@@ -58,7 +60,7 @@ namespace StarSimLib.Models
         /// A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
         /// multiple access to the same field.
         /// </summary>
-        [Timestamp, Required(ErrorMessage = "System must have a timestamp associated with it.")]
+        [Timestamp]
         public byte[] Timestamp { get; set; }
     }
 }

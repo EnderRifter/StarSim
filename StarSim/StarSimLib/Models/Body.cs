@@ -53,7 +53,7 @@ namespace StarSimLib.Models
         /// A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
         /// multiple access to the same field.
         /// </summary>
-        [Timestamp, Required(ErrorMessage = "Body must have a timestamp associated with it.")]
+        [Timestamp]
         public byte[] Timestamp { get; set; }
     }
 }

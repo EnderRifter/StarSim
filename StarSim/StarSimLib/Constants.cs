@@ -10,7 +10,7 @@ namespace StarSimLib
         /// <summary>
         /// The amount of bodies that are rendered by default.
         /// </summary>
-        public const int BodyCount = 50;
+        public const int BodyCount = 25;
 
         /// <summary>
         /// The mass of the central body, if it is included.

@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
+using StarSimLib.Cryptography;
 using StarSimLib.Models;
 
 namespace StarSimLib.Contexts
@@ -15,14 +16,14 @@ namespace StarSimLib.Contexts
         public const string ConnectionString = @"Data Source=Simulator.db";
 
         /// <summary>
-        /// Constructs a new instance of the <see cref="SimulatorContext"/> class.
+        /// Initialises a new instance of the <see cref="SimulatorContext"/> class.
         /// </summary>
         public SimulatorContext() : base(new DbContextOptionsBuilder<SimulatorContext>().Options)
         {
         }
 
         /// <summary>
-        /// Constructs a new instance of the <see cref="SimulatorContext"/> class.
+        /// Initialises a new instance of the <see cref="SimulatorContext"/> class.
         /// </summary>
         /// <param name="options">Any <see cref="DbContextOptions"/> that should be set on this instance.</param>
         public SimulatorContext(DbContextOptions options) : base(options)
@@ -74,7 +75,7 @@ namespace StarSimLib.Contexts
             modelBuilder.Entity<Models.System>().HasIndex(system => system.Id).IsUnique();
 
             modelBuilder.Entity<Models.System>().HasData(
-                new Models.System(1, "Test")
+                new Models.System(1, 1, "Test")
             );
 
             modelBuilder.Entity<BodyToSystemJoin>().HasIndex(join => new { join.BodyId, join.SystemId }).IsUnique();
@@ -89,8 +90,16 @@ namespace StarSimLib.Contexts
 
             modelBuilder.Entity<User>().Property(user => user.Email).HasDefaultValue("john.doe@gmail.com");
 
+            byte[] defaultUserSalt = CryptographyHelper.GenerateSalt(), defaultUserPasswordBytes = CryptographyHelper.StringToBytes("Default");
+            byte[] publisherSalt = CryptographyHelper.GenerateSalt(), publisherPasswordBytes = CryptographyHelper.StringToBytes("Publish");
+            byte[] adminSalt = CryptographyHelper.GenerateSalt(), adminPasswordBytes = CryptographyHelper.StringToBytes("Admin");
+            byte[] testUserSalt = CryptographyHelper.GenerateSalt(), testUserPasswordBytes = CryptographyHelper.StringToBytes("Test123");
+
             modelBuilder.Entity<User>().HasData(
-                new User(1, "John Doe", new byte[0], new byte[0])
+                new User(1, "User", UserPrivileges.Default, CryptographyHelper.GenerateHash(defaultUserPasswordBytes, defaultUserSalt), defaultUserSalt),
+                new User(2, "Publisher", UserPrivileges.Publisher, CryptographyHelper.GenerateHash(publisherPasswordBytes, publisherSalt), publisherSalt),
+                new User(3, "Administrator", UserPrivileges.Admin, CryptographyHelper.GenerateHash(adminPasswordBytes, adminSalt), adminSalt),
+                new User(4, "John Doe", UserPrivileges.Default, CryptographyHelper.GenerateHash(testUserPasswordBytes, testUserSalt), testUserSalt)
             );
         }
 

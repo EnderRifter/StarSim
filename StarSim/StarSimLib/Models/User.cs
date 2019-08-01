@@ -1,10 +1,82 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using StarSimLib.Cryptography;
 
 namespace StarSimLib.Models
 {
+    /// <summary>
+    /// Enumerates the possible privileges that a <see cref="User"/> can have, as flags to save space.
+    /// </summary>
+    [Flags]
+    public enum UserPrivileges
+    {
+        /// <summary>
+        /// Represents a user with the default privileges.
+        /// </summary>
+        Default = ViewSimulations | ViewKnownBodies,
+
+        /// <summary>
+        /// Represents a user with publishing privileges.
+        /// </summary>
+        Publisher = Default | PublishSimulations | ManageOwnSimulations | PublishKnownBodies | ManageOwnKnownBodies,
+
+        /// <summary>
+        /// Represents a user with administration privileges.
+        /// </summary>
+        Admin = Publisher | ManageForeignSimulations | ManageForeignKnownBodies | ViewUsers | ManageUsers,
+
+        /// <summary>
+        /// Allows a user to start published or random simulations and view them.
+        /// </summary>
+        ViewSimulations = 0,
+
+        /// <summary>
+        /// Allows a user to publish simulations for other users to view.
+        /// </summary>
+        PublishSimulations = 1,
+
+        /// <summary>
+        /// Allows a user to manage other user's published simulations.
+        /// </summary>
+        ManageForeignSimulations = 2,
+
+        /// <summary>
+        /// Allows a user to manage their own published simulations.
+        /// </summary>
+        ManageOwnSimulations = 4,
+
+        /// <summary>
+        /// Allows a user to view known bodies.
+        /// </summary>
+        ViewKnownBodies = 8,
+
+        /// <summary>
+        /// Allows a user to add new known bodies for other users to view.
+        /// </summary>
+        PublishKnownBodies = 16,
+
+        /// <summary>
+        /// Allows a user to edit their own published known bodies.
+        /// </summary>
+        ManageOwnKnownBodies = 32,
+
+        /// <summary>
+        /// Allows a user to edit other user's published known bodies.
+        /// </summary>
+        ManageForeignKnownBodies = 64,
+
+        /// <summary>
+        /// Allows a user to view other user's information.
+        /// </summary>
+        ViewUsers = 128,
+
+        /// <summary>
+        /// Allows a user to manage other user's information.
+        /// </summary>
+        ManageUsers = 256,
+    }
+
     /// <summary>
     /// Represents a user in the database.
     /// </summary>
@@ -15,11 +87,13 @@ namespace StarSimLib.Models
         /// </summary>
         /// <param name="id">The unique id of this instance.</param>
         /// <param name="username">The username of this instance.</param>
+        /// <param name="privileges">The privileges associated with this instance.</param>
         /// <param name="email">The optional email of this instance.</param>
-        public User(ulong id, string username, string email = null)
+        public User(ulong id, string username, UserPrivileges privileges, string email = null)
         {
             Id = id;
             Username = username;
+            Privileges = privileges;
             Email = email;
         }
 
@@ -28,13 +102,15 @@ namespace StarSimLib.Models
         /// </summary>
         /// <param name="id">The unique id of this instance.</param>
         /// <param name="username">The username of this instance.</param>
+        /// <param name="privileges">The privileges associated with this instance.</param>
         /// <param name="passwordHash">The hash of the salted password of this instance.</param>
         /// <param name="passwordSalt">The salt used to hash the password.</param>
         /// <param name="email">The optional email of this instance.</param>
-        public User(ulong id, string username, byte[] passwordHash, byte[] passwordSalt, string email = null)
+        public User(ulong id, string username, UserPrivileges privileges, byte[] passwordHash, byte[] passwordSalt, string email = null)
         {
             Id = id;
             Username = username;
+            Privileges = privileges;
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
             Email = email;
@@ -73,10 +149,16 @@ namespace StarSimLib.Models
         public byte[] PasswordSalt { get; set; }
 
         /// <summary>
+        /// The privileges associated with this instance.
+        /// </summary>
+        [Required(ErrorMessage = "User account must have at least the default privilege associated with it.")]
+        public UserPrivileges Privileges { get; set; }
+
+        /// <summary>
         /// A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
         /// multiple access to the same field.
         /// </summary>
-        [Timestamp, Required(ErrorMessage = "User must have a timestamp associated with it.")]
+        [Timestamp]
         public byte[] Timestamp { get; set; }
 
         /// <summary>

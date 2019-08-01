@@ -108,12 +108,12 @@
         </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.#ctor">
             <summary>
-            Constructs a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
             </summary>
         </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions)">
             <summary>
-            Constructs a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
             </summary>
             <param name="options">Any <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions"/> that should be set on this instance.</param>
         </member>
@@ -1382,11 +1382,12 @@
             Represents a star system in the database, with a collection of child <see cref="T:StarSimLib.Models.Body"/> instances.
             </summary>
         </member>
-        <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.String)">
+        <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.UInt64,System.String)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.Models.System"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
+            <param name="creatorId">The unique id of the creator of this instance.</param>
             <param name="name">The name of this instance.</param>
         </member>
         <member name="P:StarSimLib.Models.System.BodyToSystemJoins">
@@ -1421,25 +1422,97 @@
             multiple access to the same field.
             </summary>
         </member>
+        <member name="T:StarSimLib.Models.UserPrivileges">
+            <summary>
+            Enumerates the possible privileges that a <see cref="T:StarSimLib.Models.User"/> can have, as flags to save space.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.Default">
+            <summary>
+            Represents a user with the default privileges.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.Publisher">
+            <summary>
+            Represents a user with publishing privileges.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.Admin">
+            <summary>
+            Represents a user with administration privileges.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ViewSimulations">
+            <summary>
+            Allows a user to start published or random simulations and view them.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.PublishSimulations">
+            <summary>
+            Allows a user to publish simulations for other users to view.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ManageForeignSimulations">
+            <summary>
+            Allows a user to manage other user's published simulations.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ManageOwnSimulations">
+            <summary>
+            Allows a user to manage their own published simulations.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ViewKnownBodies">
+            <summary>
+            Allows a user to view known bodies.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.PublishKnownBodies">
+            <summary>
+            Allows a user to add new known bodies for other users to view.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ManageOwnKnownBodies">
+            <summary>
+            Allows a user to edit their own published known bodies.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ManageForeignKnownBodies">
+            <summary>
+            Allows a user to edit other user's published known bodies.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ViewUsers">
+            <summary>
+            Allows a user to view other user's information.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Models.UserPrivileges.ManageUsers">
+            <summary>
+            Allows a user to manage other user's information.
+            </summary>
+        </member>
         <member name="T:StarSimLib.Models.User">
             <summary>
             Represents a user in the database.
             </summary>
         </member>
-        <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,System.String)">
+        <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,StarSimLib.Models.UserPrivileges,System.String)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.Models.User"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
             <param name="username">The username of this instance.</param>
+            <param name="privileges">The privileges associated with this instance.</param>
             <param name="email">The optional email of this instance.</param>
         </member>
-        <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,System.Byte[],System.Byte[],System.String)">
+        <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,StarSimLib.Models.UserPrivileges,System.Byte[],System.Byte[],System.String)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.Models.User"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
             <param name="username">The username of this instance.</param>
+            <param name="privileges">The privileges associated with this instance.</param>
             <param name="passwordHash">The hash of the salted password of this instance.</param>
             <param name="passwordSalt">The salt used to hash the password.</param>
             <param name="email">The optional email of this instance.</param>
@@ -1467,6 +1540,11 @@
         <member name="P:StarSimLib.Models.User.PasswordSalt">
             <summary>
             The salt prepended to this instance's password prior to hashing.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.Privileges">
+            <summary>
+            The privileges associated with this instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.User.Timestamp">

@@ -1,17 +1,31 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:StarSimGui.ViewModels;assembly=StarSimGui"
+        xmlns:v="clr-namespace:StarSimGui.Views;assembly=StarSimGui"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StarSimGui.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="StarSimGui">
+        Title="Star Simulation - Mikołaj Lenczewski"
+        Background="White">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+  <TabControl BorderThickness="5">
+    <TabItem Header="Login" Background="WhiteSmoke" BorderThickness="1">
+      <v:UserLogin DataContext="{Binding UserLoginViewModel}" />
+    </TabItem>
+    <TabItem Header="Overview" Background="WhiteSmoke" BorderThickness="1" IsVisible="{Binding UserLoginViewModel.IsLoggedIn}">
+      <v:Overview DataContext="{Binding OverviewViewModel}" />
+    </TabItem>
+    <TabItem Header="Simulation" Background="WhiteSmoke" BorderThickness="1" IsVisible="{Binding UserLoginViewModel.IsLoggedIn}">
+      <v:Simulation DataContext="{Binding SimulationViewModel}" />
+    </TabItem>
+    <TabItem Header="Body Database" Background="WhiteSmoke" BorderThickness="1" IsVisible="{Binding UserLoginViewModel.IsLoggedIn}">
+      <v:Database DataContext="{Binding DatabaseViewModel}" />
+    </TabItem>
+  </TabControl>
 </Window>

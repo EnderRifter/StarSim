@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel;
 using ReactiveUI;
 
 namespace StarSimGui.ViewModels
 {
-    public class ViewModelBase : ReactiveObject
+    public class ViewModelBase : ReactiveObject, INotifyPropertyChanged
     {
     }
 }

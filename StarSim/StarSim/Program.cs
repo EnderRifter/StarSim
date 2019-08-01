@@ -5,7 +5,6 @@ using SFML.Graphics;
 using SFML.Window;
 using StarSimLib;
 using StarSimLib.Contexts;
-using StarSimLib.Cryptography;
 using StarSimLib.Data_Structures;
 using StarSimLib.Physics;
 using StarSimLib.UI;
@@ -55,7 +54,13 @@ namespace StarSim
             UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
 #endif
 
-            RenderWindow simulationWindow = new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: FPS ");
+            ContextSettings customContextSettings = new ContextSettings { AntialiasingLevel = 8, DepthBits = 24, StencilBits = 8 };
+
+            RenderWindow simulationWindow =
+                new RenderWindow(VideoMode.DesktopMode, "N-Body Simulation: FPS ", Styles.Default, customContextSettings);
+
+            PrintContextSettings(customContextSettings);
+
             IInputHandler simulationInputHandler = new SimulationInputHandler(ref bodies);
 
             simulationScreen = new SimulationScreen(simulationWindow, simulationInputHandler, ref bodies, ref bodyShapeMap, bodyPositionUpdater);
@@ -105,31 +110,14 @@ namespace StarSim
             Console.ReadLine();
         }
 
-        private static void TestHashing(string password)
+        private static void PrintContextSettings(ContextSettings settings)
         {
-            // set a shorthand for nicety reasons
-            string BytesToString(byte[] contents) => CryptographyHelper.BytesToString(contents);
-
-            Console.WriteLine($"Password to hash: {password}");
-
-            byte[] passwordBytes = CryptographyHelper.StringToBytes(password);
-            Console.WriteLine($"Password bytes:\n{BytesToString(passwordBytes)}");
-
-            // generates a salt of the default length
-            byte[] saltBytes = CryptographyHelper.GenerateSalt();
-            Console.WriteLine($"Generated salt:\n{BytesToString(saltBytes)}");
-
-            // generates a hash of the default length
-            byte[] passwordHash = CryptographyHelper.GenerateHash(passwordBytes, saltBytes);
-            Console.WriteLine($"Generated valid hash:\n{BytesToString(passwordHash)}");
-
-            byte[] invalidPasswordBytes = CryptographyHelper.StringToBytes("password ");
-            Console.WriteLine($"Invalid password bytes:\n{BytesToString(invalidPasswordBytes)}");
-
-            byte[] invalidPasswordHash = CryptographyHelper.GenerateHash(invalidPasswordBytes, saltBytes);
-            Console.WriteLine($"Generated invalid hash:\n{BytesToString(invalidPasswordHash)}");
-
-            Console.WriteLine($"Valid hash == invalid hash: {CryptographyHelper.HashesEqual(passwordHash, invalidPasswordHash)}");
+            Console.WriteLine($"AA Level: {settings.AntialiasingLevel}, " +
+                              $"Depth Bits: {settings.DepthBits}, " +
+                              $"Stencil Bits: {settings.StencilBits}, " +
+                              $"SRGB Capable: {settings.SRgbCapable}, " +
+                              $"Attributes: {settings.AttributeFlags}, " +
+                              $"Version: {settings.MajorVersion}.{settings.MinorVersion}");
         }
     }
 }

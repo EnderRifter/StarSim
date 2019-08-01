@@ -1,0 +1,38 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:StarSimGui.ViewModels;assembly=StarSimGui"
+             xmlns:v="clr-namespace:StarSimGui.Views;assembly=StarSimGui"
+             xmlns:local="clr-namespace:StarSimGui.Source;assembly=StarSimGui"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="StarSimGui.Views.UserLogin"
+             Background="WhiteSmoke">
+
+  <Design.DataContext>
+    <vm:UserLoginViewModel />
+  </Design.DataContext>
+
+  <DockPanel>
+    <StackPanel Margin="4" Orientation="Vertical" DockPanel.Dock="Top">
+      <TextBlock Text="Username:" HorizontalAlignment="Center" DockPanel.Dock="Top" />
+      <TextBox Text="{Binding Username, Mode=TwoWay}" Width="200" HorizontalAlignment="Center" />
+      <TextBlock Text="Password:" HorizontalAlignment="Center" DockPanel.Dock="Top" />
+      <TextBox Text="{Binding Password, Mode=TwoWay}" Width="200" PasswordChar="*" HorizontalAlignment="Center" />
+      <Separator Margin="2" DockPanel.Dock="Top" />
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DataContext="{Binding LoginFeedback}">
+        <TextBlock Text="Error: " Foreground="Red" IsVisible="{Binding IsError}" />
+        <TextBlock Text="{Binding Message}" Foreground="Red" IsVisible="{Binding IsError}" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DataContext="{Binding LoginFeedback}">
+        <TextBlock Text="Login Successful!" Foreground="Green" IsVisible="{Binding IsSuccess}" />
+      </StackPanel>
+    </StackPanel>
+    <Separator Margin="2" DockPanel.Dock="Top" />
+    <StackPanel Orientation="Vertical" Margin="4" DockPanel.Dock="Bottom">
+      <Button Command="{Binding OnLoginCommand}" Height="50">Login</Button>
+      <Separator Margin="2" />
+      <Button Command="{Binding OnLogoutCommand}" Height="50">Logout</Button>
+    </StackPanel>
+  </DockPanel>
+</UserControl>
