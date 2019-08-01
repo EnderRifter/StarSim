@@ -23,8 +23,6 @@
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DataContext="{Binding LoginFeedback}">
         <TextBlock Text="Error: " Foreground="Red" IsVisible="{Binding IsError}" />
         <TextBlock Text="{Binding Message}" Foreground="Red" IsVisible="{Binding IsError}" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DataContext="{Binding LoginFeedback}">
         <TextBlock Text="Login Successful!" Foreground="Green" IsVisible="{Binding IsSuccess}" />
       </StackPanel>
     </StackPanel>
