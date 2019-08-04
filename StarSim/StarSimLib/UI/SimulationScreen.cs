@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Timers;
-using SFML.Graphics;
+﻿using SFML.Graphics;
+
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
 using StarSimLib.Physics;
+
+using System.Collections.Generic;
+using System.Timers;
 
 namespace StarSimLib.UI
 {

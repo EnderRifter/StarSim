@@ -1,7 +1,9 @@
-﻿using System;
-using SFML.Window;
+﻿using SFML.Window;
+
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
+
+using System;
 
 namespace StarSimLib.UI
 {

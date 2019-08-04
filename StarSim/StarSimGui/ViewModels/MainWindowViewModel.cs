@@ -1,23 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ReactiveUI;
 using StarSimLib.Contexts;
+using StarSimLib.Models;
 
 namespace StarSimGui.ViewModels
 {
+    /// <summary>
+    /// Represents the main view.
+    /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Backing field for the <see cref="CurrentUser"/> property.
+        /// </summary>
+        private User currentUser;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
         public MainWindowViewModel()
         {
             SimulatorContext = new SimulatorContext();
 
-            DatabaseViewModel = new DatabaseViewModel();
+            DatabaseViewModel = new DatabaseViewModel(SimulatorContext);
 
-            OverviewViewModel = new OverviewViewModel();
+            OverviewViewModel = new OverviewViewModel(SimulatorContext);
 
-            SimulationViewModel = new SimulationViewModel();
+            SimulationViewModel = new SimulationViewModel(SimulatorContext);
 
             UserLoginViewModel = new UserLoginViewModel(SimulatorContext);
+
+            UserLoginViewModel.LoggedIn += user => CurrentUser = user;
+            UserLoginViewModel.LoggedIn += DatabaseViewModel.HandleLogin;
+            UserLoginViewModel.LoggedIn += OverviewViewModel.HandleLogin;
+            UserLoginViewModel.LoggedIn += SimulationViewModel.HandleLogin;
+
+            UserLoginViewModel.LoggedOut += () => CurrentUser = null;
+            UserLoginViewModel.LoggedOut += DatabaseViewModel.HandleLogout;
+            UserLoginViewModel.LoggedOut += OverviewViewModel.HandleLogout;
+            UserLoginViewModel.LoggedOut += SimulationViewModel.HandleLogout;
         }
 
         /// <summary>
@@ -25,9 +45,40 @@ namespace StarSimGui.ViewModels
         /// </summary>
         private SimulatorContext SimulatorContext { get; }
 
+        /// <summary>
+        /// The currently logged in user.
+        /// </summary>
+        public User CurrentUser
+        {
+            get
+            {
+                return currentUser;
+            }
+            set
+            {
+                currentUser = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Represents the database view.
+        /// </summary>
         public DatabaseViewModel DatabaseViewModel { get; set; }
+
+        /// <summary>
+        /// Represents the overview.
+        /// </summary>
         public OverviewViewModel OverviewViewModel { get; set; }
+
+        /// <summary>
+        /// Represents the simulation view.
+        /// </summary>
         public SimulationViewModel SimulationViewModel { get; set; }
+
+        /// <summary>
+        /// Represents the user login view.
+        /// </summary>
         public UserLoginViewModel UserLoginViewModel { get; set; }
     }
 }

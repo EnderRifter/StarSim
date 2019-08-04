@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
-using ReactiveUI;
+﻿using ReactiveUI;
+
+using System.ComponentModel;
 
 namespace StarSimGui.ViewModels
 {

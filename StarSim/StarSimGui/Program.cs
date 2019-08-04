@@ -1,9 +1,12 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Logging.Serilog;
-using StarSimLib.Cryptography;
+
 using StarSimGui.ViewModels;
 using StarSimGui.Views;
+
+using StarSimLib.Cryptography;
+
+using System;
 
 namespace StarSimGui
 {

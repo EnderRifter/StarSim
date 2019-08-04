@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using StarSimLib.Data_Structures;
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Physics
 {

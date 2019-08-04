@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.Window;
+
 using StarSimLib;
 using StarSimLib.Contexts;
 using StarSimLib.Data_Structures;
 using StarSimLib.Physics;
 using StarSimLib.UI;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace StarSim
 {

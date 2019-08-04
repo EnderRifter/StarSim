@@ -1,7 +1,9 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+
 using StarSimGui.ViewModels;
+
+using System;
 
 namespace StarSimGui
 {

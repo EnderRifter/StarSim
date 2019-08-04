@@ -1,5 +1,6 @@
-﻿using System;
-using StarSimLib.Data_Structures;
+﻿using StarSimLib.Data_Structures;
+
+using System;
 
 namespace StarSimLib.Physics
 {

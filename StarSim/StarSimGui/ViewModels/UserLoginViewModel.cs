@@ -1,11 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Input;
-using ReactiveUI;
+﻿using ReactiveUI;
+
 using StarSimGui.Source;
+
 using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Models;
+
+using System;
+using System.Linq;
+using System.Windows.Input;
 
 namespace StarSimGui.ViewModels
 {
@@ -58,12 +61,22 @@ namespace StarSimGui.ViewModels
                 (username, password, isLoggedIn) =>
                     !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password) && !isLoggedIn);
 
-            OnLoginCommand = ReactiveCommand.Create(OnLoginImpl, canLogin);
+            LoginCommand = ReactiveCommand.Create(LoginCommandImpl, canLogin);
 
             IObservable<bool> canLogout = this.WhenAnyValue(x => x.IsLoggedIn);
 
-            OnLogoutCommand = ReactiveCommand.Create(OnLogoutImpl, canLogout);
+            LogoutCommand = ReactiveCommand.Create(LogoutCommandImpl, canLogout);
         }
+
+        /// <summary>
+        /// Invoked whenever a successful login is made.
+        /// </summary>
+        public event Action<User> LoggedIn;
+
+        /// <summary>
+        /// Invoked whenever the currently logged in user logs out.
+        /// </summary>
+        public event Action LoggedOut;
 
         /// <summary>
         /// Whether the user is logged into the service.
@@ -74,12 +87,18 @@ namespace StarSimGui.ViewModels
             {
                 return isLoggedIn;
             }
-            set
+
+            private set
             {
                 isLoggedIn = value;
                 this.RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Command invoked whenever the user tries to login.
+        /// </summary>
+        public ICommand LoginCommand { get; }
 
         /// <summary>
         /// Feedback about the last login attempt.
@@ -91,7 +110,7 @@ namespace StarSimGui.ViewModels
                 return loginFeedback;
             }
 
-            set
+            private set
             {
                 loginFeedback = value;
                 this.RaisePropertyChanged();
@@ -99,14 +118,9 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
-        /// Command invoked whenever the user tries to login.
-        /// </summary>
-        public ICommand OnLoginCommand { get; }
-
-        /// <summary>
         /// Command invoked whenever the user tries to logout.
         /// </summary>
-        public ICommand OnLogoutCommand { get; }
+        public ICommand LogoutCommand { get; }
 
         /// <summary>
         /// The password to attempt to login with.
@@ -145,7 +159,7 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// Invoked whenever the user attempts to login with a <see cref="Username"/> and <see cref="Password"/>.
         /// </summary>
-        private void OnLoginImpl()
+        private void LoginCommandImpl()
         {
             try
             {
@@ -175,21 +189,41 @@ namespace StarSimGui.ViewModels
 
                 // if both the given username and password match, the user is logged in
                 IsLoggedIn = true;
-                LoginFeedback = new LoginAttemptResult(LoginResult.Success, "Logged in successfully.");
+                LoginFeedback = new LoginAttemptResult(LoginResult.Success, "Logged in successfully");
+                OnLoggedIn(tempUser);
             }
             catch (Exception)
             {
-                LoginFeedback = new LoginAttemptResult(LoginResult.Error, "Unexpected error occurred");
+                // if any exception occurs during the login attempt, inform the user
+                LoginFeedback = new LoginAttemptResult(LoginResult.Error, "Unexpected error occurred. Please try again later");
             }
         }
 
         /// <summary>
         /// Invoked whenever the user attempts to log out.
         /// </summary>
-        private void OnLogoutImpl()
+        private void LogoutCommandImpl()
         {
             IsLoggedIn = false;
             LoginFeedback = new LoginAttemptResult();
+            OnLoggedOut();
+        }
+
+        /// <summary>
+        /// Invokes the <see cref="LoggedIn"/> event.
+        /// </summary>
+        /// <param name="user">The <see cref="User"/> who successfully logged in.</param>
+        private void OnLoggedIn(User user)
+        {
+            LoggedIn?.Invoke(user);
+        }
+
+        /// <summary>
+        /// Invokes the <see cref="LoggedOut"/> event.
+        /// </summary>
+        private void OnLoggedOut()
+        {
+            LoggedOut?.Invoke();
         }
     }
 }

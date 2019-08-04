@@ -1,10 +1,24 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StarSimGui.Migrations
 {
     public partial class InitialCreate : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "BodyToSystemJoins");
+
+            migrationBuilder.DropTable(
+                name: "Bodies");
+
+            migrationBuilder.DropTable(
+                name: "Systems");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -176,21 +190,6 @@ namespace StarSimGui.Migrations
                 table: "Users",
                 column: "Id",
                 unique: true);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "BodyToSystemJoins");
-
-            migrationBuilder.DropTable(
-                name: "Bodies");
-
-            migrationBuilder.DropTable(
-                name: "Systems");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

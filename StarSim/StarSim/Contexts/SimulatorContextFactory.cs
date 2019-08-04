@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+
 using StarSimLib.Contexts;
 
 namespace StarSim.Contexts

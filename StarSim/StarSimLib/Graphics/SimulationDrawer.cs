@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
+
 using StarSimLib.Data_Structures;
+
+using System;
+using System.Collections.Generic;
 
 namespace StarSimLib.Graphics
 {

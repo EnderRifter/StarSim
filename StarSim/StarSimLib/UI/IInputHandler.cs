@@ -1,5 +1,6 @@
-﻿using System;
-using SFML.Window;
+﻿using SFML.Window;
+
+using System;
 
 namespace StarSimLib.UI
 {

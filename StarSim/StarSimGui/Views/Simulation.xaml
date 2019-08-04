@@ -4,7 +4,7 @@
              xmlns:v="clr-namespace:StarSimGui.Views;assembly=StarSimGui"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
              x:Class="StarSimGui.Views.Simulation"
              Background="WhiteSmoke">
 
@@ -12,5 +12,7 @@
     <vm:SimulationViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="Simulation" HorizontalAlignment="Center" VerticalAlignment="Center" />
+  <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
+    <TextBlock Text="Simulation" HorizontalAlignment="Center" VerticalAlignment="Center" />
+  </Border>
 </UserControl>
