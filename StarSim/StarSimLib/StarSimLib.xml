@@ -9,6 +9,11 @@
             Holds common constants and helper functions.
             </summary>
         </member>
+        <member name="F:StarSimLib.Constants.AstronomicalUnit">
+            <summary>
+            Definition of an astronomical unit.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Constants.BodyCount">
             <summary>
             The amount of bodies that are rendered by default.
@@ -213,11 +218,6 @@
             Represents a stellar body.
             </summary>
         </member>
-        <member name="F:StarSimLib.Data_Structures.Body.BodyFormatString">
-            <summary>
-            Describes how the <see cref="T:StarSimLib.Data_Structures.Body"/> instance should be formatted as a <see cref="T:System.String"/>.
-            </summary>
-        </member>
         <member name="F:StarSimLib.Data_Structures.Body.orbitTracer">
             <summary>
             The orbit tracers for this instance.
@@ -351,6 +351,9 @@
             Resets the internal force vector.
             </summary>
         </member>
+        <member name="M:StarSimLib.Data_Structures.Body.ToString">
+            <inheritdoc />
+        </member>
         <member name="M:StarSimLib.Data_Structures.Body.Update(System.Double)">
             <summary>
             Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> of the current body using the internal force vector and the given time step.
@@ -363,9 +366,6 @@
             </summary>
             <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Data_Structures.Body"/>s.</param>
             <param name="deltaTime">The time step.</param>
-        </member>
-        <member name="M:StarSimLib.Data_Structures.Body.ToString">
-            <inheritdoc />
         </member>
         <member name="T:StarSimLib.Data_Structures.EulerAngle">
             <summary>
@@ -1038,6 +1038,9 @@
             </summary>
             <returns>The magnitude (absolute value) of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>, as a <see cref="T:System.Double"/>.</returns>
         </member>
+        <member name="M:StarSimLib.Data_Structures.Vector4.ToString">
+            <inheritdoc />
+        </member>
         <member name="T:StarSimLib.Data_Structures.Vector4.UnitVectors">
             <summary>
             Holds unit vectors.
@@ -1072,9 +1075,6 @@
             <summary>
             The positive unit vector for the Y axis.
             </summary>
-        </member>
-        <member name="M:StarSimLib.Data_Structures.Vector4.ToString">
-            <inheritdoc />
         </member>
         <member name="T:StarSimLib.Graphics.RotationDirection">
             <summary>
@@ -1792,6 +1792,11 @@
         <member name="M:StarSimLib.UI.Screen.Run">
             <summary>
             Displays the screen until it is closed.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.Screen.Stop">
+            <summary>
+            Safely closes the screen if it is open.
             </summary>
         </member>
         <member name="T:StarSimLib.UI.SimulationInputHandler">

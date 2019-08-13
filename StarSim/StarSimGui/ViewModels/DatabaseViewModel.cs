@@ -52,6 +52,14 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
+        /// Whether the currently logged in user has administrator privileges.
+        /// </summary>
+        public bool IsAdmin
+        {
+            get { return (currentUser.Privileges & UserPrivileges.Admin) == UserPrivileges.Admin; }
+        }
+
+        /// <summary>
         /// Handles the <see cref="UserLoginViewModel.LoggedIn"/> event.
         /// </summary>
         /// <param name="newUser">The user which logged in.</param>

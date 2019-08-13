@@ -38,6 +38,13 @@ namespace StarSimGui.ViewModels
             UserLoginViewModel.LoggedOut += DatabaseViewModel.HandleLogout;
             UserLoginViewModel.LoggedOut += OverviewViewModel.HandleLogout;
             UserLoginViewModel.LoggedOut += SimulationViewModel.HandleLogout;
+
+#if DEBUG
+            // simulate a login to accelerate development of the application, as the implemented cryptographic features
+            // of the login system make it slow to solve for the password hash. furthermore loading the database takes
+            // a relatively long time as well - this wastes development time
+            UserLoginViewModel.DebugSimulateLogin(new User(0, "Debug User", UserPrivileges.Admin, "debug@application.net"));
+#endif
         }
 
         /// <summary>

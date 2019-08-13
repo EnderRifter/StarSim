@@ -8,12 +8,6 @@ namespace StarSimLib.Data_Structures
     public class Body
     {
         /// <summary>
-        /// Describes how the <see cref="Body"/> instance should be formatted as a <see cref="string"/>.
-        /// </summary>
-        private const string BodyFormatString =
-            "Body {0,2}.{1,-4}: Pos-{2}, Vel-{3} Mass-{4,3}";
-
-        /// <summary>
         /// The orbit tracers for this instance.
         /// </summary>
         private readonly OrbitTracer orbitTracer;
@@ -243,6 +237,15 @@ namespace StarSimLib.Data_Structures
             force.Z = 0;
         }
 
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"Body {Generation,2:D}.{Id,-4:D}: " +
+                   $"Pos-[{Position.X:E2}, {Position.Y:E2}, {Position.Z:E2}], " +
+                   $"Vel-[{Velocity.X:E2}, {Velocity.Y:E2}, {Velocity.Z:E2}], " +
+                   $"Mass-{Mass:E2}";
+        }
+
         /// <summary>
         /// Updates the <see cref="Position"/> of the current body using the internal force vector and the given time step.
         /// </summary>
@@ -275,15 +278,5 @@ namespace StarSimLib.Data_Structures
 
             position += deltaTime * velocity;
         }
-
-        #region Overrides of Object
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return string.Format(BodyFormatString, Generation, Id, Position, Velocity, Mass);
-        }
-
-        #endregion Overrides of Object
     }
 }

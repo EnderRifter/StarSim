@@ -412,6 +412,12 @@ namespace StarSimLib.Data_Structures
             return Abs();
         }
 
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"[{X}, {Y}, {Z}, {W}]";
+        }
+
         /// <summary>
         /// Holds unit vectors.
         /// </summary>
@@ -447,15 +453,5 @@ namespace StarSimLib.Data_Structures
             /// </summary>
             public static readonly Vector4 Up = new Vector4(0, 1, 0);
         }
-
-        #region Overrides of ValueType
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"[{X}, {Y}, {Z}, {W}]";
-        }
-
-        #endregion Overrides of ValueType
     }
 }

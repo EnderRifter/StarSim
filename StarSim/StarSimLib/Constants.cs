@@ -8,6 +8,11 @@ namespace StarSimLib
     public static class Constants
     {
         /// <summary>
+        /// Definition of an astronomical unit.
+        /// </summary>
+        public const double AstronomicalUnit = 1.495979e11;
+
+        /// <summary>
         /// The amount of bodies that are rendered by default.
         /// </summary>
         public const int BodyCount = 25;

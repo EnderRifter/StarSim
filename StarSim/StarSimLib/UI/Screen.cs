@@ -94,5 +94,13 @@ namespace StarSimLib.UI
             // allows custom screen cleanup code
             CleanupScreen(renderWindow, RenderStates.Default);
         }
+
+        /// <summary>
+        /// Safely closes the screen if it is open.
+        /// </summary>
+        public void Stop()
+        {
+            renderWindow?.Close();
+        }
     }
 }

@@ -13,6 +13,51 @@
   </Design.DataContext>
 
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-    <TextBlock Text="Simulation" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+      <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="1">
+        <StackPanel>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Have Central Attractor:</TextBlock>
+            <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding SimulateCentralAttractor, Mode=TwoWay}"></CheckBox>
+            <Separator Margin="2" />
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Simulated Body Count:</TextBlock>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding SimulatedBodyCount, Mode=TwoWay}"></TextBox>
+          </StackPanel>
+          <Button Command="{Binding StartSimulationCommand}" Content="Start Simulation" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <Button Command="{Binding AddBodyCommand}" Content="Add Selected Body" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <Button Command="{Binding DeleteBodyCommand}" Content="Delete Selected Body" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <Button Command="{Binding GenerateBodiesCommand}" Content="Generate Random Bodies" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        </StackPanel>
+      </Border>
+      <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="3">
+        <StackPanel Margin="2" DataContext="{Binding CurrentBody}">
+          <TextBlock HorizontalAlignment="Center">Mass (Kilograms)</TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding Mass, Mode=TwoWay}"></TextBox>
+          <TextBlock HorizontalAlignment="Center">Position (Metres)</TextBlock>
+          <TextBlock Text="X:"></TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding PosX, Mode=TwoWay}"></TextBox>
+          <TextBlock Text="Y:"></TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding PosY, Mode=TwoWay}"></TextBox>
+          <TextBlock Text="Z:"></TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding PosZ, Mode=TwoWay}"></TextBox>
+          <Separator Margin="2" />
+          <TextBlock HorizontalAlignment="Center">Velocity (Metres per Second)</TextBlock>
+          <TextBlock Text="X:"></TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding VelX, Mode=TwoWay}"></TextBox>
+          <TextBlock Text="Y:"></TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding VelY, Mode=TwoWay}"></TextBox>
+          <TextBlock Text="Z:"></TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding VelZ, Mode=TwoWay}"></TextBox>
+          <Separator Margin="2" />
+          <Button Command="{Binding $parent[1].DataContext.UpdateBodyCommand}" Content="Update Edited Body" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        </StackPanel>
+      </Border>
+      <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="4">
+        <ListBox Items="{Binding SimulatedBodies}" SelectedIndex="{Binding SelectedItemIndex, Mode=TwoWay}">
+        </ListBox>
+      </Border>
+      <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="4">
+      </Border>
+    </Grid>
   </Border>
 </UserControl>

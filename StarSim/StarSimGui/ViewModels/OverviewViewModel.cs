@@ -1,4 +1,11 @@
-﻿using ReactiveUI;
+﻿using System.IO;
+using Avalonia;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using Avalonia.Skia;
+using ReactiveUI;
+using StarSimGui.Source;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
 
@@ -15,7 +22,7 @@ namespace StarSimGui.ViewModels
         private readonly SimulatorContext dbContext;
 
         /// <summary>
-        /// The currently logged in user.
+        /// The backing field for the <see cref="CurrentUser"/> property.
         /// </summary>
         private User currentUser;
 

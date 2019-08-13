@@ -213,7 +213,7 @@ namespace StarSimGui.ViewModels
         /// Invokes the <see cref="LoggedIn"/> event.
         /// </summary>
         /// <param name="user">The <see cref="User"/> who successfully logged in.</param>
-        private void OnLoggedIn(User user)
+        protected void OnLoggedIn(User user)
         {
             LoggedIn?.Invoke(user);
         }
@@ -221,9 +221,27 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// Invokes the <see cref="LoggedOut"/> event.
         /// </summary>
-        private void OnLoggedOut()
+        protected void OnLoggedOut()
         {
             LoggedOut?.Invoke();
         }
+
+#if DEBUG
+
+        /// <summary>
+        /// Simulates a user logging in irrespective of the view.
+        /// </summary>
+        /// <param name="debugUser">The debug user to substitute a real user.</param>
+        public void DebugSimulateLogin(User debugUser)
+        {
+            Username = debugUser.Username;
+            Password = debugUser.Username;
+
+            IsLoggedIn = true;
+            LoginFeedback = new LoginAttemptResult(LoginResult.Success, "Successful login");
+            OnLoggedIn(debugUser);
+        }
+
+#endif
     }
 }
