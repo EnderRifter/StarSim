@@ -1,11 +1,6 @@
-﻿using System.IO;
-using Avalonia;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using Avalonia.Skia;
+﻿using System.Linq;
+using DynamicData.Binding;
 using ReactiveUI;
-using StarSimGui.Source;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
 
@@ -27,6 +22,11 @@ namespace StarSimGui.ViewModels
         private User currentUser;
 
         /// <summary>
+        /// The backing field for the <see cref="PublishedSystems"/> property.
+        /// </summary>
+        private IObservableCollection<PublishedSystem> publishedSystems;
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="OverviewViewModel"/> class.
         /// </summary>
         public OverviewViewModel() : this(null)
@@ -40,6 +40,8 @@ namespace StarSimGui.ViewModels
         public OverviewViewModel(SimulatorContext context)
         {
             dbContext = context;
+
+            publishedSystems = new ObservableCollectionExtended<PublishedSystem>();
         }
 
         /// <summary>
@@ -59,12 +61,33 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
+        /// The <see cref="PublishedSystem"/> instance that the current user has published.
+        /// </summary>
+        public IObservableCollection<PublishedSystem> PublishedSystems
+        {
+            get
+            {
+                return publishedSystems;
+            }
+            set
+            {
+                publishedSystems = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Handles the <see cref="UserLoginViewModel.LoggedIn"/> event.
         /// </summary>
         /// <param name="newUser">The user which logged in.</param>
         public void HandleLogin(User newUser)
         {
             CurrentUser = newUser;
+
+            IQueryable<PublishedSystem> usersPublishedSystems =
+                dbContext.PublishedSystems.Where(system => system.Publisher.Id == CurrentUser.Id);
+
+            PublishedSystems.Load(usersPublishedSystems);
         }
 
         /// <summary>
@@ -73,6 +96,8 @@ namespace StarSimGui.ViewModels
         public void HandleLogout()
         {
             CurrentUser = null;
+
+            PublishedSystems.Clear();
         }
     }
 }

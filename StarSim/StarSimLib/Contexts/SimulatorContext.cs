@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 using StarSimLib.Cryptography;
 using StarSimLib.Models;
@@ -39,6 +40,11 @@ namespace StarSimLib.Contexts
         /// Holds the <see cref="BodyToSystemJoin"/> entities in the database. Also allows querying the database via LINQ.
         /// </summary>
         public DbSet<BodyToSystemJoin> BodyToSystemJoins { get; set; }
+
+        /// <summary>
+        /// Holds the <see cref="PublishedSystem"/> entities in the database. Also allows querying the database via LINQ.
+        /// </summary>
+        public DbSet<PublishedSystem> PublishedSystems { get; set; }
 
         /// <summary>
         /// Holds the <see cref="Models.System"/> entities in the database. Also allows querying the database via LINQ.
@@ -85,6 +91,12 @@ namespace StarSimLib.Contexts
                 new BodyToSystemJoin(2, 2, 1),
                 new BodyToSystemJoin(3, 3, 1)
             );
+
+            modelBuilder.Entity<PublishedSystem>().HasIndex(system => new { system.Id, system.PublisherId, system.SystemId }).IsUnique();
+
+            modelBuilder.Entity<PublishedSystem>().HasData(
+                new PublishedSystem(1, 1, 1, DateTime.Now)
+                );
 
             modelBuilder.Entity<User>().HasIndex(user => user.Id).IsUnique();
 

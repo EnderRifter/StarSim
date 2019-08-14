@@ -117,12 +117,6 @@ namespace StarSimLib.Models
         }
 
         /// <summary>
-        /// The <see cref="System"/> entities that this <see cref="User"/> has created.
-        /// </summary>
-        [InverseProperty(nameof(System.Creator))]
-        public virtual ICollection<System> CreatedSystems { get; set; } = new List<System>();
-
-        /// <summary>
         /// The email address of this instance.
         /// </summary>
         [MinLength(0, ErrorMessage = "User's email can not be less than 0 characters long.")]
@@ -153,6 +147,12 @@ namespace StarSimLib.Models
         /// </summary>
         [Required(ErrorMessage = "User account must have at least the default privilege associated with it.")]
         public UserPrivileges Privileges { get; set; }
+
+        /// <summary>
+        /// The <see cref="PublishedSystems"/> entities that this <see cref="User"/> has published.
+        /// </summary>
+        [InverseProperty(nameof(PublishedSystem.Publisher))]
+        public virtual ICollection<PublishedSystem> PublishedSystems { get; set; } = new List<PublishedSystem>();
 
         /// <summary>
         /// A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
