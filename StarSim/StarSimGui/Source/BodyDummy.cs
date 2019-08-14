@@ -41,9 +41,9 @@ namespace StarSimGui.Source
         {
             Generation = body.Generation;
             Id = body.Id;
-            mass = body.Mass;
-            positionVector = body.Position;
-            velocityVector = body.Velocity;
+            mass = body.Mass / Constants.SolarMass;
+            positionVector = body.Position / Constants.AstronomicalUnit;
+            velocityVector = body.Velocity / 1000;
         }
 
         /// <summary>
@@ -140,7 +140,8 @@ namespace StarSimGui.Source
         /// <param name="instance">The <see cref="BodyDummy"/> instance to convert.</param>
         public static explicit operator Body(BodyDummy instance)
         {
-            return new Body(instance.positionVector, instance.velocityVector, instance.Mass, instance.Generation, instance.Id);
+            return new Body(instance.positionVector * Constants.AstronomicalUnit, instance.velocityVector * 1000,
+                instance.Mass * Constants.SolarMass, instance.Generation, instance.Id);
         }
     }
 }

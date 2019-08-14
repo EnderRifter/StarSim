@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using DynamicData;
 using DynamicData.Binding;
-using DynamicData.Cache.Internal;
 using ReactiveUI;
 using SFML.Graphics;
 using SFML.Window;
@@ -23,6 +22,16 @@ namespace StarSimGui.ViewModels
     /// </summary>
     public class SimulationViewModel : ViewModelBase
     {
+        /// <summary>
+        /// The maximum number of bodies that can be generated and that can participate in a simulation.
+        /// </summary>
+        private const int MaxGeneratedBodies = 10_000;
+
+        /// <summary>
+        /// The minimum number of bodies that can be generated and that can participate in a simulation.
+        /// </summary>
+        private const int MinGeneratedBodies = 0;
+
         /// <summary>
         /// The delegate method to use to derive the colour of a body's shape from the body's mass.
         /// </summary>
@@ -46,7 +55,7 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// The dummy body holding the field values for the generated <see cref="Body"/> instance.
         /// </summary>
-        private BodyDummy currentBodyDummy;
+        private BodyDummy currentBodyDummy = new BodyDummy();
 
         /// <summary>
         /// The current simulation.
@@ -61,12 +70,7 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// The backing field for the <see cref="SelectedItemIndex"/> property.
         /// </summary>
-        private int selectedItemIndex = 0;
-
-        /// <summary>
-        /// The bodies that will participate in the simulation.
-        /// </summary>
-        private List<Body> simulatedBodies;
+        private int selectedItemIndex;
 
         /// <summary>
         /// The backing field for the <see cref="SimulatedBodies"/> property.
@@ -79,7 +83,7 @@ namespace StarSimGui.ViewModels
         private int simulatedBodyCount = Constants.BodyCount;
 
         /// <summary>
-        /// Maps the bodies participating in the simulation to their shapes that will be rendered to represent them.
+        /// Holds the circle shapes for the bodies participating in the simulation.
         /// </summary>
         private Dictionary<Body, CircleShape> simulatedBodyShapes;
 
@@ -98,19 +102,34 @@ namespace StarSimGui.ViewModels
         {
             dbContext = context;
 
-            simulatedBodies = new List<Body>();
-
-            simulatedBodiesObservable = new ObservableCollectionExtended<Body>(simulatedBodies);
+            simulatedBodiesObservable = new ObservableCollectionExtended<Body>();
 
             IObservable<bool> canAddBody =
                 this.WhenAnyValue(x => x.CurrentBody, selector: body => !body?.Equals(new BodyDummy()) ?? false);
 
             AddBodyCommand = ReactiveCommand.Create(AddBodyCommandImpl, canAddBody);
 
+            IObservable<bool> canClearBodies =
+                this.WhenAnyValue(x => x.SimulatedBodies, selector: bodies => bodies != null);
+
+            ClearBodiesCommand = ReactiveCommand.Create(ClearBodiesCommandImpl, canClearBodies);
+
+            IObservable<bool> canCopyBody =
+                this.WhenAnyValue(x => x.SelectedItemIndex, x => x.CurrentBody,
+                    (index, dummy) => index > -1 && (!dummy?.Equals(new BodyDummy()) ?? false));
+
+            CopyBodyCommand = ReactiveCommand.Create(CopyBodyCommandImpl, canCopyBody);
+
             IObservable<bool> canDeleteBody =
                 this.WhenAnyValue(x => x.CurrentBody, selector: body => !body?.Equals(new BodyDummy()) ?? false);
 
             DeleteBodyCommand = ReactiveCommand.Create(DeleteBodyCommandImpl, canDeleteBody);
+
+            IObservable<bool> canDeselectBody =
+                this.WhenAnyValue(x => x.SelectedItemIndex, x => x.CurrentBody,
+                    (index, dummy) => index > -1 && (!dummy?.Equals(new BodyDummy()) ?? false));
+
+            DeselectBodyCommand = ReactiveCommand.Create(DeselectBodyCommandImpl, canDeselectBody);
 
             GenerateBodiesCommand = ReactiveCommand.Create(GenerateBodiesCommandImpl);
 
@@ -120,16 +139,28 @@ namespace StarSimGui.ViewModels
             StartSimulationCommand =
                 ReactiveCommand.CreateFromTask(StartSimulationCommandImpl, currentSimulationInactive);
 
-            IObservable<bool> canUpdateBody = this.WhenAnyValue(x => x.CurrentBody, x => x.SelectedItemIndex,
-                (body, selectedIndex) => (!body?.Equals(new BodyDummy()) ?? false) && selectedIndex >= 0 && selectedIndex < 10_000);
+            IObservable<bool> canUpdateBody =
+                this.WhenAnyValue(x => x.CurrentBody, x => x.SelectedItemIndex,
+                    (body, selectedIndex) => (!body?.Equals(new BodyDummy()) ?? false) && selectedIndex > -1 &&
+                                             selectedIndex < MaxGeneratedBodies - MinGeneratedBodies);
 
             UpdateBodyCommand = ReactiveCommand.Create(UpdateBodyCommandImpl, canUpdateBody);
         }
 
         /// <summary>
-        /// Command invoked whenever the currently inspected body should be added to the <see cref="simulatedBodies"/> collection.
+        /// Command invoked whenever the currently inspected body should be added to the <see cref="SimulatedBodies"/> collection.
         /// </summary>
         public ICommand AddBodyCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the user wants to clear the <see cref="SimulatedBodies"/> collection.
+        /// </summary>
+        public ICommand ClearBodiesCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the currently selected body should be added again to the <see cref="SimulatedBodies"/> collection.
+        /// </summary>
+        public ICommand CopyBodyCommand { get; }
 
         /// <summary>
         /// The <see cref="Body"/> instance currently selected for editing or viewing.
@@ -164,9 +195,14 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
-        /// Command invoked whenever the currently inspected body should be deleted from the <see cref="simulatedBodies"/> collection.
+        /// Command invoked whenever the currently inspected body should be deleted from the <see cref="SimulatedBodies"/> collection.
         /// </summary>
         public ICommand DeleteBodyCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the user wants to deselect the currently selected body.
+        /// </summary>
+        public ICommand DeselectBodyCommand { get; }
 
         /// <summary>
         /// Command invoked whenever the user wants to generate a new collection.
@@ -189,8 +225,7 @@ namespace StarSimGui.ViewModels
 
                 if (selectedItemIndex >= 0)
                 {
-                    currentBodyDummy = new BodyDummy(simulatedBodiesObservable?[selectedItemIndex]);
-                    this.RaisePropertyChanged(nameof(CurrentBody));
+                    CurrentBody = new BodyDummy(SimulatedBodies?[value]);
                 }
             }
         }
@@ -248,12 +283,42 @@ namespace StarSimGui.ViewModels
         private void AddBodyCommandImpl()
         {
             CurrentBody.Generation = BodyGenerator.CurrentGeneration;
-            CurrentBody.Id = simulatedBodiesObservable[simulatedBodiesObservable.Count - 1].Id + 1;
+
+            if (SimulatedBodies.Count > 0)
+            {
+                CurrentBody.Id = SimulatedBodies[SimulatedBodies.Count - 1].Id + 1;
+            }
+            else
+            {
+                CurrentBody.Id = 0;
+            }
 
             Body currentBody = (Body)CurrentBody;
 
-            simulatedBodies.Add(currentBody);
-            simulatedBodiesObservable.Add(currentBody);
+            SimulatedBodies.Add(currentBody);
+
+            CurrentBody = new BodyDummy();
+        }
+
+        /// <summary>
+        /// Invoked whenever the user wants to clear the <see cref="SimulatedBodies"/> collection.
+        /// </summary>
+        private void ClearBodiesCommandImpl()
+        {
+            SimulatedBodies.Clear();
+        }
+
+        /// <summary>
+        /// Invoked whenever the user wants to re-add the currently selected body to the <see cref="SimulatedBodies"/> collection.
+        /// </summary>
+        private void CopyBodyCommandImpl()
+        {
+            CurrentBody.Generation = BodyGenerator.CurrentGeneration;
+            CurrentBody.Id = SimulatedBodies[SimulatedBodies.Count - 1].Id + 1;
+
+            Body currentBody = (Body)CurrentBody;
+
+            SimulatedBodies.Add(currentBody);
         }
 
         /// <summary>
@@ -261,9 +326,17 @@ namespace StarSimGui.ViewModels
         /// </summary>
         private void DeleteBodyCommandImpl()
         {
-            simulatedBodies.RemoveAt(selectedItemIndex);
-            simulatedBodiesObservable.RemoveAt(selectedItemIndex);
+            SimulatedBodies.RemoveAt(SelectedItemIndex);
 
+            CurrentBody = new BodyDummy();
+        }
+
+        /// <summary>
+        /// Invoked whenever the user wants to deselect the currently selected body.
+        /// </summary>
+        private void DeselectBodyCommandImpl()
+        {
+            SelectedItemIndex = -1;
             CurrentBody = new BodyDummy();
         }
 
@@ -272,18 +345,16 @@ namespace StarSimGui.ViewModels
         /// </summary>
         private void GenerateBodiesCommandImpl()
         {
-            if (SimulatedBodyCount < 0 || SimulatedBodyCount > 10_000)
+            if (SimulatedBodyCount < MinGeneratedBodies || SimulatedBodyCount > MaxGeneratedBodies)
             {
                 // we cannot generate a negative number of bodies, and we cannot reliably simulate more than 10 000 bodies
                 return;
             }
 
-            simulatedBodies = new List<Body>(BodyGenerator.GenerateBodies(SimulatedBodyCount, SimulateCentralAttractor));
-
-            simulatedBodiesObservable.Load(simulatedBodies);
+            SimulatedBodies.Load(BodyGenerator.GenerateBodies(SimulatedBodyCount, SimulateCentralAttractor));
 
             simulatedBodyShapes =
-                BodyGenerator.GenerateShapes(simulatedBodies, bodyMassToRadiusDelegate, bodyMassToColourDelegate);
+                BodyGenerator.GenerateShapes(SimulatedBodies, bodyMassToRadiusDelegate, bodyMassToColourDelegate);
         }
 
         /// <summary>
@@ -291,7 +362,7 @@ namespace StarSimGui.ViewModels
         /// </summary>
         private async Task StartSimulationCommandImpl()
         {
-            Body[] simulatedBodiesArr = simulatedBodies.ToArray();
+            Body[] simulatedBodiesArr = SimulatedBodies.ToArray();
 
             IInputHandler simulationInputHandler = new SimulationInputHandler(ref simulatedBodiesArr);
 
@@ -318,6 +389,14 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
+        /// Invoked whenever the user wants to update the currently edited body.
+        /// </summary>
+        private void UpdateBodyCommandImpl()
+        {
+            SimulatedBodies[SelectedItemIndex] = (Body)CurrentBody;
+        }
+
+        /// <summary>
         /// Handles the <see cref="UserLoginViewModel.LoggedIn"/> event.
         /// </summary>
         /// <param name="newUser">The user which logged in.</param>
@@ -332,15 +411,6 @@ namespace StarSimGui.ViewModels
         public void HandleLogout()
         {
             CurrentUser = null;
-        }
-
-        /// <summary>
-        /// Invoked whenever the user wants to update the currently edited body.
-        /// </summary>
-        public void UpdateBodyCommandImpl()
-        {
-            simulatedBodies[selectedItemIndex] = (Body)CurrentBody;
-            simulatedBodiesObservable[selectedItemIndex] = (Body)CurrentBody;
         }
     }
 }

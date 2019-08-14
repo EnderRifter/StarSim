@@ -17,8 +17,6 @@ namespace StarSimGui.Contexts
     /// </remarks>
     public class SimulatorContextFactory : IDesignTimeDbContextFactory<SimulatorContext>
     {
-        #region Implementation of IDesignTimeDbContextFactory<out TaxiContext>
-
         /// <inheritdoc />
         public SimulatorContext CreateDbContext(string[] args)
         {
@@ -30,7 +28,5 @@ namespace StarSimGui.Contexts
 
             return new SimulatorContext(optionsBuilder.Options);
         }
-
-        #endregion Implementation of IDesignTimeDbContextFactory<out TaxiContext>
     }
 }
