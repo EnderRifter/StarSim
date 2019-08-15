@@ -90,18 +90,8 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="SimulationViewModel"/> class.
         /// </summary>
-        public SimulationViewModel() : this(null)
+        public SimulationViewModel()
         {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="SimulationViewModel"/> class.
-        /// </summary>
-        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public SimulationViewModel(SimulatorContext context)
-        {
-            dbContext = context;
-
             simulatedBodiesObservable = new ObservableCollectionExtended<Body>();
 
             IObservable<bool> canAddBody =
@@ -145,6 +135,15 @@ namespace StarSimGui.ViewModels
                                              selectedIndex < MaxGeneratedBodies - MinGeneratedBodies);
 
             UpdateBodyCommand = ReactiveCommand.Create(UpdateBodyCommandImpl, canUpdateBody);
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SimulationViewModel"/> class.
+        /// </summary>
+        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
+        public SimulationViewModel(in SimulatorContext context) : this()
+        {
+            dbContext = context;
         }
 
         /// <summary>

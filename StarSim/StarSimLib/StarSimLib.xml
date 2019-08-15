@@ -132,6 +132,11 @@
             Holds the <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities in the database. Also allows querying the database via LINQ.
             </summary>
         </member>
+        <member name="P:StarSimLib.Contexts.SimulatorContext.PublishedSystems">
+            <summary>
+            Holds the <see cref="T:StarSimLib.Models.PublishedSystem"/> entities in the database. Also allows querying the database via LINQ.
+            </summary>
+        </member>
         <member name="P:StarSimLib.Contexts.SimulatorContext.Systems">
             <summary>
             Holds the <see cref="T:StarSimLib.Models.System"/> entities in the database. Also allows querying the database via LINQ.
@@ -1377,33 +1382,72 @@
             multiple access to the same field.
             </summary>
         </member>
+        <member name="T:StarSimLib.Models.PublishedSystem">
+            <summary>
+            Represents a published system in the database.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Models.PublishedSystem.#ctor(System.UInt64,System.UInt64,System.UInt64,System.DateTime)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.PublishedSystem"/> class.
+            </summary>
+            <param name="id">The unique id of this instance.</param>
+            <param name="publisherId">The unique id of the publisher of this instance.</param>
+            <param name="systemId">The unique id of the system that was published in this instance.</param>
+            <param name="publishDate">The date this instance was published on.</param>
+        </member>
+        <member name="P:StarSimLib.Models.PublishedSystem.Id">
+            <summary>
+            The unique primary key for this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.PublishedSystem.PublishDate">
+            <summary>
+            The date on which this instance was published.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.PublishedSystem.Publisher">
+            <summary>
+            The <see cref="T:StarSimLib.Models.User"/> who created this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.PublishedSystem.PublisherId">
+            <summary>
+            The Id of the <see cref="T:StarSimLib.Models.User"/> who created this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.PublishedSystem.System">
+            <summary>
+            The <see cref="T:StarSimLib.Models.System"/> instance that was published..
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.PublishedSystem.SystemId">
+            <summary>
+            The Id of the <see cref="T:StarSimLib.Models.System"/> instance which was published..
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.PublishedSystem.Timestamp">
+            <summary>
+            A timestamp updated whenever the entity is handled by the database. Functions as a concurrency token to prevent
+            multiple access to the same field.
+            </summary>
+        </member>
         <member name="T:StarSimLib.Models.System">
             <summary>
             Represents a star system in the database, with a collection of child <see cref="T:StarSimLib.Models.Body"/> instances.
             </summary>
         </member>
-        <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.UInt64,System.String)">
+        <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.String)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.Models.System"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
-            <param name="creatorId">The unique id of the creator of this instance.</param>
             <param name="name">The name of this instance.</param>
         </member>
         <member name="P:StarSimLib.Models.System.BodyToSystemJoins">
             <summary>
             The <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities that map this <see cref="T:StarSimLib.Models.System"/> to the <see cref="T:StarSimLib.Models.Body"/>
             entities that it holds.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Models.System.Creator">
-            <summary>
-            The <see cref="T:StarSimLib.Models.User"/> who created this instance.
-            </summary>
-        </member>
-        <member name="P:StarSimLib.Models.System.CreatorId">
-            <summary>
-            The Id of the <see cref="T:StarSimLib.Models.User"/> who created this instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.System.Id">
@@ -1517,11 +1561,6 @@
             <param name="passwordSalt">The salt used to hash the password.</param>
             <param name="email">The optional email of this instance.</param>
         </member>
-        <member name="P:StarSimLib.Models.User.CreatedSystems">
-            <summary>
-            The <see cref="T:StarSimLib.Models.System"/> entities that this <see cref="T:StarSimLib.Models.User"/> has created.
-            </summary>
-        </member>
         <member name="P:StarSimLib.Models.User.Email">
             <summary>
             The email address of this instance.
@@ -1545,6 +1584,11 @@
         <member name="P:StarSimLib.Models.User.Privileges">
             <summary>
             The privileges associated with this instance.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Models.User.PublishedSystems">
+            <summary>
+            The <see cref="P:StarSimLib.Models.User.PublishedSystems"/> entities that this <see cref="T:StarSimLib.Models.User"/> has published.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.User.Timestamp">

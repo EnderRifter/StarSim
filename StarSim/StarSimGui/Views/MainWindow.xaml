@@ -2,6 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:StarSimGui.ViewModels;assembly=StarSimGui"
         xmlns:v="clr-namespace:StarSimGui.Views;assembly=StarSimGui"
+        xmlns:converters="clr-namespace:StarSimGui.Source.Converters;assembly=StarSimGui"
+        xmlns:ssl="clr-namespace:StarSimLib.Models;assembly=StarSimLib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="StarSimGui.Views.MainWindow"
@@ -12,6 +14,58 @@
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
+
+  <Window.Resources>
+    <converters:BodyMassConverter x:Key="bodyMassConverter" />
+  </Window.Resources>
+
+  <Window.DataTemplates>
+    <DataTemplate DataType="{x:Type ssl:Body}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text=" - Mass:"></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text="{Binding Mass, Converter={StaticResource bodyMassConverter}}"></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text="Kg"></TextBlock>
+      </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate  DataType="{x:Type ssl:BodyToSystemJoin}">
+      <ContentControl Content="{Binding Body}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ssl:PublishedSystem}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock VerticalAlignment="Center" Text="{Binding System.Name}"></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text=" - Published By: "></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text="{Binding Publisher.Username}"></TextBlock>
+        <Separator Margin="2" />
+        <TextBlock VerticalAlignment="Center">(</TextBlock>
+        <TextBlock VerticalAlignment="Center" Text="{Binding Publisher.Email}"></TextBlock>
+        <TextBlock VerticalAlignment="Center">)</TextBlock>
+        <Separator Margin="2" />
+        <TextBlock VerticalAlignment="Center" Text="on date: "></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text="{Binding PublishDate}"></TextBlock>
+      </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ssl:System}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text=" - Contained Bodies: "></TextBlock>
+        <TextBlock VerticalAlignment="Center" Text="{Binding BodyToSystemJoins.Count}"></TextBlock>
+      </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ssl:User}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{Binding Username}" VerticalAlignment="Center"></TextBlock>
+        <Separator Margin="2" />
+        <TextBlock VerticalAlignment="Center">(</TextBlock>
+        <TextBlock Text="{Binding Email}" VerticalAlignment="Center"></TextBlock>
+        <TextBlock VerticalAlignment="Center">)</TextBlock>
+      </StackPanel>
+    </DataTemplate>
+  </Window.DataTemplates>
 
   <TabControl BorderThickness="5">
     <TabItem Header="Login" Background="WhiteSmoke" BorderThickness="1">

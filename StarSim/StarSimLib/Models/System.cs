@@ -13,12 +13,10 @@ namespace StarSimLib.Models
         /// Initialises a new instance of the <see cref="System"/> class.
         /// </summary>
         /// <param name="id">The unique id of this instance.</param>
-        /// <param name="creatorId">The unique id of the creator of this instance.</param>
         /// <param name="name">The name of this instance.</param>
-        public System(ulong id, ulong creatorId, string name)
+        public System(ulong id, string name)
         {
             Id = id;
-            CreatorId = creatorId;
             Name = name;
         }
 
@@ -28,19 +26,6 @@ namespace StarSimLib.Models
         /// </summary>
         [InverseProperty(nameof(BodyToSystemJoin.System))]
         public virtual ICollection<BodyToSystemJoin> BodyToSystemJoins { get; set; } = new List<BodyToSystemJoin>();
-
-        /// <summary>
-        /// The <see cref="User"/> who created this instance.
-        /// </summary>
-        [ForeignKey(nameof(CreatorId))]
-        [Required(ErrorMessage = "System must have creator.")]
-        public User Creator { get; set; }
-
-        /// <summary>
-        /// The Id of the <see cref="User"/> who created this instance.
-        /// </summary>
-        [Required(ErrorMessage = "System must have id of creator.")]
-        public ulong CreatorId { get; set; }
 
         /// <summary>
         /// The unique primary key for this instance.

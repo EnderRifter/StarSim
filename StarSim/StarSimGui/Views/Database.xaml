@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:StarSimGui.ViewModels;assembly=StarSimGui"
              xmlns:v="clr-namespace:StarSimGui.Views;assembly=StarSimGui"
+             xmlns:subviews="clr-namespace:StarSimGui.Views.Database_Views;assembly=StarSimGui"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -14,14 +15,48 @@
 
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
     <TabControl>
-      <TabItem Header="Create Users" IsVisible="{Binding IsAdmin}"></TabItem>
-      <TabItem Header="Create Bodies/Systems"></TabItem>
-      <TabItem Header="View Users"></TabItem>
-      <TabItem Header="View Bodies/Systems"></TabItem>
-      <TabItem Header="Update Users"></TabItem>
-      <TabItem Header="Update Bodies/Systems"></TabItem>
-      <TabItem Header="Delete Users" IsVisible="{Binding IsAdmin}"></TabItem>
-      <TabItem Header="Delete Bodies/Systems"></TabItem>
+      <TabItem Header="Create Users" IsVisible="{Binding IsAdmin}">
+        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
+          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+          </Grid>
+        </Border>
+      </TabItem>
+      <TabItem Header="Create Bodies/Systems" IsVisible="{Binding IsPublisher}">
+        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
+          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+          </Grid>
+        </Border>
+      </TabItem>
+      <TabItem Header="View Users" IsVisible="{Binding IsDefault}">
+        <subviews:UserReadView DataContext="{Binding UserReadViewModel}" />
+      </TabItem>
+      <TabItem Header="View Bodies/Systems" IsVisible="{Binding IsDefault}">
+        <subviews:SystemReadView DataContext="{Binding SystemReadViewModel}" />
+      </TabItem>
+      <TabItem Header="Update Users" IsVisible="{Binding IsAdmin}">
+        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
+          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+          </Grid>
+        </Border>
+      </TabItem>
+      <TabItem Header="Update Bodies/Systems" IsVisible="{Binding IsPublisher}">
+        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
+          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+          </Grid>
+        </Border>
+      </TabItem>
+      <TabItem Header="Delete Users" IsVisible="{Binding IsAdmin}">
+        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
+          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+          </Grid>
+        </Border>
+      </TabItem>
+      <TabItem Header="Delete Bodies/Systems" IsVisible="{Binding IsPublisher}">
+        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
+          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+          </Grid>
+        </Border>
+      </TabItem>
     </TabControl>
   </Border>
 </UserControl>

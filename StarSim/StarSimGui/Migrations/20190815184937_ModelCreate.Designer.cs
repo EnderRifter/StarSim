@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StarSimLib.Contexts;
 
 namespace StarSimGui.Migrations
 {
     [DbContext(typeof(SimulatorContext))]
-    partial class SimulatorContextModelSnapshot : ModelSnapshot
+    [Migration("20190815184937_ModelCreate")]
+    partial class ModelCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

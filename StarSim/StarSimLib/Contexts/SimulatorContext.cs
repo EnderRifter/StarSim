@@ -81,7 +81,7 @@ namespace StarSimLib.Contexts
             modelBuilder.Entity<Models.System>().HasIndex(system => system.Id).IsUnique();
 
             modelBuilder.Entity<Models.System>().HasData(
-                new Models.System(1, 1, "Test")
+                new Models.System(1, "Test")
             );
 
             modelBuilder.Entity<BodyToSystemJoin>().HasIndex(join => new { join.BodyId, join.SystemId }).IsUnique();

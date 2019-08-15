@@ -26,6 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Remove="Views\Database Views\SystemReadView.xaml" />
+    <AvaloniaResource Remove="Views\Database Views\UserReadView.xaml" />
     <AvaloniaResource Remove="Views\Database.xaml" />
     <AvaloniaResource Remove="Views\Overview.xaml" />
     <AvaloniaResource Remove="Views\Simulation.xaml" />
@@ -38,6 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Database Views\SystemReadView.xaml" />
+    <None Remove="Views\Database Views\UserReadView.xaml" />
     <None Remove="Views\Database.xaml" />
     <None Remove="Views\Overview.xaml" />
     <None Remove="Views\Simulation.xaml" />
@@ -84,7 +88,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\SystemReadView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\UserReadView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StarSimLib\StarSimLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Database Views\SystemReadView.xaml.cs">
+      <DependentUpon>SystemReadView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -92,7 +114,7 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Simulator.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

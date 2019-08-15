@@ -45,18 +45,8 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// Initialises a new instance of the<see cref="UserLoginViewModel"/> class.
         /// </summary>
-        public UserLoginViewModel() : this(null)
+        public UserLoginViewModel()
         {
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UserLoginViewModel"/> class.
-        /// </summary>
-        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public UserLoginViewModel(SimulatorContext context)
-        {
-            dbContext = context;
-
             IObservable<bool> canLogin = this.WhenAnyValue(x => x.Username, x => x.Password, x => x.IsLoggedIn,
                 (username, password, isLoggedIn) =>
                     !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password) && !isLoggedIn);
@@ -66,6 +56,15 @@ namespace StarSimGui.ViewModels
             IObservable<bool> canLogout = this.WhenAnyValue(x => x.IsLoggedIn);
 
             LogoutCommand = ReactiveCommand.Create(LogoutCommandImpl, canLogout);
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="UserLoginViewModel"/> class.
+        /// </summary>
+        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
+        public UserLoginViewModel(in SimulatorContext context) : this()
+        {
+            dbContext = context;
         }
 
         /// <summary>
@@ -219,11 +218,14 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
-        /// Invokes the <see cref="LoggedOut"/> event.
+        /// Invokes the <see cref="LoggedOut"/> event and clears the <see cref="Username"/> and <see cref="Password"/> fields.
         /// </summary>
         protected void OnLoggedOut()
         {
             LoggedOut?.Invoke();
+
+            Username = string.Empty;
+            Password = string.Empty;
         }
 
 #if DEBUG

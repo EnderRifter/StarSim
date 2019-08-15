@@ -29,19 +29,18 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// Initialises a new instance of the <see cref="OverviewViewModel"/> class.
         /// </summary>
-        public OverviewViewModel() : this(null)
+        public OverviewViewModel()
         {
+            publishedSystems = new ObservableCollectionExtended<PublishedSystem>();
         }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="OverviewViewModel"/> class.
         /// </summary>
         /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public OverviewViewModel(SimulatorContext context)
+        public OverviewViewModel(in SimulatorContext context) : this()
         {
             dbContext = context;
-
-            publishedSystems = new ObservableCollectionExtended<PublishedSystem>();
         }
 
         /// <summary>
