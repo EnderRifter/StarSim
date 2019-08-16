@@ -7,9 +7,9 @@ using StarSimLib.Models;
 namespace StarSimGui.ViewModels.Database_ViewModels
 {
     /// <summary>
-    /// Represents the user read view.
+    /// Represents the read users view.
     /// </summary>
-    public class UserReadViewModel : ViewModelBase
+    public class ReadUsersViewModel : ViewModelBase
     {
         /// <summary>
         /// The program database.
@@ -37,9 +37,9 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         public User selectedUser;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="UserReadViewModel"/> class.
+        /// Initialises a new instance of the <see cref="ReadUsersViewModel"/> class.
         /// </summary>
-        public UserReadViewModel()
+        public ReadUsersViewModel()
         {
             publishedSystemsObservable = new ObservableCollectionExtended<PublishedSystem>();
 
@@ -47,10 +47,10 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="UserReadViewModel"/> class.
+        /// Initialises a new instance of the <see cref="ReadUsersViewModel"/> class.
         /// </summary>
         /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public UserReadViewModel(in SimulatorContext context) : this()
+        public ReadUsersViewModel(in SimulatorContext context) : this()
         {
             dbContext = context;
 

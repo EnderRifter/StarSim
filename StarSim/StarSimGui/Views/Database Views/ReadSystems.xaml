@@ -9,7 +9,7 @@
              Background="WhiteSmoke">
 
   <Design.DataContext>
-    <vm:SystemReadViewModel />
+    <vm:ReadSystemsViewModel />
   </Design.DataContext>
 
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">

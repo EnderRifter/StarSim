@@ -26,8 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Remove="Views\Database Views\CreateSystems.xaml" />
+    <AvaloniaResource Remove="Views\Database Views\CreateUsers.xaml" />
+    <AvaloniaResource Remove="Views\Database Views\DeleteSystems.xaml" />
+    <AvaloniaResource Remove="Views\Database Views\DeleteUsers.xaml" />
     <AvaloniaResource Remove="Views\Database Views\ReadSystems.xaml" />
     <AvaloniaResource Remove="Views\Database Views\ReadUsers.xaml" />
+    <AvaloniaResource Remove="Views\Database Views\UpdateSystems.xaml" />
+    <AvaloniaResource Remove="Views\Database Views\UpdateUsers.xaml" />
     <AvaloniaResource Remove="Views\Database.xaml" />
     <AvaloniaResource Remove="Views\Overview.xaml" />
     <AvaloniaResource Remove="Views\Simulation.xaml" />
@@ -40,8 +46,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Database Views\CreateSystems.xaml" />
+    <None Remove="Views\Database Views\CreateUsers.xaml" />
+    <None Remove="Views\Database Views\DeleteSystems.xaml" />
+    <None Remove="Views\Database Views\DeleteUsers.xaml" />
     <None Remove="Views\Database Views\ReadSystems.xaml" />
     <None Remove="Views\Database Views\ReadUsers.xaml" />
+    <None Remove="Views\Database Views\UpdateSystems.xaml" />
+    <None Remove="Views\Database Views\UpdateUsers.xaml" />
     <None Remove="Views\Database.xaml" />
     <None Remove="Views\Overview.xaml" />
     <None Remove="Views\Simulation.xaml" />
@@ -100,7 +112,49 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\CreateUsers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\CreateSystems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\UpdateUsers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\UpdateSystems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\DeleteUsers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Database Views\DeleteSystems.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StarSimLib\StarSimLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Database Views\CreateUsers.xaml.cs">
+      <DependentUpon>CreateUsers.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

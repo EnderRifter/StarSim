@@ -16,46 +16,28 @@
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
     <TabControl>
       <TabItem Header="Create Users" IsVisible="{Binding IsAdmin}">
-        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
-          </Grid>
-        </Border>
+        <subviews:CreateUsers DataContext="{Binding}" />
       </TabItem>
       <TabItem Header="Create Bodies/Systems" IsVisible="{Binding IsPublisher}">
-        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
-          </Grid>
-        </Border>
+        <subviews:CreateSystems DataContext="{Binding}" />
       </TabItem>
       <TabItem Header="View Users" IsVisible="{Binding IsDefault}">
-        <subviews:ReadUsers DataContext="{Binding UserReadViewModel}" />
+        <subviews:ReadUsers DataContext="{Binding ReadUsersViewModel}" />
       </TabItem>
       <TabItem Header="View Bodies/Systems" IsVisible="{Binding IsDefault}">
-        <subviews:ReadSystems DataContext="{Binding SystemReadViewModel}" />
+        <subviews:ReadSystems DataContext="{Binding ReadSystemsViewModel}" />
       </TabItem>
       <TabItem Header="Update Users" IsVisible="{Binding IsAdmin}">
-        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
-          </Grid>
-        </Border>
+        <subviews:UpdateUsers DataContext="{Binding}" />
       </TabItem>
       <TabItem Header="Update Bodies/Systems" IsVisible="{Binding IsPublisher}">
-        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
-          </Grid>
-        </Border>
+        <subviews:UpdateSystems DataContext="{Binding}" />
       </TabItem>
       <TabItem Header="Delete Users" IsVisible="{Binding IsAdmin}">
-        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
-          </Grid>
-        </Border>
+        <subviews:DeleteUsers DataContext="{Binding}" />
       </TabItem>
       <TabItem Header="Delete Bodies/Systems" IsVisible="{Binding IsPublisher}">
-        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-          <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
-          </Grid>
-        </Border>
+        <subviews:DeleteSystems DataContext="{Binding}" />
       </TabItem>
     </TabControl>
   </Border>

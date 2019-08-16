@@ -15,19 +15,49 @@ namespace StarSimGui.ViewModels
     public class DatabaseViewModel : ViewModelBase
     {
         /// <summary>
+        /// Represents the create systems view.
+        /// </summary>
+        private readonly CreateSystemsViewModel createSystemsViewModel;
+
+        /// <summary>
+        /// Represents the create users view.
+        /// </summary>
+        private readonly CreateUsersViewModel createUsersViewModel;
+
+        /// <summary>
         /// The program database.
         /// </summary>
         private readonly SimulatorContext dbContext;
 
         /// <summary>
-        /// Represents the system read view.
+        /// Represents the delete systems view.
         /// </summary>
-        private readonly SystemReadViewModel systemReadViewModel;
+        private readonly DeleteSystemsViewModel deleteSystemsViewModel;
 
         /// <summary>
-        /// Represents the user read view.
+        /// Represents the delete users view.
         /// </summary>
-        private readonly UserReadViewModel userReadViewModel;
+        private readonly DeleteUsersViewModel deleteUsersViewModel;
+
+        /// <summary>
+        /// Represents the read systems view.
+        /// </summary>
+        private readonly ReadSystemsViewModel readSystemsViewModel;
+
+        /// <summary>
+        /// Represents the read users view.
+        /// </summary>
+        private readonly ReadUsersViewModel readUsersViewModel;
+
+        /// <summary>
+        /// Represents the update systems view.
+        /// </summary>
+        private readonly UpdateSystemsViewModel updateSystemsViewModel;
+
+        /// <summary>
+        /// Represents the update users view.
+        /// </summary>
+        private readonly UpdateUsersViewModel updateUsersViewModel;
 
         /// <summary>
         /// The currently logged in user.
@@ -39,9 +69,21 @@ namespace StarSimGui.ViewModels
         /// </summary>
         public DatabaseViewModel()
         {
-            userReadViewModel = new UserReadViewModel();
+            createSystemsViewModel = new CreateSystemsViewModel();
 
-            systemReadViewModel = new SystemReadViewModel();
+            createUsersViewModel = new CreateUsersViewModel();
+
+            deleteSystemsViewModel = new DeleteSystemsViewModel();
+
+            deleteUsersViewModel = new DeleteUsersViewModel();
+
+            readSystemsViewModel = new ReadSystemsViewModel();
+
+            readUsersViewModel = new ReadUsersViewModel();
+
+            updateSystemsViewModel = new UpdateSystemsViewModel();
+
+            updateUsersViewModel = new UpdateUsersViewModel();
         }
 
         /// <summary>
@@ -52,9 +94,21 @@ namespace StarSimGui.ViewModels
         {
             dbContext = context;
 
-            userReadViewModel = new UserReadViewModel(in context);
+            createSystemsViewModel = new CreateSystemsViewModel(in context);
 
-            systemReadViewModel = new SystemReadViewModel(in context);
+            createUsersViewModel = new CreateUsersViewModel(in context);
+
+            deleteSystemsViewModel = new DeleteSystemsViewModel(in context);
+
+            deleteUsersViewModel = new DeleteUsersViewModel(in context);
+
+            readSystemsViewModel = new ReadSystemsViewModel(in context);
+
+            readUsersViewModel = new ReadUsersViewModel(in context);
+
+            updateSystemsViewModel = new UpdateSystemsViewModel(in context);
+
+            updateUsersViewModel = new UpdateUsersViewModel(in context);
         }
 
         /// <summary>
@@ -85,7 +139,7 @@ namespace StarSimGui.ViewModels
         /// </summary>
         public bool IsAdmin
         {
-            get { return (currentUser.Privileges & UserPrivileges.Admin) == UserPrivileges.Admin; }
+            get { return (currentUser?.Privileges & UserPrivileges.Admin) == UserPrivileges.Admin; }
         }
 
         /// <summary>
@@ -105,19 +159,19 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
-        /// Exposes the <see cref="systemReadViewModel"/> field to the view.
+        /// Exposes the <see cref="readSystemsViewModel"/> field to the view.
         /// </summary>
-        public SystemReadViewModel SystemReadViewModel
+        public ReadSystemsViewModel ReadSystemsViewModel
         {
-            get { return systemReadViewModel; }
+            get { return readSystemsViewModel; }
         }
 
         /// <summary>
-        /// Exposes the <see cref="userReadViewModel"/> field to the view.
+        /// Exposes the <see cref="readUsersViewModel"/> field to the view.
         /// </summary>
-        public UserReadViewModel UserReadViewModel
+        public ReadUsersViewModel ReadUsersViewModel
         {
-            get { return userReadViewModel; }
+            get { return readUsersViewModel; }
         }
 
         /// <summary>
