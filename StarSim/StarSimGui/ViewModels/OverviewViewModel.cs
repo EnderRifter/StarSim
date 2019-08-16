@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DynamicData.Binding;
+using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
@@ -24,14 +25,19 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// The backing field for the <see cref="PublishedSystems"/> property.
         /// </summary>
-        private IObservableCollection<PublishedSystem> publishedSystems;
+        private IObservableCollection<PublishedSystem> publishedSystemsObservable;
+
+        /// <summary>
+        /// The backing field for the <see cref="SelectedPublishedSystem"/> property.
+        /// </summary>
+        private PublishedSystem selectedPublishedSystem;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="OverviewViewModel"/> class.
         /// </summary>
         public OverviewViewModel()
         {
-            publishedSystems = new ObservableCollectionExtended<PublishedSystem>();
+            publishedSystemsObservable = new ObservableCollectionExtended<PublishedSystem>();
         }
 
         /// <summary>
@@ -41,6 +47,8 @@ namespace StarSimGui.ViewModels
         public OverviewViewModel(in SimulatorContext context) : this()
         {
             dbContext = context;
+
+            PublishedSystems.Load(dbContext.PublishedSystems.Include(system => system.System));
         }
 
         /// <summary>
@@ -56,22 +64,49 @@ namespace StarSimGui.ViewModels
             {
                 currentUser = value;
                 this.RaisePropertyChanged();
+                this.RaisePropertyChanged(nameof(IsSelectedPublishedSystemNull));
             }
         }
 
         /// <summary>
-        /// The <see cref="PublishedSystem"/> instance that the current user has published.
+        /// Whether the currently selected published system is null.
+        /// </summary>
+        public bool IsSelectedPublishedSystemNull
+        {
+            get { return SelectedPublishedSystem == null; }
+        }
+
+        /// <summary>
+        /// The published systems held in the database.
         /// </summary>
         public IObservableCollection<PublishedSystem> PublishedSystems
         {
             get
             {
-                return publishedSystems;
+                return publishedSystemsObservable;
             }
             set
             {
-                publishedSystems = value;
+                publishedSystemsObservable = value;
                 this.RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// The currently selected published system from the <see cref="PublishedSystems"/> collection.
+        /// </summary>
+        public PublishedSystem SelectedPublishedSystem
+        {
+            get
+            {
+                return selectedPublishedSystem;
+            }
+            set
+            {
+                selectedPublishedSystem = value;
+                this.RaisePropertyChanged();
+
+                this.RaisePropertyChanged(nameof(IsSelectedPublishedSystemNull));
             }
         }
 
@@ -87,6 +122,8 @@ namespace StarSimGui.ViewModels
                 dbContext.PublishedSystems.Where(system => system.Publisher.Id == CurrentUser.Id);
 
             PublishedSystems.Load(usersPublishedSystems);
+
+            SelectedPublishedSystem = null;
         }
 
         /// <summary>
