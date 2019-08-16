@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace StarSimGui.Views.Database_Views
 {
-    public class SystemReadView : UserControl
+    public class ReadUsers : UserControl
     {
-        public SystemReadView()
+        public ReadUsers()
         {
             this.InitializeComponent();
         }

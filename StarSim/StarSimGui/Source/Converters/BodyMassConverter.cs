@@ -13,13 +13,13 @@ namespace StarSimGui.Source.Converters
         /// <inheritdoc />
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return $"{value:E3}";
+            return $"{value ?? 0:E3}";
         }
 
         /// <inheritdoc />
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return double.TryParse((string)value, out double result) ? result : 0;
         }
     }
 }

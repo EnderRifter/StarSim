@@ -28,10 +28,10 @@
         </Border>
       </TabItem>
       <TabItem Header="View Users" IsVisible="{Binding IsDefault}">
-        <subviews:UserReadView DataContext="{Binding UserReadViewModel}" />
+        <subviews:ReadUsers DataContext="{Binding UserReadViewModel}" />
       </TabItem>
       <TabItem Header="View Bodies/Systems" IsVisible="{Binding IsDefault}">
-        <subviews:SystemReadView DataContext="{Binding SystemReadViewModel}" />
+        <subviews:ReadSystems DataContext="{Binding SystemReadViewModel}" />
       </TabItem>
       <TabItem Header="Update Users" IsVisible="{Binding IsAdmin}">
         <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
