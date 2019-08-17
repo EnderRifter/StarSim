@@ -12,7 +12,15 @@
   </Design.DataContext>
 
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
-    </Grid>
+    <StackPanel>
+      <TextBlock HorizontalAlignment="Center">Create A Body:</TextBlock>
+      <TextBlock HorizontalAlignment="Center">Body Name:</TextBlock>
+      <TextBox HorizontalAlignment="Stretch" Text="{Binding BodyName, Mode=TwoWay}"></TextBox>
+      <TextBlock HorizontalAlignment="Center">Body Mass:</TextBlock>
+      <TextBox HorizontalAlignment="Stretch" Text="{Binding BodyMass, Mode=TwoWay}"></TextBox>
+      <TextBlock HorizontalAlignment="Center" Text="{Binding Feedback}"></TextBlock>
+      <Button Command="{Binding CreateBodyCommand}" Content="Create Body" HorizontalAlignment="Stretch"></Button>
+      <Button Command="{Binding ResetBodyCommand}" Content="Reset Body" HorizontalAlignment="Stretch"></Button>
+    </StackPanel>
   </Border>
 </UserControl>

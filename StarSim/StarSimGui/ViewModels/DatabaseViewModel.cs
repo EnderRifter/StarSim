@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using DynamicData.Binding;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using StarSimGui.ViewModels.Database_ViewModels;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
+using Console = System.Console;
 
 namespace StarSimGui.ViewModels
 {
@@ -84,6 +87,13 @@ namespace StarSimGui.ViewModels
             updateSystemsViewModel = new UpdateSystemsViewModel();
 
             updateUsersViewModel = new UpdateUsersViewModel();
+
+            createSystemsViewModel.DatabaseEdited += OnDatabaseEdited;
+            createUsersViewModel.DatabaseEdited += OnDatabaseEdited;
+            deleteSystemsViewModel.DatabaseEdited += OnDatabaseEdited;
+            deleteUsersViewModel.DatabaseEdited += OnDatabaseEdited;
+            updateSystemsViewModel.DatabaseEdited += OnDatabaseEdited;
+            updateUsersViewModel.DatabaseEdited += OnDatabaseEdited;
         }
 
         /// <summary>
@@ -93,6 +103,14 @@ namespace StarSimGui.ViewModels
         public DatabaseViewModel(in SimulatorContext context) : this()
         {
             dbContext = context;
+
+            // unbind handlers to ensure that no memory leaks occur upon garbage collection of old objects
+            createSystemsViewModel.DatabaseEdited -= OnDatabaseEdited;
+            createUsersViewModel.DatabaseEdited -= OnDatabaseEdited;
+            deleteSystemsViewModel.DatabaseEdited -= OnDatabaseEdited;
+            deleteUsersViewModel.DatabaseEdited -= OnDatabaseEdited;
+            updateSystemsViewModel.DatabaseEdited -= OnDatabaseEdited;
+            updateUsersViewModel.DatabaseEdited -= OnDatabaseEdited;
 
             createSystemsViewModel = new CreateSystemsViewModel(in context);
 
@@ -109,6 +127,35 @@ namespace StarSimGui.ViewModels
             updateSystemsViewModel = new UpdateSystemsViewModel(in context);
 
             updateUsersViewModel = new UpdateUsersViewModel(in context);
+
+            // binding of new handlers
+            createSystemsViewModel.DatabaseEdited += OnDatabaseEdited;
+            createUsersViewModel.DatabaseEdited += OnDatabaseEdited;
+            deleteSystemsViewModel.DatabaseEdited += OnDatabaseEdited;
+            deleteUsersViewModel.DatabaseEdited += OnDatabaseEdited;
+            updateSystemsViewModel.DatabaseEdited += OnDatabaseEdited;
+            updateUsersViewModel.DatabaseEdited += OnDatabaseEdited;
+        }
+
+        /// <summary>
+        /// Signifies that the database should be updated.
+        /// </summary>
+        public event Action DatabaseUpdated;
+
+        /// <summary>
+        /// Exposes the <see cref="createSystemsViewModel"/> field to the view.
+        /// </summary>
+        public CreateSystemsViewModel CreateSystemsViewModel
+        {
+            get { return createSystemsViewModel; }
+        }
+
+        /// <summary>
+        /// Exposes the <see cref="createUsersViewModel"/> field to the view.
+        /// </summary>
+        public CreateUsersViewModel CreateUsersViewModel
+        {
+            get { return createUsersViewModel; }
         }
 
         /// <summary>
@@ -132,6 +179,22 @@ namespace StarSimGui.ViewModels
                 }
                 */
             }
+        }
+
+        /// <summary>
+        /// Exposes the <see cref="deleteSystemsViewModel"/> field to the view.
+        /// </summary>
+        public DeleteSystemsViewModel DeleteSystemsViewModel
+        {
+            get { return deleteSystemsViewModel; }
+        }
+
+        /// <summary>
+        /// Exposes the <see cref="deleteUsersViewModel"/> field to the view.
+        /// </summary>
+        public DeleteUsersViewModel DeleteUsersViewModel
+        {
+            get { return deleteUsersViewModel; }
         }
 
         /// <summary>
@@ -172,6 +235,49 @@ namespace StarSimGui.ViewModels
         public ReadUsersViewModel ReadUsersViewModel
         {
             get { return readUsersViewModel; }
+        }
+
+        /// <summary>
+        /// Exposes the <see cref="updateSystemsViewModel"/> field to the view.
+        /// </summary>
+        public UpdateSystemsViewModel UpdateSystemsViewModel
+        {
+            get { return updateSystemsViewModel; }
+        }
+
+        /// <summary>
+        /// Exposes the <see cref="updateUsersViewModel"/> field to the view.
+        /// </summary>
+        public UpdateUsersViewModel UpdateUsersViewModel
+        {
+            get { return updateUsersViewModel; }
+        }
+
+        /// <summary>
+        /// Invokes the <see cref="DatabaseUpdated"/> event.
+        /// </summary>
+        private void OnDatabaseEdited()
+        {
+            DatabaseUpdated?.Invoke();
+        }
+
+        /// <summary>
+        /// Invoked whenever the user wants to refresh all database sources.
+        /// </summary>
+        internal void RefreshDBSources()
+        {
+            Console.WriteLine("Refreshing database sources");
+
+            CreateSystemsViewModel.HandleDatabaseRefresh();
+            CreateUsersViewModel.HandleDatabaseRefresh();
+            DeleteSystemsViewModel.HandleDatabaseRefresh();
+            DeleteUsersViewModel.HandleDatabaseRefresh();
+            ReadSystemsViewModel.HandleDatabaseRefresh();
+            ReadUsersViewModel.HandleDatabaseRefresh();
+            UpdateSystemsViewModel.HandleDatabaseRefresh();
+            UpdateUsersViewModel.HandleDatabaseRefresh();
+
+            Console.WriteLine("Refreshed database sources");
         }
 
         /// <summary>

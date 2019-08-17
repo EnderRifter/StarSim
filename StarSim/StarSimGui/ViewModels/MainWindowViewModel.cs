@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using System;
+using ReactiveUI;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
 
@@ -10,6 +11,11 @@ namespace StarSimGui.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         /// <summary>
+        /// The database context in which the program should store data and which it should query to fetch data.
+        /// </summary>
+        private readonly SimulatorContext simulatorContext;
+
+        /// <summary>
         /// Backing field for the <see cref="CurrentUser"/> property.
         /// </summary>
         private User currentUser;
@@ -19,15 +25,17 @@ namespace StarSimGui.ViewModels
         /// </summary>
         public MainWindowViewModel()
         {
-            SimulatorContext = new SimulatorContext();
+            simulatorContext = new SimulatorContext();
 
-            DatabaseViewModel = new DatabaseViewModel(SimulatorContext);
+            simulatorContext.ChangeTracker.AutoDetectChangesEnabled = true;
 
-            OverviewViewModel = new OverviewViewModel(SimulatorContext);
+            DatabaseViewModel = new DatabaseViewModel(simulatorContext);
 
-            SimulationViewModel = new SimulationViewModel(SimulatorContext);
+            OverviewViewModel = new OverviewViewModel(simulatorContext);
 
-            UserLoginViewModel = new UserLoginViewModel(SimulatorContext);
+            SimulationViewModel = new SimulationViewModel(simulatorContext);
+
+            UserLoginViewModel = new UserLoginViewModel(simulatorContext);
 
             UserLoginViewModel.LoggedIn += user => CurrentUser = user;
             UserLoginViewModel.LoggedIn += DatabaseViewModel.HandleLogin;
@@ -39,6 +47,9 @@ namespace StarSimGui.ViewModels
             UserLoginViewModel.LoggedOut += OverviewViewModel.HandleLogout;
             UserLoginViewModel.LoggedOut += SimulationViewModel.HandleLogout;
 
+            SimulationViewModel.DatabaseUpdated += HandleDatabaseUpdated;
+            DatabaseViewModel.DatabaseUpdated += HandleDatabaseUpdated;
+
 #if DEBUG
             // simulate a login to accelerate development of the application, as the implemented cryptographic features
             // of the login system make it slow to solve for the password hash. furthermore loading the database takes
@@ -46,11 +57,6 @@ namespace StarSimGui.ViewModels
             UserLoginViewModel.DebugSimulateLogin(new User(0, "Debug User", UserPrivileges.Admin, "debug@application.net"));
 #endif
         }
-
-        /// <summary>
-        /// The database context in which the program should store data and which it should query to fetch data.
-        /// </summary>
-        private SimulatorContext SimulatorContext { get; }
 
         /// <summary>
         /// The currently logged in user.
@@ -87,5 +93,15 @@ namespace StarSimGui.ViewModels
         /// Represents the user login view.
         /// </summary>
         public UserLoginViewModel UserLoginViewModel { get; set; }
+
+        /// <summary>
+        /// Handles the DatabaseEdited event.
+        /// </summary>
+        private void HandleDatabaseUpdated()
+        {
+            Console.WriteLine($"Database has tracked changes?: {simulatorContext.ChangeTracker.HasChanges()}");
+            Console.WriteLine($"Saved {simulatorContext.SaveChanges()} changed entities");
+            DatabaseViewModel.RefreshDBSources();
+        }
     }
 }

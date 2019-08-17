@@ -1,4 +1,5 @@
-﻿using StarSimLib.Contexts;
+﻿using System;
+using StarSimLib.Contexts;
 
 namespace StarSimGui.ViewModels.Database_ViewModels
 {
@@ -26,6 +27,26 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         public UpdateUsersViewModel(in SimulatorContext context) : this()
         {
             dbContext = context;
+        }
+
+        /// <summary>
+        /// Signifies that the database should be updated.
+        /// </summary>
+        public event Action DatabaseEdited;
+
+        /// <summary>
+        /// Invokes the <see cref="DatabaseEdited"/> event.
+        /// </summary>
+        private void OnDatabaseEdited()
+        {
+            DatabaseEdited?.Invoke();
+        }
+
+        /// <summary>
+        /// Refreshed the database sources for this view model.
+        /// </summary>
+        internal void HandleDatabaseRefresh()
+        {
         }
     }
 }

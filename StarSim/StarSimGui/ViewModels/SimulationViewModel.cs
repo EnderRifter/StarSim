@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using SFML.Graphics;
 using SFML.Window;
-using SharpDX.Win32;
 using StarSimGui.Source;
 using StarSimLib;
 using StarSimLib.Contexts;
@@ -242,6 +241,11 @@ namespace StarSimGui.ViewModels
         #endregion Commands
 
         /// <summary>
+        /// Signifies that the database should be updated.
+        /// </summary>
+        public event Action DatabaseUpdated;
+
+        /// <summary>
         /// The <see cref="Body"/> instance currently selected for editing or viewing.
         /// </summary>
         public BodyDummy CurrentBody
@@ -271,6 +275,14 @@ namespace StarSimGui.ViewModels
                 currentUser = value;
                 this.RaisePropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Whether the current user can publish systems.
+        /// </summary>
+        public bool IsPublisher
+        {
+            get { return (CurrentUser.Privileges & UserPrivileges.Publisher) == UserPrivileges.Publisher; }
         }
 
         /// <summary>
@@ -392,6 +404,14 @@ namespace StarSimGui.ViewModels
                 systemName = value;
                 this.RaisePropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Invokes the <see cref="DatabaseUpdated"/> event.
+        /// </summary>
+        private void OnDatabaseUpdated()
+        {
+            DatabaseUpdated?.Invoke();
         }
 
         #region Command Implementations
@@ -548,7 +568,7 @@ namespace StarSimGui.ViewModels
                 dbContext.BodyToSystemJoins.AddRange(joins);
                 dbContext.PublishedSystems.Add(newPublishedSystem);
 
-                dbContext.SaveChanges();
+                OnDatabaseUpdated();
 
                 PublishedSystems.Load(dbContext.PublishedSystems);
 
@@ -618,6 +638,8 @@ namespace StarSimGui.ViewModels
         public void HandleLogin(User newUser)
         {
             CurrentUser = newUser;
+
+            this.RaisePropertyChanged(nameof(IsPublisher));
         }
 
         /// <summary>

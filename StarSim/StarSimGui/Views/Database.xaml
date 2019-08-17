@@ -15,29 +15,29 @@
 
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
     <TabControl>
-      <TabItem Header="Create Users" IsVisible="{Binding IsAdmin}">
-        <subviews:CreateUsers DataContext="{Binding}" />
+      <TabItem Header="Create Users" IsVisible="{Binding IsAdmin}" IsEnabled="{Binding IsAdmin}">
+        <subviews:CreateUsers DataContext="{Binding CreateUsersViewModel}" IsVisible="{Binding $parent.DataContext.IsAdmin}" IsEnabled="{Binding $parent.DataContext.IsAdmin}" />
       </TabItem>
-      <TabItem Header="Create Bodies/Systems" IsVisible="{Binding IsPublisher}">
-        <subviews:CreateSystems DataContext="{Binding}" />
+      <TabItem Header="Create Bodies" IsVisible="{Binding IsPublisher}" IsEnabled="{Binding IsPublisher}">
+        <subviews:CreateSystems DataContext="{Binding CreateSystemsViewModel}" IsVisible="{Binding $parent.DataContext.IsPublisher}" IsEnabled="{Binding $parent.DataContext.IsPublisher}" />
       </TabItem>
-      <TabItem Header="View Users" IsVisible="{Binding IsDefault}">
-        <subviews:ReadUsers DataContext="{Binding ReadUsersViewModel}" />
+      <TabItem Header="View Users" IsVisible="{Binding IsDefault}" IsEnabled="{Binding IsDefault}">
+        <subviews:ReadUsers DataContext="{Binding ReadUsersViewModel}" IsVisible="{Binding $parent.DataContext.IsDefault}" IsEnabled="{Binding $parent.DataContext.IsDefault}" />
       </TabItem>
-      <TabItem Header="View Bodies/Systems" IsVisible="{Binding IsDefault}">
-        <subviews:ReadSystems DataContext="{Binding ReadSystemsViewModel}" />
+      <TabItem Header="View Bodies/Systems" IsVisible="{Binding IsDefault}" IsEnabled="{Binding IsDefault}">
+        <subviews:ReadSystems DataContext="{Binding ReadSystemsViewModel}" IsVisible="{Binding $parent.DataContext.IsDefault}" IsEnabled="{Binding $parent.DataContext.IsDefault}" />
       </TabItem>
-      <TabItem Header="Update Users" IsVisible="{Binding IsAdmin}">
-        <subviews:UpdateUsers DataContext="{Binding}" />
+      <TabItem Header="Update Users" IsVisible="{Binding IsAdmin}" IsEnabled="{Binding IsAdmin}">
+        <subviews:UpdateUsers DataContext="{Binding UpdateUsersViewModel}" IsVisible="{Binding $parent.DataContext.IsAdmin}" IsEnabled="{Binding $parent.DataContext.IsAdmin}" />
       </TabItem>
-      <TabItem Header="Update Bodies/Systems" IsVisible="{Binding IsPublisher}">
-        <subviews:UpdateSystems DataContext="{Binding}" />
+      <TabItem Header="Update Bodies/Systems" IsVisible="{Binding IsPublisher}" IsEnabled="{Binding IsPublisher}">
+        <subviews:UpdateSystems DataContext="{Binding UpdateSystemsViewModel}" IsVisible="{Binding $parent.DataContext.IsPublisher}" IsEnabled="{Binding $parent.DataContext.IsPublisher}" />
       </TabItem>
-      <TabItem Header="Delete Users" IsVisible="{Binding IsAdmin}">
-        <subviews:DeleteUsers DataContext="{Binding}" />
+      <TabItem Header="Delete Users" IsVisible="{Binding IsAdmin}" IsEnabled="{Binding IsAdmin}">
+        <subviews:DeleteUsers DataContext="{Binding DeleteUsersViewModel}" IsVisible="{Binding $parent.DataContext.IsAdmin}" IsEnabled="{Binding $parent.DataContext.IsAdmin}" />
       </TabItem>
-      <TabItem Header="Delete Bodies/Systems" IsVisible="{Binding IsPublisher}">
-        <subviews:DeleteSystems DataContext="{Binding}" />
+      <TabItem Header="Delete Bodies/Systems" IsVisible="{Binding IsPublisher}" IsEnabled="{Binding IsPublisher}">
+        <subviews:DeleteSystems DataContext="{Binding DeleteSystemsViewModel}" IsVisible="{Binding $parent.DataContext.IsPublisher}" IsEnabled="{Binding $parent.DataContext.IsPublisher}" />
       </TabItem>
     </TabControl>
   </Border>

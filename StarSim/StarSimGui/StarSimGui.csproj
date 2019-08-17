@@ -162,7 +162,7 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Simulator.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

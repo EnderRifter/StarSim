@@ -12,7 +12,31 @@
   </Design.DataContext>
 
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
-    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+    <Grid ColumnDefinitions="*,*,*" RowDefinitions="*,*,*,*">
+      <ListBox Items="{Binding Bodies}" SelectedItem="{Binding SelectedBody, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="3">
+      </ListBox>
+      <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2" Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="3">
+        <StackPanel>
+          <TextBlock Text="{Binding BodyFeedback}"></TextBlock>
+          <Button Command="{Binding RemoveBodyCommand}" Content="Remove Body"></Button>
+        </StackPanel>
+      </Border>
+      <ListBox Items="{Binding Systems}" SelectedItem="{Binding SelectedSystem, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="3">
+      </ListBox>
+      <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="3">
+        <StackPanel>
+          <TextBlock Text="{Binding SystemFeedback}"></TextBlock>
+          <Button Command="{Binding RemoveSystemCommand}" Content="Remove System"></Button>
+        </StackPanel>
+      </Border>
+      <ListBox Items="{Binding PublishedSystems}" SelectedItem="{Binding SelectedPublishedSystem, Mode=TwoWay}" Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="3">
+      </ListBox>
+      <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2" Grid.Column="2" Grid.ColumnSpan="1" Grid.Row="3">
+        <StackPanel>
+          <TextBlock Text="{Binding PublishedSystemFeedback}"></TextBlock>
+          <Button Command="{Binding RemovePublishedSystemCommand}" Content="Remove Published System"></Button>
+        </StackPanel>
+      </Border>
     </Grid>
   </Border>
 </UserControl>

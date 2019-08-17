@@ -13,6 +13,14 @@
 
   <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2">
     <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+      <ListBox Items="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Grid.RowSpan="3">
+      </ListBox>
+      <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="2" Margin="2" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="3">
+        <StackPanel>
+          <TextBlock Text="{Binding Feedback}"></TextBlock>
+          <Button Command="{Binding RemoveUserCommand}" Content="Remove User"></Button>
+        </StackPanel>
+      </Border>
     </Grid>
   </Border>
 </UserControl>

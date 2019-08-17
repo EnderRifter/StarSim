@@ -142,5 +142,14 @@ namespace StarSimGui.ViewModels.Database_ViewModels
                 this.RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Refreshed the database sources for this view model.
+        /// </summary>
+        internal void HandleDatabaseRefresh()
+        {
+            PublishedSystems.Load(dbContext.PublishedSystems);
+            Users.Load(dbContext.Users);
+        }
     }
 }
