@@ -35,7 +35,7 @@ namespace StarSimLib
         /// <summary>
         /// The gravitational constant (m^3 kg^-1 s^-2).
         /// </summary>
-        public const double G = 6.673e-11f;
+        public const double G = 6.673e-11;
 
         /// <summary>
         /// The minimum width of a tree. Subtrees are not created when if their width would be smaller than this value,
@@ -46,7 +46,7 @@ namespace StarSimLib
         /// <summary>
         /// The number of seconds that each simulation tick represents.
         /// </summary>
-        public const double SecondsPerTick = 1e8f;
+        public const double SecondsPerTick = 1e8;
 
         /// <summary>
         /// The tick rate limit for the simulation.
@@ -66,7 +66,7 @@ namespace StarSimLib
         /// <summary>
         /// The mass of the sun (1.98892e30f).
         /// </summary>
-        public const double SolarMass = 1.98892e30f;
+        public const double SolarMass = 1.98892e30;
 
         /// <summary>
         /// The number of previous positions that will be stored by a body
@@ -85,9 +85,9 @@ namespace StarSimLib
         public const double TreeTheta = 0.5;
 
         /// <summary>
-        /// The maximum radius within which <see cref="Body"/>s will be placed (1e18f).
+        /// The maximum radius within which <see cref="Body"/>s will be placed.
         /// </summary>
-        public const double UniverseSize = 1e18f;
+        public const double UniverseSize = 1e18;
 
         /// <summary>
         /// The amount by which the zoom level will be increased or decreased.

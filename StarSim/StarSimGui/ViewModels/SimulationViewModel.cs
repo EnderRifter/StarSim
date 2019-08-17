@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DynamicData.Binding;
+using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using SFML.Graphics;
 using SFML.Window;
+using SharpDX.Win32;
 using StarSimGui.Source;
 using StarSimLib;
 using StarSimLib.Contexts;
+using StarSimLib.Data_Structures;
 using StarSimLib.Models;
 using StarSimLib.Physics;
 using StarSimLib.UI;
@@ -68,6 +71,11 @@ namespace StarSimGui.ViewModels
         private User currentUser;
 
         /// <summary>
+        /// Backing field for the <see cref="PublishedSystems"/> property.
+        /// </summary>
+        private IObservableCollection<PublishedSystem> publishedSystemsObservable;
+
+        /// <summary>
         /// The backing field for the <see cref="SelectedItemIndex"/> property.
         /// </summary>
         private int selectedItemIndex;
@@ -88,11 +96,23 @@ namespace StarSimGui.ViewModels
         private Dictionary<Body, CircleShape> simulatedBodyShapes;
 
         /// <summary>
+        /// Backing field for the <see cref="SystemName"/> property.
+        /// </summary>
+        private string systemName;
+
+        /// <summary>
+        /// Backing field for the <see cref="SelectedPublishedSystem"/> property.
+        /// </summary>
+        public PublishedSystem selectedPublishedSystem;
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="SimulationViewModel"/> class.
         /// </summary>
         public SimulationViewModel()
         {
             simulatedBodiesObservable = new ObservableCollectionExtended<Body>();
+
+            #region Main Menu Commands
 
             IObservable<bool> canAddBody =
                 this.WhenAnyValue(x => x.CurrentBody, selector: body => !body?.Equals(new BodyDummy()) ?? false);
@@ -104,22 +124,15 @@ namespace StarSimGui.ViewModels
 
             ClearBodiesCommand = ReactiveCommand.Create(ClearBodiesCommandImpl, canClearBodies);
 
-            IObservable<bool> canCopyBody =
-                this.WhenAnyValue(x => x.SelectedItemIndex, x => x.CurrentBody,
-                    (index, dummy) => index > -1 && (!dummy?.Equals(new BodyDummy()) ?? false));
+            IObservable<bool> validBodySelected =
+                this.WhenAnyValue(x => x.SelectedItemIndex, x => x.SimulatedBodies, x => x.CurrentBody,
+                    (index, simulatedBodies, body) => index > -1 && simulatedBodies.Count > 0 && (!body?.Equals(new BodyDummy()) ?? false));
 
-            CopyBodyCommand = ReactiveCommand.Create(CopyBodyCommandImpl, canCopyBody);
+            CopyBodyCommand = ReactiveCommand.Create(CopyBodyCommandImpl, validBodySelected);
 
-            IObservable<bool> canDeleteBody =
-                this.WhenAnyValue(x => x.CurrentBody, selector: body => !body?.Equals(new BodyDummy()) ?? false);
+            DeleteBodyCommand = ReactiveCommand.Create(DeleteBodyCommandImpl, validBodySelected);
 
-            DeleteBodyCommand = ReactiveCommand.Create(DeleteBodyCommandImpl, canDeleteBody);
-
-            IObservable<bool> canDeselectBody =
-                this.WhenAnyValue(x => x.SelectedItemIndex, x => x.CurrentBody,
-                    (index, dummy) => index > -1 && (!dummy?.Equals(new BodyDummy()) ?? false));
-
-            DeselectBodyCommand = ReactiveCommand.Create(DeselectBodyCommandImpl, canDeselectBody);
+            DeselectBodyCommand = ReactiveCommand.Create(DeselectBodyCommandImpl, validBodySelected);
 
             GenerateBodiesCommand = ReactiveCommand.Create(GenerateBodiesCommandImpl);
 
@@ -129,12 +142,38 @@ namespace StarSimGui.ViewModels
             StartSimulationCommand =
                 ReactiveCommand.CreateFromTask(StartSimulationCommandImpl, currentSimulationInactive);
 
+            #endregion Main Menu Commands
+
+            #region Body Editor Commands
+
             IObservable<bool> canUpdateBody =
                 this.WhenAnyValue(x => x.CurrentBody, x => x.SelectedItemIndex,
                     (body, selectedIndex) => (!body?.Equals(new BodyDummy()) ?? false) && selectedIndex > -1 &&
                                              selectedIndex < MaxGeneratedBodies - MinGeneratedBodies);
 
             UpdateBodyCommand = ReactiveCommand.Create(UpdateBodyCommandImpl, canUpdateBody);
+
+            #endregion Body Editor Commands
+
+            #region System Publishing Commands
+
+            IObservable<bool> canPublish = this.WhenAnyValue(x => x.SystemName,
+                name => !string.IsNullOrEmpty(name) && !string.IsNullOrWhiteSpace(name));
+
+            PublishCurrentSystemCommand = ReactiveCommand.Create(PublishCurrentSystemCommandImpl, canPublish);
+
+            #endregion System Publishing Commands
+
+            #region Published System Import Commands
+
+            IObservable<bool> canImportPublishedSystem =
+                this.WhenAnyValue(x => x.SelectedPublishedSystem, selector: system => system != null);
+
+            ImportPublishedSystemCommand = ReactiveCommand.Create(ImportPublishedSystemCommandImpl, canImportPublishedSystem);
+
+            #endregion Published System Import Commands
+
+            publishedSystemsObservable = new ObservableCollectionExtended<PublishedSystem>();
         }
 
         /// <summary>
@@ -144,7 +183,11 @@ namespace StarSimGui.ViewModels
         public SimulationViewModel(in SimulatorContext context) : this()
         {
             dbContext = context;
+
+            PublishedSystems.Load(dbContext.PublishedSystems.Include(system => system.System));
         }
+
+        #region Commands
 
         /// <summary>
         /// Command invoked whenever the currently inspected body should be added to the <see cref="SimulatedBodies"/> collection.
@@ -160,6 +203,43 @@ namespace StarSimGui.ViewModels
         /// Command invoked whenever the currently selected body should be added again to the <see cref="SimulatedBodies"/> collection.
         /// </summary>
         public ICommand CopyBodyCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the currently inspected body should be deleted from the <see cref="SimulatedBodies"/> collection.
+        /// </summary>
+        public ICommand DeleteBodyCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the user wants to deselect the currently selected body.
+        /// </summary>
+        public ICommand DeselectBodyCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the user wants to generate a new collection.
+        /// </summary>
+        public ICommand GenerateBodiesCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the user wants to import the currently selected published system.
+        /// </summary>
+        public ICommand ImportPublishedSystemCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the user want to publish the currently generated system.
+        /// </summary>
+        public ICommand PublishCurrentSystemCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever a simulation should be started.
+        /// </summary>
+        public ICommand StartSimulationCommand { get; }
+
+        /// <summary>
+        /// Command invoked whenever the user wants to update the currently edited body.
+        /// </summary>
+        public ICommand UpdateBodyCommand { get; }
+
+        #endregion Commands
 
         /// <summary>
         /// The <see cref="Body"/> instance currently selected for editing or viewing.
@@ -194,19 +274,33 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
-        /// Command invoked whenever the currently inspected body should be deleted from the <see cref="SimulatedBodies"/> collection.
+        /// Whether the currently selected published system is null.
         /// </summary>
-        public ICommand DeleteBodyCommand { get; }
+        public bool IsSelectedPublishedSystemNull
+        {
+            get { return SelectedPublishedSystem == null; }
+        }
 
         /// <summary>
-        /// Command invoked whenever the user wants to deselect the currently selected body.
+        /// Feedback regarding the publication attempt.
         /// </summary>
-        public ICommand DeselectBodyCommand { get; }
+        public string PublicationFeedback { get; private set; }
 
         /// <summary>
-        /// Command invoked whenever the user wants to generate a new collection.
+        /// The published systems held in the database.
         /// </summary>
-        public ICommand GenerateBodiesCommand { get; }
+        public IObservableCollection<PublishedSystem> PublishedSystems
+        {
+            get
+            {
+                return publishedSystemsObservable;
+            }
+            set
+            {
+                publishedSystemsObservable = value;
+                this.RaisePropertyChanged();
+            }
+        }
 
         /// <summary>
         /// The index of the currently selected item in the <see cref="SimulatedBodies"/> collection.
@@ -226,6 +320,24 @@ namespace StarSimGui.ViewModels
                 {
                     CurrentBody = new BodyDummy(SimulatedBodies?[value]);
                 }
+            }
+        }
+
+        /// <summary>
+        /// The currently selected published system from the <see cref="PublishedSystems"/> collection.
+        /// </summary>
+        public PublishedSystem SelectedPublishedSystem
+        {
+            get
+            {
+                return selectedPublishedSystem;
+            }
+            set
+            {
+                selectedPublishedSystem = value;
+                this.RaisePropertyChanged();
+
+                this.RaisePropertyChanged(nameof(IsSelectedPublishedSystemNull));
             }
         }
 
@@ -267,14 +379,22 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
-        /// Command invoked whenever a simulation should be started.
+        /// The name of the system when it will be published.
         /// </summary>
-        public ICommand StartSimulationCommand { get; }
+        public string SystemName
+        {
+            get
+            {
+                return systemName;
+            }
+            set
+            {
+                systemName = value;
+                this.RaisePropertyChanged();
+            }
+        }
 
-        /// <summary>
-        /// Command invoked whenever the user wants to update the currently edited body.
-        /// </summary>
-        public ICommand UpdateBodyCommand { get; }
+        #region Command Implementations
 
         /// <summary>
         /// Invoked whenever the user wants to add the currently edited body to the simulation.
@@ -357,11 +477,105 @@ namespace StarSimGui.ViewModels
         }
 
         /// <summary>
+        /// Invoked whenever the user wants to import the currently selected system into the simulation.
+        /// </summary>
+        private void ImportPublishedSystemCommandImpl()
+        {
+            using (SimulatedBodies.SuspendNotifications())
+            {
+                SimulatedBodies.Clear();
+
+                StarSimLib.Models.System system = SelectedPublishedSystem.System;
+                IReadOnlyDictionary<ulong, (Vector4 pos, Vector4 vel)> bodyPositionData = system.BodyPositionData;
+
+                uint bodyId = 0;
+
+                foreach (BodyToSystemJoin join in system.BodyToSystemJoins)
+                {
+                    (Vector4 position, Vector4 velocity) = bodyPositionData[join.BodyId];
+
+                    SimulatedBodies.Add(new Body(position, velocity, join.Body.Mass, BodyGenerator.CurrentGeneration, bodyId++));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Invoked whenever the user wants to publish the currently generated system.
+        /// </summary>
+        private void PublishCurrentSystemCommandImpl()
+        {
+            if (dbContext.Systems.Any(system => system.Name.Equals(SystemName)))
+            {
+                PublicationFeedback = "System with same name already exists in the database.";
+                this.RaisePropertyChanged(nameof(PublicationFeedback));
+                return;
+            }
+
+            try
+            {
+                StarSimLib.Models.Body lastBody = dbContext.Bodies.OrderBy(body => body.Id).Last();
+                StarSimLib.Models.System lastSystem = dbContext.Systems.OrderBy(system => system.Id).Last();
+                BodyToSystemJoin lastJoin = dbContext.BodyToSystemJoins.OrderBy(join => join.Id).Last();
+                PublishedSystem lastPublishedSystem = dbContext.PublishedSystems.OrderBy(system => system.Id).Last();
+
+                ulong bodyId = lastBody.Id,
+                    systemId = lastSystem.Id + 1,
+                    joinId = lastJoin.Id,
+                    publishedSystemId = lastPublishedSystem.Id + 1;
+
+                PublishedSystem newPublishedSystem =
+                    new PublishedSystem(publishedSystemId, CurrentUser.Id, systemId, DateTime.Now);
+                List<StarSimLib.Models.Body> bodies = new List<StarSimLib.Models.Body>(SimulatedBodies.Count);
+                List<BodyToSystemJoin> joins = new List<BodyToSystemJoin>(SimulatedBodies.Count);
+
+                Dictionary<ulong, (Vector4 pos, Vector4 vel)> bodyPositionData =
+                    new Dictionary<ulong, (Vector4 pos, Vector4 vel)>();
+
+                foreach (Body body in SimulatedBodies)
+                {
+                    //todo implement naming functionality for bodies, perhaps in update bodies screen?
+                    bodies.Add(new StarSimLib.Models.Body(++bodyId, null, body.Mass));
+
+                    bodyPositionData[bodyId] = (body.Position, body.Velocity);
+
+                    joins.Add(new BodyToSystemJoin(++joinId, bodyId, systemId));
+                }
+
+                StarSimLib.Models.System newSystem = new StarSimLib.Models.System(systemId, SystemName, bodyPositionData);
+
+                dbContext.Bodies.AddRange(bodies);
+                dbContext.Systems.Add(newSystem);
+                dbContext.BodyToSystemJoins.AddRange(joins);
+                dbContext.PublishedSystems.Add(newPublishedSystem);
+
+                dbContext.SaveChanges();
+
+                PublishedSystems.Load(dbContext.PublishedSystems);
+
+                PublicationFeedback = "System was successfully published to the database.";
+                this.RaisePropertyChanged(nameof(PublicationFeedback));
+            }
+            catch (InvalidOperationException)
+            {
+                PublicationFeedback = "System was already published and exists in the database.";
+                this.RaisePropertyChanged(nameof(PublicationFeedback));
+            }
+            catch (DbUpdateException)
+            {
+                PublicationFeedback = "Error while saving system to the database.";
+                this.RaisePropertyChanged(nameof(PublicationFeedback));
+            }
+        }
+
+        /// <summary>
         /// Invoked whenever the user wants to start a new simulation.
         /// </summary>
         private async Task StartSimulationCommandImpl()
         {
             Body[] simulatedBodiesArr = SimulatedBodies.ToArray();
+
+            simulatedBodyShapes =
+                BodyGenerator.GenerateShapes(simulatedBodiesArr, bodyMassToRadiusDelegate, bodyMassToColourDelegate);
 
             IInputHandler simulationInputHandler = new SimulationInputHandler(ref simulatedBodiesArr);
 
@@ -394,6 +608,8 @@ namespace StarSimGui.ViewModels
         {
             SimulatedBodies[SelectedItemIndex] = (Body)CurrentBody;
         }
+
+        #endregion Command Implementations
 
         /// <summary>
         /// Handles the <see cref="UserLoginViewModel.LoggedIn"/> event.

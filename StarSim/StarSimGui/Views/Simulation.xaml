@@ -55,14 +55,33 @@
           <Separator Margin="2" />
           <Button Command="{Binding $parent[1].DataContext.UpdateBodyCommand}" Content="Update Edited Body" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
           <Separator Margin="2" />
-          <Button Command="{Binding $parent[1].DataContext.UpdateBodyCommand}" Content="Deselect Body" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <Button Command="{Binding $parent[1].DataContext.DeselectBodyCommand}" Content="Deselect Body" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
         </StackPanel>
       </Border>
       <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="4">
         <ListBox Items="{Binding SimulatedBodies}" SelectedIndex="{Binding SelectedItemIndex, Mode=TwoWay}">
         </ListBox>
       </Border>
-      <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="4">
+      <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+        <StackPanel Margin="2">
+          <TextBlock HorizontalAlignment="Center">Publish Current System</TextBlock>
+          <Separator Margin="2" />
+          <TextBlock HorizontalAlignment="Center">System Name</TextBlock>
+          <TextBox HorizontalAlignment="Stretch" Text="{Binding SystemName, Mode=TwoWay}"></TextBox>
+          <Separator Margin="2" />
+          <Button Command="{Binding PublishCurrentSystemCommand}" Content="Publish" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          <Separator Margin="2" />
+          <TextBlock HorizontalAlignment="Center" Text="{Binding PublicationFeedback}"></TextBlock>
+        </StackPanel>
+      </Border>
+      <Border BorderBrush="Gray" BorderThickness="2" Margin="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">
+        <StackPanel Margin="2">
+          <TextBlock HorizontalAlignment="Center">Published Systems</TextBlock>
+          <ListBox Items="{Binding PublishedSystems}" SelectedItem="{Binding SelectedPublishedSystem, Mode=OneWayToSource}">
+          </ListBox>
+          <Separator Margin="2" />
+          <Button Command="{Binding ImportPublishedSystemCommand}" Content="Import Selected Published System" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+        </StackPanel>
       </Border>
     </Grid>
   </Border>

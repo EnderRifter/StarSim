@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json;
 using StarSimLib.Cryptography;
+using StarSimLib.Data_Structures;
 using StarSimLib.Models;
+using Body = StarSimLib.Models.Body;
 
 namespace StarSimLib.Contexts
 {
@@ -32,7 +35,7 @@ namespace StarSimLib.Contexts
         }
 
         /// <summary>
-        /// Holds the <see cref="Body"/> entities in the database. Also allows querying the database via LINQ.
+        /// Holds the <see cref="Models.Body"/> entities in the database. Also allows querying the database via LINQ.
         /// </summary>
         public DbSet<Body> Bodies { get; set; }
 
@@ -80,8 +83,18 @@ namespace StarSimLib.Contexts
 
             modelBuilder.Entity<Models.System>().HasIndex(system => system.Id).IsUnique();
 
+            modelBuilder.Entity<Models.System>().Property(system => system.BodyPositionData)
+                        .HasConversion(
+                            deserialisedDict => JsonConvert.SerializeObject(deserialisedDict),
+                            serialisedDict => JsonConvert.DeserializeObject<Dictionary<ulong, (Vector4, Vector4)>>(serialisedDict));
+
             modelBuilder.Entity<Models.System>().HasData(
-                new Models.System(1, "Test")
+                new Models.System(1, "Test", new Dictionary<ulong, (Vector4 pos, Vector4 vel)>
+                                             {
+                                                 { 1, (new Vector4(), new Vector4()) },
+                                                 { 2, (new Vector4(-8.85E15, 7.46E15, -4.86E15), new Vector4(7.96E4, 6.93E-9, 6.63E4)) },
+                                                 { 3, (new Vector4(-8.23E15, 7.89E15, 9.38E15), new Vector4(-6.84E4, -4.91E-9, -6.56E4)) }
+                                             })
             );
 
             modelBuilder.Entity<BodyToSystemJoin>().HasIndex(join => new { join.BodyId, join.SystemId }).IsUnique();
@@ -92,7 +105,7 @@ namespace StarSimLib.Contexts
                 new BodyToSystemJoin(3, 3, 1)
             );
 
-            modelBuilder.Entity<PublishedSystem>().HasIndex(system => new { system.Id, system.PublisherId, system.SystemId }).IsUnique();
+            modelBuilder.Entity<PublishedSystem>().HasIndex(system => new { system.PublisherId, system.SystemId }).IsUnique();
 
             modelBuilder.Entity<PublishedSystem>().HasData(
                 new PublishedSystem(1, 1, 1, DateTime.Now)

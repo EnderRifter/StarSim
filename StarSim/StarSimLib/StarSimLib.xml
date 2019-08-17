@@ -88,7 +88,7 @@
         </member>
         <member name="F:StarSimLib.Constants.UniverseSize">
             <summary>
-            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body"/>s will be placed (1e18f).
+            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body"/>s will be placed.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.ZoomStep">
@@ -1437,12 +1437,20 @@
             Represents a star system in the database, with a collection of child <see cref="T:StarSimLib.Models.Body"/> instances.
             </summary>
         </member>
-        <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.String)">
+        <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.String,System.Collections.Generic.IReadOnlyDictionary{System.UInt64,System.ValueTuple{StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4}})">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.Models.System"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
             <param name="name">The name of this instance.</param>
+            <param name="bodyPositionData">Optional</param>
+        </member>
+        <member name="P:StarSimLib.Models.System.BodyPositionData">
+            <summary>
+            Stores the positions and velocities of every <see cref="T:StarSimLib.Models.Body"/> entity tracked by this instance. Will be
+            serialised to a JSON string and then deserialised from a JSON string to be stored and retrieved from the
+            database.
+            </summary>
         </member>
         <member name="P:StarSimLib.Models.System.BodyToSystemJoins">
             <summary>

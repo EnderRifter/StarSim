@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Models
 {
@@ -14,11 +15,21 @@ namespace StarSimLib.Models
         /// </summary>
         /// <param name="id">The unique id of this instance.</param>
         /// <param name="name">The name of this instance.</param>
-        public System(ulong id, string name)
+        /// <param name="bodyPositionData">Optional</param>
+        public System(ulong id, string name, IReadOnlyDictionary<ulong, (Vector4 pos, Vector4 vel)> bodyPositionData = null)
         {
             Id = id;
             Name = name;
+            BodyPositionData = bodyPositionData ?? new Dictionary<ulong, (Vector4 pos, Vector4 vel)>();
         }
+
+        /// <summary>
+        /// Stores the positions and velocities of every <see cref="Body"/> entity tracked by this instance. Will be
+        /// serialised to a JSON string and then deserialised from a JSON string to be stored and retrieved from the
+        /// database.
+        /// </summary>
+        [Required]
+        public IReadOnlyDictionary<ulong, (Vector4 pos, Vector4 vel)> BodyPositionData { get; private set; }
 
         /// <summary>
         /// The <see cref="BodyToSystemJoin"/> entities that map this <see cref="System"/> to the <see cref="Body"/>
