@@ -145,9 +145,9 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         /// </summary>
         private void ResetBodyCommandImpl()
         {
-            BodyName = "";
+            BodyName = string.Empty;
             BodyMass = 0;
-            Feedback = "";
+            Feedback = string.Empty;
             this.RaisePropertyChanged(nameof(Feedback));
         }
 

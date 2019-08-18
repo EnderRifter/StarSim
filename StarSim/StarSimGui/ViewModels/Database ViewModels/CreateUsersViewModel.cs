@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using ReactiveUI;
+using StarSimLib;
 using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Models;
@@ -41,15 +42,6 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         private string username;
 
         /// <summary>
-        /// The list of accepted email providers.
-        /// </summary>
-        public static readonly string[] AcceptedEmailProviders = {
-                                                                     "gmail.com",
-                                                                     "hotmail.com",
-                                                                     "yahoo.com"
-                                                                 };
-
-        /// <summary>
         /// Initialises a new instance of the <see cref="CreateUsersViewModel"/> class.
         /// </summary>
         public CreateUsersViewModel()
@@ -60,11 +52,11 @@ namespace StarSimGui.ViewModels.Database_ViewModels
 
             StringBuilder regexBuilder = new StringBuilder(@"\w[^@]@(");
 
-            for (int i = 0; i < AcceptedEmailProviders.Length; i++)
+            for (int i = 0; i < Constants.AcceptedEmailProviders.Length; i++)
             {
                 regexBuilder.Append(i == 0
-                    ? $"{AcceptedEmailProviders[i].Replace(".", @"\.")}"
-                    : $"|{AcceptedEmailProviders[i].Replace(".", @"\.")}");
+                    ? $"{Constants.AcceptedEmailProviders[i].Replace(".", @"\.")}"
+                    : $"|{Constants.AcceptedEmailProviders[i].Replace(".", @"\.")}");
             }
 
             regexBuilder.Append(")$");
@@ -246,10 +238,10 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         /// </summary>
         private void ResetUserCommandImpl()
         {
-            Username = "";
-            Password = "";
-            Email = "";
-            Feedback = "";
+            Username = string.Empty;
+            Password = string.Empty;
+            Email = string.Empty;
+            Feedback = string.Empty;
             this.RaisePropertyChanged(nameof(Feedback));
         }
 

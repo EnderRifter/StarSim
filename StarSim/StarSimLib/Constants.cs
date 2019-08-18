@@ -95,6 +95,15 @@ namespace StarSimLib
         public const double ZoomStep = 0.05;
 
         /// <summary>
+        /// The list of accepted email providers.
+        /// </summary>
+        public static readonly string[] AcceptedEmailProviders = {
+                                                                     "gmail.com",
+                                                                     "hotmail.com",
+                                                                     "yahoo.com"
+                                                                 };
+
+        /// <summary>
         /// The <see cref="Octant"/> instance representing the rendered universe.
         /// </summary>
         public static readonly Octant UniverseOctant = new Octant(new Vector4(), UniverseSize);

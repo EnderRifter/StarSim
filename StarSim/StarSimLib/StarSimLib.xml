@@ -96,6 +96,11 @@
             The amount by which the zoom level will be increased or decreased.
             </summary>
         </member>
+        <member name="F:StarSimLib.Constants.AcceptedEmailProviders">
+            <summary>
+            The list of accepted email providers.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Constants.UniverseOctant">
             <summary>
             The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the rendered universe.

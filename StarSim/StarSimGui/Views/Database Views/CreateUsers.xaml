@@ -21,7 +21,7 @@
       <TextBlock HorizontalAlignment="Center">Password:</TextBlock>
       <TextBox HorizontalAlignment="Stretch" Text="{Binding Password, Mode=TwoWay}"></TextBox>
       <TextBlock HorizontalAlignment="Center">Privileges:</TextBlock>
-      <ListBox Items="{Binding PossiblePrivileges}" SelectedItem="{Binding Privileges, Mode=OneWayToSource}"></ListBox>
+      <ListBox Items="{Binding PossiblePrivileges}" SelectedItem="{Binding Privileges, Mode=TwoWay}"></ListBox>
       <TextBlock HorizontalAlignment="Center" Text="{Binding Feedback}"></TextBlock>
       <Button Command="{Binding CreateUserCommand}" Content="Create User" HorizontalAlignment="Stretch"></Button>
       <Button Command="{Binding ResetUserCommand}" Content="Reset User" HorizontalAlignment="Stretch"></Button>
