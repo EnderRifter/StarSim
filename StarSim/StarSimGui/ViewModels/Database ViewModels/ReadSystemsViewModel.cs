@@ -124,7 +124,16 @@ namespace StarSimGui.ViewModels.Database_ViewModels
                 this.RaisePropertyChanged();
 
                 this.RaisePropertyChanged(nameof(IsSelectedSystemNull));
+                this.RaisePropertyChanged(nameof(SelectedSystemBodies));
             }
+        }
+
+        /// <summary>
+        /// The bodies in the currently selected system.
+        /// </summary>
+        public IObservableCollection<BodyToSystemJoin> SelectedSystemBodies
+        {
+            get { return new ObservableCollectionExtended<BodyToSystemJoin>(SelectedSystem?.BodyToSystemJoins); }
         }
 
         /// <summary>
