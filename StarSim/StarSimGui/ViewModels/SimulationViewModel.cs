@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using DynamicData.Binding;
+﻿using DynamicData.Binding;
+
 using Microsoft.EntityFrameworkCore;
+
 using ReactiveUI;
+
 using SFML.Graphics;
 using SFML.Window;
+
 using StarSimGui.Source;
-using StarSimLib;
+
 using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Data_Structures;
 using StarSimLib.Models;
 using StarSimLib.Physics;
 using StarSimLib.UI;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
 using Body = StarSimLib.Data_Structures.Body;
 
 namespace StarSimGui.ViewModels

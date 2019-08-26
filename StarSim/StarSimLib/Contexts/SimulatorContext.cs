@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
 using Newtonsoft.Json;
+
 using StarSimLib.Cryptography;
 using StarSimLib.Data_Structures;
 using StarSimLib.Models;
+
+using System;
+using System.Collections.Generic;
+
 using Body = StarSimLib.Models.Body;
 
 namespace StarSimLib.Contexts

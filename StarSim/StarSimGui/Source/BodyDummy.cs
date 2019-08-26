@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
+
 using StarSimLib.Configuration;
 using StarSimLib.Data_Structures;
+
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace StarSimGui.Source
 {

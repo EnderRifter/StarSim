@@ -1,15 +1,15 @@
-﻿using System;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 
+using StarSimLib.Configuration;
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
 using StarSimLib.Physics;
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Timers;
-using StarSimLib.Configuration;
 
 namespace StarSimLib.UI
 {

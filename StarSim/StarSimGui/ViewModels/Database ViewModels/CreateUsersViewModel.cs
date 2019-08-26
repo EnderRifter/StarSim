@@ -1,14 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
-using ReactiveUI;
-using StarSimLib;
+﻿using ReactiveUI;
+
 using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Models;
+
+using System;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace StarSimGui.ViewModels.Database_ViewModels
 {

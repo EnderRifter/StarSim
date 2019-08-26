@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using DynamicData.Binding;
-using Microsoft.EntityFrameworkCore;
-using ReactiveUI;
+﻿using ReactiveUI;
+
 using StarSimGui.ViewModels.Database_ViewModels;
+
 using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
+
+using System;
+
 using Console = System.Console;
 
 namespace StarSimGui.ViewModels

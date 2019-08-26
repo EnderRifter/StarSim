@@ -1,16 +1,15 @@
 ﻿using Avalonia;
 using Avalonia.Logging.Serilog;
 
+using Newtonsoft.Json;
+
 using StarSimGui.ViewModels;
 using StarSimGui.Views;
 
-using StarSimLib.Cryptography;
+using StarSimLib.Configuration;
 
 using System;
 using System.IO;
-using Newtonsoft.Json;
-using Splat;
-using StarSimLib.Configuration;
 
 namespace StarSimGui
 {

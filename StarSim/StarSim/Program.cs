@@ -1,8 +1,9 @@
-﻿using SFML.Graphics;
+﻿using Newtonsoft.Json;
+
+using SFML.Graphics;
 using SFML.Window;
 
-using StarSimLib;
-using StarSimLib.Contexts;
+using StarSimLib.Configuration;
 using StarSimLib.Data_Structures;
 using StarSimLib.Physics;
 using StarSimLib.UI;
@@ -10,9 +11,6 @@ using StarSimLib.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using Newtonsoft.Json;
-using StarSimLib.Configuration;
 
 namespace StarSim
 {

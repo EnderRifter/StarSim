@@ -1,7 +1,5 @@
-﻿using System.IO;
-using System.Text;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+
 using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Configuration

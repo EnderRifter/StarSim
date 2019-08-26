@@ -1,6 +1,9 @@
 ﻿using DynamicData.Binding;
+
 using Microsoft.EntityFrameworkCore;
+
 using ReactiveUI;
+
 using StarSimLib.Contexts;
 using StarSimLib.Models;
 

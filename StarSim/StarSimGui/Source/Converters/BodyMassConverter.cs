@@ -1,7 +1,9 @@
-﻿using System;
-using System.Globalization;
-using Avalonia.Data.Converters;
+﻿using Avalonia.Data.Converters;
+
 using StarSimLib.Models;
+
+using System;
+using System.Globalization;
 
 namespace StarSimGui.Source.Converters
 {

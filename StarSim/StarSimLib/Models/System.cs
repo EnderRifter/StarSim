@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using StarSimLib.Data_Structures;
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using StarSimLib.Data_Structures;
 
 namespace StarSimLib.Models
 {

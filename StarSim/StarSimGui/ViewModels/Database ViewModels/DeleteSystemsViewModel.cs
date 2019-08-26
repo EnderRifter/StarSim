@@ -1,9 +1,12 @@
-﻿using System;
-using System.Windows.Input;
-using DynamicData.Binding;
+﻿using DynamicData.Binding;
+
 using ReactiveUI;
+
 using StarSimLib.Contexts;
 using StarSimLib.Models;
+
+using System;
+using System.Windows.Input;
 
 namespace StarSimGui.ViewModels.Database_ViewModels
 {

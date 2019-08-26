@@ -1,8 +1,10 @@
-﻿using System;
-using ReactiveUI;
+﻿using ReactiveUI;
+
 using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
+
+using System;
 
 namespace StarSimGui.ViewModels
 {

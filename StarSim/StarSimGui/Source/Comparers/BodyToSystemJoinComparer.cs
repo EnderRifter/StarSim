@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using StarSimLib.Models;
+﻿using StarSimLib.Models;
+
+using System.Collections.Generic;
 
 namespace StarSimGui.Source.Comparers
 {

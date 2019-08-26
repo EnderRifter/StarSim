@@ -1,9 +1,13 @@
-﻿using System.Linq;
-using DynamicData.Binding;
+﻿using DynamicData.Binding;
+
 using Microsoft.EntityFrameworkCore;
+
 using ReactiveUI;
+
 using StarSimLib.Contexts;
 using StarSimLib.Models;
+
+using System.Linq;
 
 namespace StarSimGui.ViewModels
 {
