@@ -104,6 +104,11 @@ namespace StarSimLib
                                                                  };
 
         /// <summary>
+        /// The directory path at which all the simulation output files are stored.
+        /// </summary>
+        public static readonly string OutputFileDirectory = @"./simulations/";
+
+        /// <summary>
         /// The <see cref="Octant"/> instance representing the rendered universe.
         /// </summary>
         public static readonly Octant UniverseOctant = new Octant(new Vector4(), UniverseSize);

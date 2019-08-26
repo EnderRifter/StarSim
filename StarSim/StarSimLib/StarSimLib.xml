@@ -101,6 +101,11 @@
             The list of accepted email providers.
             </summary>
         </member>
+        <member name="F:StarSimLib.Constants.OutputFileDirectory">
+            <summary>
+            The directory path at which all the simulation output files are stored.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Constants.UniverseOctant">
             <summary>
             The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the rendered universe.
@@ -1946,6 +1951,11 @@
             screen at the <see cref="T:StarSimLib.Data_Structures.Body"/>s position.
             </summary>
         </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.fileWriter">
+            <summary>
+            Allows for writing out the state of the current frame to a file.
+            </summary>
+        </member>
         <member name="F:StarSimLib.UI.SimulationScreen.miscTimer">
             <summary>
             Timer that manages FPS counter and other miscellaneous counters.
@@ -1971,6 +1981,11 @@
             Counts the frames elapsed since the last timer pulse, so that the FPS can be tracked.
             </summary>
         </member>
+        <member name="F:StarSimLib.UI.SimulationScreen.totalFramesElapsed">
+            <summary>
+            Counts the number of frames elapsed since the beginning of the simulation.
+            </summary>
+        </member>
         <member name="M:StarSimLib.UI.SimulationScreen.#ctor(SFML.Graphics.RenderWindow,StarSimLib.UI.IInputHandler,StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@,StarSimLib.Physics.UpdateDelegate)">
             <summary>
             Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationScreen"/> class.
@@ -1980,6 +1995,18 @@
             <param name="bodies">The bodies managed by this instance.</param>
             <param name="bodyShapeMap">The shapes for the bodies managed by this instance.</param>
             <param name="bodyPositionUpdater">The body position update delegate for this instance.</param>
+        </member>
+        <member name="M:StarSimLib.UI.SimulationScreen.CreateFileWriter">
+            <summary>
+            Creates a <see cref="T:System.IO.StreamWriter"/> to allow for logging the frame-by-frame state of the simulation to a file.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.UI.SimulationScreen.GetSimulationOutputFileName(System.String)">
+            <summary>
+            Returns the formatted name of the simulation file to be created.
+            </summary>
+            <param name="dirPath">The path to the output directory.</param>
+            <returns>The simulation output file name, including a timestamp.</returns>
         </member>
         <member name="M:StarSimLib.UI.SimulationScreen.CleanupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
             <inheritdoc />

@@ -1,10 +1,13 @@
-﻿using SFML.Graphics;
+﻿using System;
+using SFML.Graphics;
 
 using StarSimLib.Data_Structures;
 using StarSimLib.Graphics;
 using StarSimLib.Physics;
 
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Timers;
 
 namespace StarSimLib.UI
@@ -36,6 +39,11 @@ namespace StarSimLib.UI
         private readonly Dictionary<Body, CircleShape> bodyShapeMap;
 
         /// <summary>
+        /// Allows for writing out the state of the current frame to a file.
+        /// </summary>
+        private readonly StreamWriter fileWriter;
+
+        /// <summary>
         /// Timer that manages FPS counter and other miscellaneous counters.
         /// </summary>
         private readonly Timer miscTimer;
@@ -59,6 +67,11 @@ namespace StarSimLib.UI
         /// Counts the frames elapsed since the last timer pulse, so that the FPS can be tracked.
         /// </summary>
         private uint framesElapsed;
+
+        /// <summary>
+        /// Counts the number of frames elapsed since the beginning of the simulation.
+        /// </summary>
+        private ulong totalFramesElapsed;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SimulationScreen"/> class.
@@ -89,14 +102,81 @@ namespace StarSimLib.UI
                 framesElapsed = 0;
                 renderWindow.SetTitle($"N-Body Simulator: FPS {fps}");
             };
+
+            fileWriter = CreateFileWriter();
         }
 
-        #region Overrides of Screen
+        /// <summary>
+        /// Creates a <see cref="StreamWriter"/> to allow for logging the frame-by-frame state of the simulation to a file.
+        /// </summary>
+        private StreamWriter CreateFileWriter()
+        {
+            try
+            {
+                string dirPath = Path.GetFullPath(Constants.OutputFileDirectory);
+
+                if (!Directory.Exists(dirPath))
+                {
+                    // ensure that the chosen output directory exists
+                    Directory.CreateDirectory(dirPath);
+                }
+
+                string fullPath = Path.Combine(dirPath, GetSimulationOutputFileName(dirPath));
+
+                return new StreamWriter(File.Create(fullPath), Encoding.UTF8);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Console.WriteLine($"Selected output directory could not be found: {ex.Message}");
+                Console.WriteLine(
+                    "Could not create new simulation output file. Frame-by-frame state of simulation will not be logged.");
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the formatted name of the simulation file to be created.
+        /// </summary>
+        /// <param name="dirPath">The path to the output directory.</param>
+        /// <returns>The simulation output file name, including a timestamp.</returns>
+        private string GetSimulationOutputFileName(string dirPath)
+        {
+            StringBuilder fileNameBuilder = new StringBuilder("simulation-");
+
+            string timestamp = $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year}";
+            fileNameBuilder.Append(timestamp);
+
+            uint previousFileCount = 0;
+
+            foreach (string fileName in Directory.EnumerateFiles(dirPath))
+            {
+                if (fileName.Contains(timestamp))
+                {
+                    previousFileCount++;
+                }
+            }
+
+            if (previousFileCount > 0)
+            {
+                fileNameBuilder.Append($"-{previousFileCount}");
+            }
+
+            fileNameBuilder.Append(".txt");
+
+            return fileNameBuilder.ToString();
+        }
 
         /// <inheritdoc />
         protected override void CleanupScreen(RenderTarget renderTarget, RenderStates renderStates)
         {
             miscTimer.Stop();
+
+            if (fileWriter != null)
+            {
+                fileWriter.Flush();
+                fileWriter.Close();
+            }
         }
 
         /// <inheritdoc />
@@ -109,6 +189,21 @@ namespace StarSimLib.UI
         /// <inheritdoc />
         protected override void DrawFrame(RenderTarget renderTarget, RenderStates renderStates)
         {
+            if (fileWriter != null)
+            {
+                fileWriter.WriteLine($"FRAME: {totalFramesElapsed}, ELAPSED TIME: {totalFramesElapsed * Constants.TimeStep}");
+
+                // write out the unique id of the body and its state to the currently open file
+                foreach (Body body in bodies)
+                {
+                    fileWriter.WriteLine($"{body.Generation,2:D}.{body.Id,-4:D}\t" +
+                                         $"{body.Mass,21}\t" +
+                                         $"[{body.Position.X,21}, {body.Position.Y,21}, {body.Position.Z,21}]\t" +
+                                         $"[{body.Velocity.X,21}, {body.Velocity.Y,21}, {body.Velocity.Z,21}]\t" +
+                                         $"[{body.Force.X,21}, {body.Force.Y,21}, {body.Force.Z,21}]");
+                }
+            }
+
             if (!simulationInputHandler.IsSimulationPaused)
             {
                 bodyPositionUpdater(bodies, Constants.TimeStep);
@@ -116,8 +211,9 @@ namespace StarSimLib.UI
 
             simulationDrawer.DrawBodies();
 
-            // increment the fps counter
+            // increment the fps counter and global frame counter
             framesElapsed++;
+            totalFramesElapsed++;
         }
 
         /// <inheritdoc />
@@ -125,7 +221,5 @@ namespace StarSimLib.UI
         {
             miscTimer.Start();
         }
-
-        #endregion Overrides of Screen
     }
 }
