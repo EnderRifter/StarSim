@@ -88,6 +88,10 @@ namespace StarSim
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// Prints details about the given <see cref="ContextSettings"/> instance.
+        /// </summary>
+        /// <param name="settings">The settings to print.</param>
         private static void PrintContextSettings(ContextSettings settings)
         {
             Console.WriteLine($"AA Level: {settings.AntialiasingLevel}, " +
