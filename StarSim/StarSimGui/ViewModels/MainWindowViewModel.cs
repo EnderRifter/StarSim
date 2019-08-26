@@ -1,5 +1,6 @@
 ﻿using System;
 using ReactiveUI;
+using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
 
@@ -29,22 +30,31 @@ namespace StarSimGui.ViewModels
 
             simulatorContext.ChangeTracker.AutoDetectChangesEnabled = true;
 
-            DatabaseViewModel = new DatabaseViewModel(simulatorContext);
+            OverviewViewModel = new OverviewViewModel(in simulatorContext);
 
-            OverviewViewModel = new OverviewViewModel(simulatorContext);
-
-            SimulationViewModel = new SimulationViewModel(simulatorContext);
-
-            UserLoginViewModel = new UserLoginViewModel(simulatorContext);
+            UserLoginViewModel = new UserLoginViewModel(in simulatorContext);
 
             UserLoginViewModel.LoggedIn += user => CurrentUser = user;
-            UserLoginViewModel.LoggedIn += DatabaseViewModel.HandleLogin;
             UserLoginViewModel.LoggedIn += OverviewViewModel.HandleLogin;
-            UserLoginViewModel.LoggedIn += SimulationViewModel.HandleLogin;
 
             UserLoginViewModel.LoggedOut += () => CurrentUser = null;
-            UserLoginViewModel.LoggedOut += DatabaseViewModel.HandleLogout;
             UserLoginViewModel.LoggedOut += OverviewViewModel.HandleLogout;
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="configuration">The current configuration of the application.</param>
+        public MainWindowViewModel(Config configuration) : this()
+        {
+            DatabaseViewModel = new DatabaseViewModel(in simulatorContext, in configuration);
+
+            SimulationViewModel = new SimulationViewModel(in simulatorContext, in configuration);
+
+            UserLoginViewModel.LoggedIn += DatabaseViewModel.HandleLogin;
+            UserLoginViewModel.LoggedIn += SimulationViewModel.HandleLogin;
+
+            UserLoginViewModel.LoggedOut += DatabaseViewModel.HandleLogout;
             UserLoginViewModel.LoggedOut += SimulationViewModel.HandleLogout;
 
             SimulationViewModel.DatabaseUpdated += HandleDatabaseUpdated;

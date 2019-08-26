@@ -133,7 +133,7 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         /// </summary>
         public IObservableCollection<BodyToSystemJoin> SelectedSystemBodies
         {
-            get { return new ObservableCollectionExtended<BodyToSystemJoin>(SelectedSystem?.BodyToSystemJoins); }
+            get { return new ObservableCollectionExtended<BodyToSystemJoin>(SelectedSystem?.BodyToSystemJoins ?? new BodyToSystemJoin[0]); }
         }
 
         /// <summary>

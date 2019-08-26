@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Timers;
+using StarSimLib.Configuration;
 
 namespace StarSimLib.UI
 {
@@ -89,7 +90,7 @@ namespace StarSimLib.UI
 
             this.bodyPositionUpdater = bodyPositionUpdater;
 
-            simulationDrawer = new SimulationDrawer(renderWindow, ref bodies, ref bodyShapeMap);
+            simulationDrawer = new SimulationDrawer(renderWindow, ref this.bodies, ref this.bodyShapeMap);
             simulationInputHandler = (SimulationInputHandler)inputHandler;
             simulationInputHandler.SetSimulationDrawer(simulationDrawer);
 
@@ -105,6 +106,11 @@ namespace StarSimLib.UI
 
             fileWriter = CreateFileWriter();
         }
+
+        /// <summary>
+        /// The current configuration of the simulation.
+        /// </summary>
+        public Config Configuration { get; set; }
 
         /// <summary>
         /// Creates a <see cref="StreamWriter"/> to allow for logging the frame-by-frame state of the simulation to a file.

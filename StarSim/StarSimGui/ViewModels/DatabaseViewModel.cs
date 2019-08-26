@@ -6,6 +6,7 @@ using DynamicData.Binding;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using StarSimGui.ViewModels.Database_ViewModels;
+using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Models;
 using Console = System.Console;
@@ -26,11 +27,6 @@ namespace StarSimGui.ViewModels
         /// Represents the create users view.
         /// </summary>
         private readonly CreateUsersViewModel createUsersViewModel;
-
-        /// <summary>
-        /// The program database.
-        /// </summary>
-        private readonly SimulatorContext dbContext;
 
         /// <summary>
         /// Represents the delete systems view.
@@ -100,10 +96,9 @@ namespace StarSimGui.ViewModels
         /// Initialises a new instance of the <see cref="DatabaseViewModel"/> class.
         /// </summary>
         /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public DatabaseViewModel(in SimulatorContext context) : this()
+        /// <param name="configuration">The current configuration of the application.</param>
+        public DatabaseViewModel(in SimulatorContext context, in Config configuration) : this()
         {
-            dbContext = context;
-
             // unbind handlers to ensure that no memory leaks occur upon garbage collection of old objects
             createSystemsViewModel.DatabaseEdited -= OnDatabaseEdited;
             createUsersViewModel.DatabaseEdited -= OnDatabaseEdited;
@@ -114,7 +109,7 @@ namespace StarSimGui.ViewModels
 
             createSystemsViewModel = new CreateSystemsViewModel(in context);
 
-            createUsersViewModel = new CreateUsersViewModel(in context);
+            createUsersViewModel = new CreateUsersViewModel(in context, in configuration);
 
             deleteSystemsViewModel = new DeleteSystemsViewModel(in context);
 
@@ -126,7 +121,7 @@ namespace StarSimGui.ViewModels
 
             updateSystemsViewModel = new UpdateSystemsViewModel(in context);
 
-            updateUsersViewModel = new UpdateUsersViewModel(in context);
+            updateUsersViewModel = new UpdateUsersViewModel(in context, in configuration);
 
             // binding of new handlers
             createSystemsViewModel.DatabaseEdited += OnDatabaseEdited;

@@ -10,6 +10,7 @@ using SFML.Graphics;
 using SFML.Window;
 using StarSimGui.Source;
 using StarSimLib;
+using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Data_Structures;
 using StarSimLib.Models;
@@ -87,7 +88,7 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// The backing field for the <see cref="SimulatedBodyCount"/> property.
         /// </summary>
-        private int simulatedBodyCount = Constants.BodyCount;
+        private int simulatedBodyCount;
 
         /// <summary>
         /// Holds the circle shapes for the bodies participating in the simulation.
@@ -179,10 +180,13 @@ namespace StarSimGui.ViewModels
         /// Initialises a new instance of the <see cref="SimulationViewModel"/> class.
         /// </summary>
         /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public SimulationViewModel(in SimulatorContext context) : this()
+        /// <param name="configuration">The current configuration of the application.</param>
+        public SimulationViewModel(in SimulatorContext context, in Config configuration) : this()
         {
             dbContext = context;
+            Configuration = configuration;
 
+            simulatedBodyCount = Configuration.BodyCount;
             PublishedSystems.Load(dbContext.PublishedSystems.Include(system => system.System));
         }
 
@@ -244,6 +248,11 @@ namespace StarSimGui.ViewModels
         /// Signifies that the database should be updated.
         /// </summary>
         public event Action DatabaseUpdated;
+
+        /// <summary>
+        /// The current configuration of the application.
+        /// </summary>
+        public Config Configuration { get; internal set; }
 
         /// <summary>
         /// The <see cref="Body"/> instance currently selected for editing or viewing.
@@ -330,7 +339,7 @@ namespace StarSimGui.ViewModels
 
                 if (selectedItemIndex >= 0)
                 {
-                    CurrentBody = new BodyDummy(SimulatedBodies?[value]);
+                    CurrentBody = new BodyDummy(SimulatedBodies?[value], Configuration);
                 }
             }
         }
@@ -432,7 +441,7 @@ namespace StarSimGui.ViewModels
                 CurrentBody.Id = 0;
             }
 
-            Body currentBody = (Body)CurrentBody;
+            Body currentBody = CurrentBody.AsBody();
 
             SimulatedBodies.Add(currentBody);
 
@@ -455,7 +464,7 @@ namespace StarSimGui.ViewModels
             CurrentBody.Generation = BodyGenerator.CurrentGeneration;
             CurrentBody.Id = SimulatedBodies[SimulatedBodies.Count - 1].Id + 1;
 
-            Body currentBody = (Body)CurrentBody;
+            Body currentBody = CurrentBody.AsBody();
 
             SimulatedBodies.Add(currentBody);
         }
@@ -626,7 +635,7 @@ namespace StarSimGui.ViewModels
         /// </summary>
         private void UpdateBodyCommandImpl()
         {
-            SimulatedBodies[SelectedItemIndex] = (Body)CurrentBody;
+            SimulatedBodies[SelectedItemIndex] = CurrentBody.AsBody();
         }
 
         #endregion Command Implementations

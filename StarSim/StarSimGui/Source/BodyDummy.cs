@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using StarSimLib;
+using StarSimLib.Configuration;
 using StarSimLib.Data_Structures;
 
 namespace StarSimGui.Source
@@ -37,12 +37,15 @@ namespace StarSimGui.Source
         /// Initialises a new instance of the <see cref="BodyDummy"/> class.
         /// </summary>
         /// <param name="body">The <see cref="Body"/> instance around which to construct a dummy.</param>
-        public BodyDummy(Body body)
+        /// <param name="configuration">The current configuration of the application.</param>
+        public BodyDummy(Body body, Config configuration)
         {
+            Configuration = configuration;
+
             Generation = body.Generation;
             Id = body.Id;
-            mass = body.Mass / Constants.SolarMass;
-            positionVector = body.Position / Constants.AstronomicalUnit;
+            mass = body.Mass / Configuration.SolarMass;
+            positionVector = body.Position / Configuration.AstronomicalUnit;
             velocityVector = body.Velocity / 1000;
         }
 
@@ -50,6 +53,11 @@ namespace StarSimGui.Source
         /// Signals that a property on this instance has changed.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// The current configuration of the application.
+        /// </summary>
+        public Config Configuration { get; internal set; }
 
         /// <summary>
         /// The generation of this instance.
@@ -124,6 +132,8 @@ namespace StarSimGui.Source
             set { velocityVector.Z = value; }
         }
 
+#pragma warning disable IDE0051
+
         /// <summary>
         /// Invokes the <see cref="PropertyChanged"/> event with the name of the caller property that changed.
         /// </summary>
@@ -134,14 +144,15 @@ namespace StarSimGui.Source
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+#pragma warning restore IDE0051
+
         /// <summary>
-        /// Implements an explicit conversion between a <see cref="BodyDummy"/> instance to a <see cref="Body"/> instance.
+        /// Implements a conversion between a <see cref="BodyDummy"/> instance to a <see cref="Body"/> instance.
         /// </summary>
-        /// <param name="instance">The <see cref="BodyDummy"/> instance to convert.</param>
-        public static explicit operator Body(BodyDummy instance)
+        public Body AsBody()
         {
-            return new Body(instance.positionVector * Constants.AstronomicalUnit, instance.velocityVector * 1000,
-                instance.Mass * Constants.SolarMass, instance.Generation, instance.Id);
+            return new Body(positionVector * Configuration.AstronomicalUnit, velocityVector * 1000,
+                Mass * Configuration.SolarMass, Generation, Id);
         }
     }
 }

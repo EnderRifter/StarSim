@@ -4,6 +4,157 @@
         <name>StarSimLib</name>
     </assembly>
     <members>
+        <member name="T:StarSimLib.Configuration.Config">
+            <summary>
+            Stores constants used to configure the simulation.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Configuration.Config.#ctor">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Configuration.Config"/> class.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Configuration.Config.#ctor(System.String[],System.Double,System.Int32,System.Double,System.Double,System.UInt32,System.Double,System.Double,System.String,System.Double,System.UInt32,System.Double,System.Double,System.Double,System.Int32,System.Double,System.Double,StarSimLib.Data_Structures.Octant,System.Double,System.Double)">
+            <summary>
+            Initialises a new instance of the <see cref="T:StarSimLib.Configuration.Config"/> class.
+            </summary>
+            <param name="acceptedEmailProviders">The value to use for the <see cref="P:StarSimLib.Configuration.Config.AcceptedEmailProviders"/> property.</param>
+            <param name="astronomicalUnit">The value to use for the <see cref="P:StarSimLib.Configuration.Config.AstronomicalUnit"/> property.</param>
+            <param name="bodyCount">The value to use for the <see cref="P:StarSimLib.Configuration.Config.BodyCount"/> property.</param>
+            <param name="centralBodyMass">The value to use for the <see cref="P:StarSimLib.Configuration.Config.CentralBodyMass"/> property.</param>
+            <param name="eulerRotationStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.EulerRotationStep"/> property.</param>
+            <param name="frameRate">The value to use for the <see cref="P:StarSimLib.Configuration.Config.FrameRate"/> property.</param>
+            <param name="g">The value to use for the <see cref="P:StarSimLib.Configuration.Config.G"/> property.</param>
+            <param name="minimumTreeWidth">The value to use for the <see cref="P:StarSimLib.Configuration.Config.MinimumTreeWidth"/> property.</param>
+            <param name="outputFileDirectory">The value to use for the <see cref="P:StarSimLib.Configuration.Config.OutputFileDirectory"/> property.</param>
+            <param name="secondsPerTick">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SecondsPerTick"/> property.</param>
+            <param name="simulationRate">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SimulationRate"/> property.</param>
+            <param name="softeningFactor">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor"/> property.</param>
+            <param name="softeningFactor2">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor2"/> property.</param>
+            <param name="solarMass">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SolarMass"/> property.</param>
+            <param name="storedPreviousPositionCount">The value to use for the <see cref="P:StarSimLib.Configuration.Config.StoredPreviousPositionCount"/> property.</param>
+            <param name="timeStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.TimeStep"/> property.</param>
+            <param name="treeTheta">The value to use for the <see cref="P:StarSimLib.Configuration.Config.TreeTheta"/> property.</param>
+            <param name="universeOctant">The value to use for the <see cref="P:StarSimLib.Configuration.Config.UniverseOctant"/> property.</param>
+            <param name="universeSize">The value to use for the <see cref="P:StarSimLib.Configuration.Config.UniverseSize"/> property.</param>
+            <param name="zoomStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.ZoomStep"/> property.</param>
+            <remarks>
+            Intended to only be used with serialisers when setting the read-only properties on this instance.
+            </remarks>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.AcceptedEmailProviders">
+            <summary>
+            The list of accepted email providers.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.AstronomicalUnit">
+            <summary>
+            Definition of an astronomical unit.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.BodyCount">
+            <summary>
+            The amount of bodies that are rendered by default.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.CentralBodyMass">
+            <summary>
+            The mass of the central body, if it is included.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.EulerRotationStep">
+            <summary>
+            The amount of degrees by which the view will be rotated in any given direction.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.FrameRate">
+            <summary>
+            The frame rate limit for the program.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.G">
+            <summary>
+            The gravitational constant (m^3 kg^-1 s^-2).
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.MinimumTreeWidth">
+            <summary>
+            The minimum width of a tree. Subtrees are not created when if their width would be smaller than this value,
+            to prevent widths of NaN as a result of division errors.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.OutputFileDirectory">
+            <summary>
+            The directory path at which all the simulation output files are stored.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.SecondsPerTick">
+            <summary>
+            The number of seconds that each simulation tick represents.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.SimulationRate">
+            <summary>
+            The tick rate limit for the simulation.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.SofteningFactor">
+            <summary>
+            Softens the force between <see cref="T:StarSimLib.Data_Structures.Body"/>s to avoid infinities.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.SofteningFactor2">
+            <summary>
+            The square of the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor"/>.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.SolarMass">
+            <summary>
+            The mass of the sun (1.98892e30f).
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.StoredPreviousPositionCount">
+            <summary>
+            The number of previous positions that will be stored by a body
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.TimeStep">
+            <summary>
+            The default time step for the simulation.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.TreeTheta">
+            <summary>
+            The tolerance of the mass grouping approximation in the simulation. A body is only accelerated when the
+            ratio of the tree's width to the distance (from the tree's center of mass to the body) is less than this.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.UniverseOctant">
+            <summary>
+            The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the rendered universe.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.UniverseSize">
+            <summary>
+            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body"/>s will be placed.
+            </summary>
+        </member>
+        <member name="P:StarSimLib.Configuration.Config.ZoomStep">
+            <summary>
+            The amount by which the zoom level will be increased or decreased.
+            </summary>
+        </member>
+        <member name="M:StarSimLib.Configuration.Config.Load(System.String)">
+            <summary>
+            Loads the serialised instance from the given file contents.
+            </summary>
+            <param name="serialisedConfigurationFileContents">
+            The file contents from which a serialised instance should be deserialised.
+            </param>
+            <returns>
+            The deserialised instance.
+            </returns>
+        </member>
         <member name="T:StarSimLib.Constants">
             <summary>
             Holds common constants and helper functions.
@@ -1995,6 +2146,11 @@
             <param name="bodies">The bodies managed by this instance.</param>
             <param name="bodyShapeMap">The shapes for the bodies managed by this instance.</param>
             <param name="bodyPositionUpdater">The body position update delegate for this instance.</param>
+        </member>
+        <member name="P:StarSimLib.UI.SimulationScreen.Configuration">
+            <summary>
+            The current configuration of the simulation.
+            </summary>
         </member>
         <member name="M:StarSimLib.UI.SimulationScreen.CreateFileWriter">
             <summary>

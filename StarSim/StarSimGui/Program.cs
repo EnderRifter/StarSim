@@ -7,6 +7,10 @@ using StarSimGui.Views;
 using StarSimLib.Cryptography;
 
 using System;
+using System.IO;
+using Newtonsoft.Json;
+using Splat;
+using StarSimLib.Configuration;
 
 namespace StarSimGui
 {
@@ -15,42 +19,49 @@ namespace StarSimGui
     /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// The current configuration of the application.
+        /// </summary>
+        public static Config configuration;
+
         // Your application's entry point. Here you can initialize your MVVM framework, DI container, etc.
         private static void AppMain(Application app, string[] args)
         {
             MainWindow window = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = new MainWindowViewModel(configuration)
             };
 
             app.Run(window);
         }
 
-        private static void TestHashing(string password)
+        /// <summary>
+        /// Reads in and deserialises the configuration file at the given path.
+        /// </summary>
+        /// <param name="path">The path at which the configuration is located.</param>
+        private static void ReadConfigFile(string path = @"./config.txt")
         {
-            // set a shorthand for nicety reasons
-            string BytesToString(byte[] contents) => CryptographyHelper.BytesToString(contents);
+            try
+            {
+                string fullPath = Path.GetFullPath(path);
 
-            Console.WriteLine($"Password to hash: {password}");
+                if (!File.Exists(fullPath))
+                {
+                    File.WriteAllText(fullPath, JsonConvert.SerializeObject(new Config(), Formatting.Indented));
+                }
 
-            byte[] passwordBytes = CryptographyHelper.StringToBytes(password);
-            Console.WriteLine($"Password bytes:\n{BytesToString(passwordBytes)}");
-
-            // generates a salt of the default length
-            byte[] saltBytes = CryptographyHelper.GenerateSalt();
-            Console.WriteLine($"Generated salt:\n{BytesToString(saltBytes)}");
-
-            // generates a hash of the default length
-            byte[] passwordHash = CryptographyHelper.GenerateHash(passwordBytes, saltBytes);
-            Console.WriteLine($"Generated valid hash:\n{BytesToString(passwordHash)}");
-
-            byte[] invalidPasswordBytes = CryptographyHelper.StringToBytes("password ");
-            Console.WriteLine($"Invalid password bytes:\n{BytesToString(invalidPasswordBytes)}");
-
-            byte[] invalidPasswordHash = CryptographyHelper.GenerateHash(invalidPasswordBytes, saltBytes);
-            Console.WriteLine($"Generated invalid hash:\n{BytesToString(invalidPasswordHash)}");
-
-            Console.WriteLine($"Valid hash == invalid hash: {CryptographyHelper.HashesEqual(passwordHash, invalidPasswordHash)}");
+                using (FileStream fs = File.OpenRead(fullPath))
+                {
+                    using (StreamReader fileReader = new StreamReader(fs))
+                    {
+                        configuration = Config.Load(fileReader.ReadToEnd());
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                configuration = new Config();
+            }
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
@@ -64,7 +75,7 @@ namespace StarSimGui
         // before AppMain is called: things aren't initialized yet and stuff might break.
         public static void Main(string[] args)
         {
-            //TestHashing("Hello World!");
+            ReadConfigFile();
             BuildAvaloniaApp().Start(AppMain, args);
         }
     }

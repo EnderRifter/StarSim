@@ -9,7 +9,10 @@ using StarSimLib.UI;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using Newtonsoft.Json;
+using StarSimLib.Configuration;
 
 namespace StarSim
 {
@@ -30,24 +33,23 @@ namespace StarSim
         private static readonly Dictionary<Body, CircleShape> bodyShapeMap;
 
         /// <summary>
-        /// The database context to use for the lifetime of the program.
-        /// </summary>
-        private static readonly SimulatorContext databaseContext;
-
-        /// <summary>
         /// The simulation which we will render, once the user sets it up.
         /// </summary>
         private static readonly SimulationScreen simulationScreen;
+
+        /// <summary>
+        /// The current configuration of the application.
+        /// </summary>
+        public static Config configuration;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Program"/> class,
         /// </summary>
         static Program()
         {
-            // set up the database context for the program
-            databaseContext = new SimulatorContext();
+            ReadConfigFile();
 
-            bodies = BodyGenerator.GenerateBodies(Constants.BodyCount, true);
+            bodies = BodyGenerator.GenerateBodies(configuration.BodyCount, true);
             bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
 
 #if DEBUG
@@ -65,34 +67,10 @@ namespace StarSim
 
             IInputHandler simulationInputHandler = new SimulationInputHandler(ref bodies);
 
-            simulationScreen = new SimulationScreen(simulationWindow, simulationInputHandler, ref bodies, ref bodyShapeMap, bodyPositionUpdater);
-        }
-
-        /// <summary>
-        /// Converts the given enumerable to a string representation of its contents.
-        /// </summary>
-        /// <typeparam name="T">The type of object held in the enumerable.</typeparam>
-        /// <param name="enumerable">The enumerable to convert.</param>
-        /// <param name="itemConverter">The custom function to use to convert a single enumerable item to its string form.</param>
-        /// <returns>The contents of the enumerable as a string.</returns>
-        private static string EnumerableToString<T>(IEnumerable<T> enumerable, Func<T, string> itemConverter = null)
-        {
-            StringBuilder enumerableStringBuilder = new StringBuilder("[");
-
-            if (itemConverter == null)
+            simulationScreen = new SimulationScreen(simulationWindow, simulationInputHandler, ref bodies, ref bodyShapeMap, bodyPositionUpdater)
             {
-                // the default converter function is just calling the Object.ToString() function
-                itemConverter = item => item.ToString();
-            }
-
-            foreach (T item in enumerable)
-            {
-                enumerableStringBuilder.Append($"{itemConverter(item) ?? ""},");
-            }
-
-            enumerableStringBuilder.Append("]");
-
-            return enumerableStringBuilder.ToString();
+                Configuration = configuration,
+            };
         }
 
         /// <summary>
@@ -120,6 +98,35 @@ namespace StarSim
                               $"SRGB Capable: {settings.SRgbCapable}, " +
                               $"Attributes: {settings.AttributeFlags}, " +
                               $"Version: {settings.MajorVersion}.{settings.MinorVersion}");
+        }
+
+        /// <summary>
+        /// Reads in and deserialises the configuration file at the given path.
+        /// </summary>
+        /// <param name="path">The path at which the configuration is located.</param>
+        private static void ReadConfigFile(string path = @"./config.txt")
+        {
+            try
+            {
+                string fullPath = Path.GetFullPath(path);
+
+                if (!File.Exists(fullPath))
+                {
+                    File.WriteAllText(fullPath, JsonConvert.SerializeObject(new Config(), Formatting.Indented));
+                }
+
+                using (FileStream fs = File.OpenRead(fullPath))
+                {
+                    using (StreamReader fileReader = new StreamReader(fs))
+                    {
+                        configuration = Config.Load(fileReader.ReadToEnd());
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                configuration = new Config();
+            }
         }
     }
 }

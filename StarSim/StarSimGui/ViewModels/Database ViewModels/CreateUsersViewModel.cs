@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using ReactiveUI;
 using StarSimLib;
+using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Models;
@@ -48,15 +49,28 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         {
             privileges = UserPrivileges.Default;
 
+            ResetUserCommand = ReactiveCommand.Create(ResetUserCommandImpl);
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="CreateUsersViewModel"/> class.
+        /// </summary>
+        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
+        /// <param name="configuration">The current configuration of the application.</param>
+        public CreateUsersViewModel(in SimulatorContext context, in Config configuration) : this()
+        {
+            dbContext = context;
+            Configuration = configuration;
+
             #region Regex Pattern Builder
 
             StringBuilder regexBuilder = new StringBuilder(@"\w[^@]@(");
 
-            for (int i = 0; i < Constants.AcceptedEmailProviders.Length; i++)
+            for (int i = 0; i < Configuration.AcceptedEmailProviders.Length; i++)
             {
                 regexBuilder.Append(i == 0
-                    ? $"{Constants.AcceptedEmailProviders[i].Replace(".", @"\.")}"
-                    : $"|{Constants.AcceptedEmailProviders[i].Replace(".", @"\.")}");
+                    ? $"{Configuration.AcceptedEmailProviders[i].Replace(".", @"\.")}"
+                    : $"|{Configuration.AcceptedEmailProviders[i].Replace(".", @"\.")}");
             }
 
             regexBuilder.Append(")$");
@@ -85,23 +99,17 @@ namespace StarSimGui.ViewModels.Database_ViewModels
                 });
 
             CreateUserCommand = ReactiveCommand.Create(CreateUserCommandImpl, canCreate);
-
-            ResetUserCommand = ReactiveCommand.Create(ResetUserCommandImpl);
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="CreateUsersViewModel"/> class.
-        /// </summary>
-        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public CreateUsersViewModel(in SimulatorContext context) : this()
-        {
-            dbContext = context;
         }
 
         /// <summary>
         /// Signifies that the database should be updated.
         /// </summary>
         public event Action DatabaseEdited;
+
+        /// <summary>
+        /// The current configuration of the application.
+        /// </summary>
+        public Config Configuration { get; internal set; }
 
         /// <summary>
         /// Command invoked whenever the user wants to add the currently edited user to the database.

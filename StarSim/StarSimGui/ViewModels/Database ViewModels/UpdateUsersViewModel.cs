@@ -6,6 +6,7 @@ using System.Windows.Input;
 using DynamicData.Binding;
 using ReactiveUI;
 using StarSimLib;
+using StarSimLib.Configuration;
 using StarSimLib.Contexts;
 using StarSimLib.Cryptography;
 using StarSimLib.Models;
@@ -59,15 +60,28 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         {
             users = new ObservableCollectionExtended<User>();
 
+            ResetUserCommand = ReactiveCommand.Create(ResetUserCommandImpl);
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="UpdateUsersViewModel"/> class.
+        /// </summary>
+        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
+        /// <param name="configuration">The current configuration of the application.</param>
+        public UpdateUsersViewModel(in SimulatorContext context, in Config configuration) : this()
+        {
+            dbContext = context;
+            Configuration = configuration;
+
             #region Regex Pattern Builder
 
             StringBuilder regexBuilder = new StringBuilder(@"\w[^@]@(");
 
-            for (int i = 0; i < Constants.AcceptedEmailProviders.Length; i++)
+            for (int i = 0; i < Configuration.AcceptedEmailProviders.Length; i++)
             {
                 regexBuilder.Append(i == 0
-                    ? $"{Constants.AcceptedEmailProviders[i].Replace(".", @"\.")}"
-                    : $"|{Constants.AcceptedEmailProviders[i].Replace(".", @"\.")}");
+                    ? $"{Configuration.AcceptedEmailProviders[i].Replace(".", @"\.")}"
+                    : $"|{Configuration.AcceptedEmailProviders[i].Replace(".", @"\.")}");
             }
 
             regexBuilder.Append(")$");
@@ -109,17 +123,6 @@ namespace StarSimGui.ViewModels.Database_ViewModels
 
             UpdateUserCommand = ReactiveCommand.Create(UpdateUserCommandImpl, canUpdate);
 
-            ResetUserCommand = ReactiveCommand.Create(ResetUserCommandImpl);
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="UpdateUsersViewModel"/> class.
-        /// </summary>
-        /// <param name="context">The <see cref="SimulatorContext"/> instance in which program data is stored.</param>
-        public UpdateUsersViewModel(in SimulatorContext context) : this()
-        {
-            dbContext = context;
-
             Users.Load(dbContext.Users);
         }
 
@@ -127,6 +130,11 @@ namespace StarSimGui.ViewModels.Database_ViewModels
         /// Signifies that the database should be updated.
         /// </summary>
         public event Action DatabaseEdited;
+
+        /// <summary>
+        /// The current configuration of the application.
+        /// </summary>
+        public Config Configuration { get; internal set; }
 
         /// <summary>
         /// The email of the user to update.
