@@ -11,33 +11,33 @@
         </member>
         <member name="M:StarSimLib.Configuration.Config.#ctor">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Configuration.Config" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Configuration.Config"/> class.
             </summary>
         </member>
         <member name="M:StarSimLib.Configuration.Config.#ctor(System.String[],System.Double,System.Int32,System.Double,System.Double,System.UInt32,System.Double,System.Double,System.String,System.Double,System.UInt32,System.Double,System.Double,System.Double,System.Int32,System.Double,System.Double,StarSimLib.Data_Structures.Octant,System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Configuration.Config" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Configuration.Config"/> class.
             </summary>
-            <param name="acceptedEmailProviders">The value to use for the <see cref="P:StarSimLib.Configuration.Config.AcceptedEmailProviders" /> property.</param>
-            <param name="astronomicalUnit">The value to use for the <see cref="P:StarSimLib.Configuration.Config.AstronomicalUnit" /> property.</param>
-            <param name="bodyCount">The value to use for the <see cref="P:StarSimLib.Configuration.Config.BodyCount" /> property.</param>
-            <param name="centralBodyMass">The value to use for the <see cref="P:StarSimLib.Configuration.Config.CentralBodyMass" /> property.</param>
-            <param name="eulerRotationStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.EulerRotationStep" /> property.</param>
-            <param name="frameRate">The value to use for the <see cref="P:StarSimLib.Configuration.Config.FrameRate" /> property.</param>
-            <param name="g">The value to use for the <see cref="P:StarSimLib.Configuration.Config.G" /> property.</param>
-            <param name="minimumTreeWidth">The value to use for the <see cref="P:StarSimLib.Configuration.Config.MinimumTreeWidth" /> property.</param>
-            <param name="outputFileDirectory">The value to use for the <see cref="P:StarSimLib.Configuration.Config.OutputFileDirectory" /> property.</param>
-            <param name="secondsPerTick">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SecondsPerTick" /> property.</param>
-            <param name="simulationRate">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SimulationRate" /> property.</param>
-            <param name="softeningFactor">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor" /> property.</param>
-            <param name="softeningFactor2">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor2" /> property.</param>
-            <param name="solarMass">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SolarMass" /> property.</param>
-            <param name="storedPreviousPositionCount">The value to use for the <see cref="P:StarSimLib.Configuration.Config.StoredPreviousPositionCount" /> property.</param>
-            <param name="timeStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.TimeStep" /> property.</param>
-            <param name="treeTheta">The value to use for the <see cref="P:StarSimLib.Configuration.Config.TreeTheta" /> property.</param>
-            <param name="universeOctant">The value to use for the <see cref="P:StarSimLib.Configuration.Config.UniverseOctant" /> property.</param>
-            <param name="universeSize">The value to use for the <see cref="P:StarSimLib.Configuration.Config.UniverseSize" /> property.</param>
-            <param name="zoomStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.ZoomStep" /> property.</param>
+            <param name="acceptedEmailProviders">The value to use for the <see cref="P:StarSimLib.Configuration.Config.AcceptedEmailProviders"/> property.</param>
+            <param name="astronomicalUnit">The value to use for the <see cref="P:StarSimLib.Configuration.Config.AstronomicalUnit"/> property.</param>
+            <param name="bodyCount">The value to use for the <see cref="P:StarSimLib.Configuration.Config.BodyCount"/> property.</param>
+            <param name="centralBodyMass">The value to use for the <see cref="P:StarSimLib.Configuration.Config.CentralBodyMass"/> property.</param>
+            <param name="eulerRotationStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.EulerRotationStep"/> property.</param>
+            <param name="frameRate">The value to use for the <see cref="P:StarSimLib.Configuration.Config.FrameRate"/> property.</param>
+            <param name="g">The value to use for the <see cref="P:StarSimLib.Configuration.Config.G"/> property.</param>
+            <param name="minimumTreeWidth">The value to use for the <see cref="P:StarSimLib.Configuration.Config.MinimumTreeWidth"/> property.</param>
+            <param name="outputFileDirectory">The value to use for the <see cref="P:StarSimLib.Configuration.Config.OutputFileDirectory"/> property.</param>
+            <param name="secondsPerTick">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SecondsPerTick"/> property.</param>
+            <param name="simulationRate">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SimulationRate"/> property.</param>
+            <param name="softeningFactor">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor"/> property.</param>
+            <param name="softeningFactor2">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor2"/> property.</param>
+            <param name="solarMass">The value to use for the <see cref="P:StarSimLib.Configuration.Config.SolarMass"/> property.</param>
+            <param name="storedPreviousPositionCount">The value to use for the <see cref="P:StarSimLib.Configuration.Config.StoredPreviousPositionCount"/> property.</param>
+            <param name="timeStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.TimeStep"/> property.</param>
+            <param name="treeTheta">The value to use for the <see cref="P:StarSimLib.Configuration.Config.TreeTheta"/> property.</param>
+            <param name="universeOctant">The value to use for the <see cref="P:StarSimLib.Configuration.Config.UniverseOctant"/> property.</param>
+            <param name="universeSize">The value to use for the <see cref="P:StarSimLib.Configuration.Config.UniverseSize"/> property.</param>
+            <param name="zoomStep">The value to use for the <see cref="P:StarSimLib.Configuration.Config.ZoomStep"/> property.</param>
             <remarks>
             Intended to only be used with serialisers when setting the read-only properties on this instance.
             </remarks>
@@ -100,12 +100,12 @@
         </member>
         <member name="P:StarSimLib.Configuration.Config.SofteningFactor">
             <summary>
-            Softens the force between <see cref="T:StarSimLib.Data_Structures.Body" />s to avoid infinities.
+            Softens the force between <see cref="T:StarSimLib.Data_Structures.Body"/>s to avoid infinities.
             </summary>
         </member>
         <member name="P:StarSimLib.Configuration.Config.SofteningFactor2">
             <summary>
-            The square of the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor" />.
+            The square of the <see cref="P:StarSimLib.Configuration.Config.SofteningFactor"/>.
             </summary>
         </member>
         <member name="P:StarSimLib.Configuration.Config.SolarMass">
@@ -131,12 +131,12 @@
         </member>
         <member name="P:StarSimLib.Configuration.Config.UniverseOctant">
             <summary>
-            The <see cref="T:StarSimLib.Data_Structures.Octant" /> instance representing the rendered universe.
+            The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the rendered universe.
             </summary>
         </member>
         <member name="P:StarSimLib.Configuration.Config.UniverseSize">
             <summary>
-            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body" />s will be placed.
+            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body"/>s will be placed.
             </summary>
         </member>
         <member name="P:StarSimLib.Configuration.Config.ZoomStep">
@@ -208,12 +208,12 @@
         </member>
         <member name="F:StarSimLib.Constants.SofteningFactor">
             <summary>
-            Softens the force between <see cref="T:StarSimLib.Data_Structures.Body" />s to avoid infinities.
+            Softens the force between <see cref="T:StarSimLib.Data_Structures.Body"/>s to avoid infinities.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.SofteningFactor2">
             <summary>
-            The square of the <see cref="F:StarSimLib.Constants.SofteningFactor" />.
+            The square of the <see cref="F:StarSimLib.Constants.SofteningFactor"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.SolarMass">
@@ -239,7 +239,7 @@
         </member>
         <member name="F:StarSimLib.Constants.UniverseSize">
             <summary>
-            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body" />s will be placed.
+            The maximum radius within which <see cref="T:StarSimLib.Data_Structures.Body"/>s will be placed.
             </summary>
         </member>
         <member name="F:StarSimLib.Constants.ZoomStep">
@@ -259,7 +259,7 @@
         </member>
         <member name="F:StarSimLib.Constants.UniverseOctant">
             <summary>
-            The <see cref="T:StarSimLib.Data_Structures.Octant" /> instance representing the rendered universe.
+            The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the rendered universe.
             </summary>
         </member>
         <member name="T:StarSimLib.Contexts.SimulatorContext">
@@ -274,38 +274,38 @@
         </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.#ctor">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
             </summary>
         </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Contexts.SimulatorContext"/> class.
             </summary>
-            <param name="options">Any <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions" /> that should be set on this instance.</param>
+            <param name="options">Any <see cref="T:Microsoft.EntityFrameworkCore.DbContextOptions"/> that should be set on this instance.</param>
         </member>
         <member name="P:StarSimLib.Contexts.SimulatorContext.Bodies">
             <summary>
-            Holds the <see cref="T:StarSimLib.Models.Body" /> entities in the database. Also allows querying the database via LINQ.
+            Holds the <see cref="T:StarSimLib.Models.Body"/> entities in the database. Also allows querying the database via LINQ.
             </summary>
         </member>
         <member name="P:StarSimLib.Contexts.SimulatorContext.BodyToSystemJoins">
             <summary>
-            Holds the <see cref="T:StarSimLib.Models.BodyToSystemJoin" /> entities in the database. Also allows querying the database via LINQ.
+            Holds the <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities in the database. Also allows querying the database via LINQ.
             </summary>
         </member>
         <member name="P:StarSimLib.Contexts.SimulatorContext.PublishedSystems">
             <summary>
-            Holds the <see cref="T:StarSimLib.Models.PublishedSystem" /> entities in the database. Also allows querying the database via LINQ.
+            Holds the <see cref="T:StarSimLib.Models.PublishedSystem"/> entities in the database. Also allows querying the database via LINQ.
             </summary>
         </member>
         <member name="P:StarSimLib.Contexts.SimulatorContext.Systems">
             <summary>
-            Holds the <see cref="T:StarSimLib.Models.System" /> entities in the database. Also allows querying the database via LINQ.
+            Holds the <see cref="T:StarSimLib.Models.System"/> entities in the database. Also allows querying the database via LINQ.
             </summary>
         </member>
         <member name="P:StarSimLib.Contexts.SimulatorContext.Users">
             <summary>
-            Holds the <see cref="T:StarSimLib.Models.User" /> entities in the database. Also allows querying the database via LINQ.
+            Holds the <see cref="T:StarSimLib.Models.User"/> entities in the database. Also allows querying the database via LINQ.
             </summary>
         </member>
         <member name="M:StarSimLib.Contexts.SimulatorContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
@@ -391,22 +391,22 @@
         </member>
         <member name="F:StarSimLib.Data_Structures.Body.force">
             <summary>
-            The backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Force" /> property.
+            The backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Force"/> property.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.Body.mass">
             <summary>
-            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Mass" /> property.
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Mass"/> property.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.Body.position">
             <summary>
-            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Position" /> property.
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> property.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.Body.velocity">
             <summary>
-            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Velocity" /> property.
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.Body.Velocity"/> property.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.Body.Generation">
@@ -421,32 +421,32 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.#ctor(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4,System.Double,System.UInt32,System.UInt32)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Body" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Body"/> class.
             </summary>
-            <param name="position">The starting position of the <see cref="T:StarSimLib.Data_Structures.Body" />.</param>
-            <param name="velocity">The starting velocity of the <see cref="T:StarSimLib.Data_Structures.Body" />.</param>
-            <param name="mass">The starting mass of the <see cref="T:StarSimLib.Data_Structures.Body" />.</param>
-            <param name="generation">The generation that this <see cref="T:StarSimLib.Data_Structures.Body" /> belongs to.</param>
+            <param name="position">The starting position of the <see cref="T:StarSimLib.Data_Structures.Body"/>.</param>
+            <param name="velocity">The starting velocity of the <see cref="T:StarSimLib.Data_Structures.Body"/>.</param>
+            <param name="mass">The starting mass of the <see cref="T:StarSimLib.Data_Structures.Body"/>.</param>
+            <param name="generation">The generation that this <see cref="T:StarSimLib.Data_Structures.Body"/> belongs to.</param>
             <param name="id">The unique id for this body.</param>
         </member>
         <member name="P:StarSimLib.Data_Structures.Body.Force">
             <summary>
-            The current force on the <see cref="T:StarSimLib.Data_Structures.Body" /> in 3D space.
+            The current force on the <see cref="T:StarSimLib.Data_Structures.Body"/> in 3D space.
             </summary>
         </member>
         <member name="P:StarSimLib.Data_Structures.Body.Mass">
             <summary>
-            The mass of the <see cref="T:StarSimLib.Data_Structures.Body" />.
+            The mass of the <see cref="T:StarSimLib.Data_Structures.Body"/>.
             </summary>
         </member>
         <member name="P:StarSimLib.Data_Structures.Body.OrbitTracer">
             <summary>
-            The <see cref="T:StarSimLib.Data_Structures.OrbitTracer" /> for this instance.
+            The <see cref="T:StarSimLib.Data_Structures.OrbitTracer"/> for this instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Data_Structures.Body.Position">
             <summary>
-            The current position of the <see cref="T:StarSimLib.Data_Structures.Body" /> in 3D space.
+            The current position of the <see cref="T:StarSimLib.Data_Structures.Body"/> in 3D space.
             </summary>
         </member>
         <member name="P:StarSimLib.Data_Structures.Body.RecordPreviousPositions">
@@ -456,23 +456,23 @@
         </member>
         <member name="P:StarSimLib.Data_Structures.Body.Velocity">
             <summary>
-            The current velocity of the <see cref="T:StarSimLib.Data_Structures.Body" /> in 3D space.
+            The current velocity of the <see cref="T:StarSimLib.Data_Structures.Body"/> in 3D space.
             </summary>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.GetForceBetween(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Body)">
             <summary>
-            Computes the force vector for the gravitational attraction between <see cref="T:StarSimLib.Data_Structures.Body" /> A and <see cref="T:StarSimLib.Data_Structures.Body" /> B.
+            Computes the force vector for the gravitational attraction between <see cref="T:StarSimLib.Data_Structures.Body"/> A and <see cref="T:StarSimLib.Data_Structures.Body"/> B.
             </summary>
-            <param name="a">The first <see cref="T:StarSimLib.Data_Structures.Body" /> instance.</param>
-            <param name="b">The second <see cref="T:StarSimLib.Data_Structures.Body" /> instance.</param>
+            <param name="a">The first <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
+            <param name="b">The second <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
             <returns>The computed force vector for the gravitational attraction.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.GetForceBetween(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Computes the force vector for the gravitational attraction between the <see cref="T:StarSimLib.Data_Structures.Body" /> A and the mass at
+            Computes the force vector for the gravitational attraction between the <see cref="T:StarSimLib.Data_Structures.Body"/> A and the mass at
             the given position.
             </summary>
-            <param name="a">The <see cref="T:StarSimLib.Data_Structures.Body" /> instance.</param>
+            <param name="a">The <see cref="T:StarSimLib.Data_Structures.Body"/> instance.</param>
             <param name="positionB">The position at which the given mass can be thought of as acting.</param>
             <param name="massB">The mass for which to compute the gravitational attraction.</param>
             <returns>The computed force vector for the gravitational attraction.</returns>
@@ -492,25 +492,25 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.Collide(StarSimLib.Data_Structures.Body)">
             <summary>
-            Collides this instance with the given <see cref="T:StarSimLib.Data_Structures.Body" /> instance.
+            Collides this instance with the given <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
             </summary>
             <param name="otherBody">The other instance with which to collide.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.DistanceTo(StarSimLib.Data_Structures.Body,StarSimLib.Data_Structures.Vector4@)">
             <summary>
-            Finds and returns the distance between the current <see cref="T:StarSimLib.Data_Structures.Body" /> instance and the given <see cref="T:StarSimLib.Data_Structures.Body" />.
-            In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Data_Structures.Body" /> instances.
+            Finds and returns the distance between the current <see cref="T:StarSimLib.Data_Structures.Body"/> instance and the given <see cref="T:StarSimLib.Data_Structures.Body"/>.
+            In other words, it finds the magnitude of the translation vector between the two <see cref="T:StarSimLib.Data_Structures.Body"/> instances.
             </summary>
-            <param name="body">The other <see cref="T:StarSimLib.Data_Structures.Body" /> instance to which to calculate the distance.</param>
+            <param name="body">The other <see cref="T:StarSimLib.Data_Structures.Body"/> instance to which to calculate the distance.</param>
             <param name="displacement">The vector showing the displacement of the current body from the given one.</param>
-            <returns>The distance to the other <see cref="T:StarSimLib.Data_Structures.Body" /> as a <see cref="T:System.Single" />.</returns>
+            <returns>The distance to the other <see cref="T:StarSimLib.Data_Structures.Body"/> as a <see cref="T:System.Single"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.IsInOctant(StarSimLib.Data_Structures.Octant)">
             <summary>
-            Whether this instance is currently inside the bounds of the given <see cref="T:StarSimLib.Data_Structures.Octant" /> instance.
+            Whether this instance is currently inside the bounds of the given <see cref="T:StarSimLib.Data_Structures.Octant"/> instance.
             </summary>
             <param name="octant">The octant to check.</param>
-            <returns>Whether this <see cref="T:StarSimLib.Data_Structures.Body" /> instance is inside the given <see cref="T:StarSimLib.Data_Structures.Octant" /> instance.</returns>
+            <returns>Whether this <see cref="T:StarSimLib.Data_Structures.Body"/> instance is inside the given <see cref="T:StarSimLib.Data_Structures.Octant"/> instance.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.ResetForce">
             <summary>
@@ -522,15 +522,15 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.Update(System.Double)">
             <summary>
-            Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position" /> of the current body using the internal force vector and the given time step.
+            Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> of the current body using the internal force vector and the given time step.
             </summary>
             <param name="deltaTime">The time step.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Body.Update(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position" /> of the current body using the given force vector and time step.
+            Updates the <see cref="P:StarSimLib.Data_Structures.Body.Position"/> of the current body using the given force vector and time step.
             </summary>
-            <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Data_Structures.Body" />s.</param>
+            <param name="forceVector">The sum vector of all forces due to other <see cref="T:StarSimLib.Data_Structures.Body"/>s.</param>
             <param name="deltaTime">The time step.</param>
         </member>
         <member name="T:StarSimLib.Data_Structures.EulerAngle">
@@ -555,7 +555,7 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.EulerAngle.#ctor(System.Double,System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.EulerAngle" /> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.EulerAngle"/> struct.
             </summary>
             <param name="x">The angle of rotation in the x axis.</param>
             <param name="y">The angle of rotation in the y axis.</param>
@@ -563,7 +563,7 @@
         </member>
         <member name="T:StarSimLib.Data_Structures.Matrix4x4">
             <summary>
-            A 4-by-4 matrix of <see cref="T:System.Double" /> values.
+            A 4-by-4 matrix of <see cref="T:System.Double"/> values.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.Matrix4x4.matrix">
@@ -573,47 +573,47 @@
         </member>
         <member name="F:StarSimLib.Data_Structures.Matrix4x4.CopyMatrixValuesGeneratorDelegate">
             <summary>
-            The default <see cref="T:StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate" /> to use when constructing a <see cref="T:StarSimLib.Data_Structures.Matrix4x4" />
-            from a given 2D <see cref="T:System.Double" /> array. Simply copies over the values from the source matrix to the
+            The default <see cref="T:StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate"/> to use when constructing a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/>
+            from a given 2D <see cref="T:System.Double"/> array. Simply copies over the values from the source matrix to the
             output matrix. Should the source matrix contain null fields, a 0 will be placed at the relevant field in
             the target matrix.
             </summary>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.#ctor(System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> struct.
             </summary>
             <param name="defaultValue">The value to which to initialise all fields in the matrix.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.#ctor(System.Double[][])">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> struct.
             </summary>
             <param name="sourceMatrix">The source matrix from which to copy over values.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.#ctor(StarSimLib.Data_Structures.Matrix4x4)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> struct.
             </summary>
             <param name="sourceMatrix">The source matrix from which to copy over values.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.#ctor(System.Double[][],StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> struct.
             </summary>
             <param name="sourceMatrix">The source matrix.</param>
             <param name="valueGenerator">
-            The <see cref="T:StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate" /> to use to generate new matrix values. Can use the source matrix
+            The <see cref="T:StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate"/> to use to generate new matrix values. Can use the source matrix
             or can ignore it.
             </param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.#ctor(StarSimLib.Data_Structures.Matrix4x4,StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> struct.
             </summary>
             <param name="sourceMatrix">The source matrix.</param>
             <param name="valueGenerator">
-            The <see cref="T:StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate" /> to use to generate new matrix values. Can use the source matrix
+            The <see cref="T:StarSimLib.Data_Structures.Matrix4x4.MatrixValueGeneratorDelegate"/> to use to generate new matrix values. Can use the source matrix
             or can ignore it.
             </param>
         </member>
@@ -636,27 +636,27 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.op_Implicit(StarSimLib.Data_Structures.Matrix4x4)~System.Double[][]">
             <summary>
-            Implicitly converts a <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> to a 2D <see cref="T:System.Double" /> array.
+            Implicitly converts a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> to a 2D <see cref="T:System.Double"/> array.
             </summary>
             <param name="matrix4x4">The matrix to convert.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.op_Multiply(StarSimLib.Data_Structures.Matrix4x4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> and a <see cref="T:StarSimLib.Data_Structures.Vector4" />. This is
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and a <see cref="T:StarSimLib.Data_Structures.Vector4"/>. This is
             the 'dot' operation for a vector and a matrix.
             </summary>
             <param name="matrix4x4">The matrix.</param>
             <param name="vector">The 3D vector.</param>
-            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> and the <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and the <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.op_Multiply(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Matrix4x4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> and a <see cref="T:StarSimLib.Data_Structures.Vector4" />. This is
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and a <see cref="T:StarSimLib.Data_Structures.Vector4"/>. This is
             the 'dot' operation for a vector and a matrix.
             </summary>
             <param name="vector">The 3D vector.</param>
             <param name="matrix4x4">The matrix.</param>
-            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4" /> and the <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The dot product of the <see cref="T:StarSimLib.Data_Structures.Matrix4x4"/> and the <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Matrix4x4.ToString">
             <inheritdoc />
@@ -738,14 +738,14 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Octant.#ctor(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Octant" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Octant"/> class.
             </summary>
             <param name="midpoint">The central midpoint of this instance.</param>
             <param name="length">The length of 1 complete side of this instance.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Octant.#ctor(StarSimLib.Data_Structures.Octant)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Octant" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Octant"/> class.
             </summary>
             <param name="octant">The previous instance to make a copy of.</param>
         </member>
@@ -761,14 +761,14 @@
         </member>
         <member name="P:StarSimLib.Data_Structures.Octant.Item(StarSimLib.Data_Structures.PositionSpecifier)">
             <summary>
-            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)" />.
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)"/>.
             </summary>
             <param name="specifier">Which child octant instance to return.</param>
             <returns>The specified child octant instance.</returns>
         </member>
         <member name="P:StarSimLib.Data_Structures.Octant.Item(System.Int32)">
             <summary>
-            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)" />.
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)"/>.
             </summary>
             <param name="specifier">Which child octant instance to return.</param>
             <returns>The specified child octant instance.</returns>
@@ -779,7 +779,7 @@
             is <c>null</c>. The newly constructed instance will then be returned.
             </summary>
             <param name="octants">
-            A reference to the <see cref="T:StarSimLib.Data_Structures.Octant" /> array from which to get the specified instance.
+            A reference to the <see cref="T:StarSimLib.Data_Structures.Octant"/> array from which to get the specified instance.
             </param>
             <param name="index">The index in the array whose held instance to get or set.</param>
             <param name="newMidpoint">The midpoint of the new child instance, if necessary.</param>
@@ -802,7 +802,7 @@
             <param name="specifier">Which child octant instance to return.</param>
             <returns>The specified child octant instance.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier" /> enum.
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
             </exception>
         </member>
         <member name="M:StarSimLib.Data_Structures.Octant.SubOctant(StarSimLib.Data_Structures.PositionSpecifier)">
@@ -812,7 +812,7 @@
             <param name="specifier">Which child octant instance to return.</param>
             <returns>The specified child octant instance.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier" /> enum.
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
             </exception>
         </member>
         <member name="M:StarSimLib.Data_Structures.Octant.ToString">
@@ -820,12 +820,12 @@
         </member>
         <member name="T:StarSimLib.Data_Structures.OctantTree">
             <summary>
-            A tree of <see cref="T:StarSimLib.Data_Structures.Octant" /> instances, where each node has 8 children.
+            A tree of <see cref="T:StarSimLib.Data_Structures.Octant"/> instances, where each node has 8 children.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OctantTree.octant">
             <summary>
-            The <see cref="T:StarSimLib.Data_Structures.Octant" /> of space managed by this instance.
+            The <see cref="T:StarSimLib.Data_Structures.Octant"/> of space managed by this instance.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OctantTree.aggregateMass">
@@ -835,7 +835,7 @@
         </member>
         <member name="F:StarSimLib.Data_Structures.OctantTree.body">
             <summary>
-            The <see cref="T:StarSimLib.Data_Structures.Body" /> instance that is held in this instance, be it real or an aggregate.
+            The <see cref="T:StarSimLib.Data_Structures.Body"/> instance that is held in this instance, be it real or an aggregate.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OctantTree.centreOfAggregateMass">
@@ -850,20 +850,20 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.#ctor(StarSimLib.Data_Structures.Octant)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.OctantTree" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.OctantTree"/> class.
             </summary>
-            <param name="octant">The <see cref="T:StarSimLib.Data_Structures.Octant" /> instance representing the space managed by this instance.</param>
+            <param name="octant">The <see cref="T:StarSimLib.Data_Structures.Octant"/> instance representing the space managed by this instance.</param>
         </member>
         <member name="P:StarSimLib.Data_Structures.OctantTree.Item(StarSimLib.Data_Structures.PositionSpecifier)">
             <summary>
-            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)" />.
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)"/>.
             </summary>
             <param name="specifier">Which child octant tree instance to return.</param>
             <returns>The specified child octant tree instance.</returns>
         </member>
         <member name="P:StarSimLib.Data_Structures.OctantTree.Item(System.Int32)">
             <summary>
-            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)" />.
+            Indexes this instance, shorthand for <see cref="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)"/>.
             </summary>
             <param name="specifier">Which child octant tree instance to return.</param>
             <returns>The specified child octant tree instance.</returns>
@@ -880,7 +880,7 @@
             instance is <c>null</c>. The newly constructed instance will then be returned.
             </summary>
             <param name="trees">
-            A reference to the <see cref="T:StarSimLib.Data_Structures.OctantTree" /> array from which to get the specified instance.
+            A reference to the <see cref="T:StarSimLib.Data_Structures.OctantTree"/> array from which to get the specified instance.
             </param>
             <param name="index">The index in the array whose held instance to get or set.</param>
             <param name="newOctant">
@@ -890,9 +890,9 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.AddBody(StarSimLib.Data_Structures.Body)">
             <summary>
-            Adds the given <see cref="T:StarSimLib.Data_Structures.Body" /> instance to this tree instance or a child tree instance.
+            Adds the given <see cref="T:StarSimLib.Data_Structures.Body"/> instance to this tree instance or a child tree instance.
             </summary>
-            <param name="newBody">The <see cref="T:StarSimLib.Data_Structures.Body" /> instance to add.</param>
+            <param name="newBody">The <see cref="T:StarSimLib.Data_Structures.Body"/> instance to add.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.IsExternal">
             <summary>
@@ -907,7 +907,7 @@
             <param name="specifier">Which child octant tree instance to return.</param>
             <returns>The specified child octant tree instance.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier" /> enum.
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
             </exception>
         </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.SubTree(StarSimLib.Data_Structures.PositionSpecifier)">
@@ -917,13 +917,13 @@
             <param name="specifier">Which child octant tree instance to return.</param>
             <returns>The specified child octant tree instance.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier" /> enum.
+            Thrown when the given specifier does not equate to one of the values in the <see cref="T:StarSimLib.Data_Structures.PositionSpecifier"/> enum.
             </exception>
         </member>
         <member name="M:StarSimLib.Data_Structures.OctantTree.UpdateForces(StarSimLib.Data_Structures.Body)">
             <summary>
-            Recursively updates the forces on each <see cref="T:StarSimLib.Data_Structures.Body" /> instance held in this tree, with respect to the
-            given reference <see cref="T:StarSimLib.Data_Structures.Body" /> instance.
+            Recursively updates the forces on each <see cref="T:StarSimLib.Data_Structures.Body"/> instance held in this tree, with respect to the
+            given reference <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
             </summary>
             <param name="referenceBody">The body instance against which force updates are made.</param>
         </member>
@@ -932,8 +932,8 @@
         </member>
         <member name="T:StarSimLib.Data_Structures.OrbitTracer">
             <summary>
-            Represents a series of points denoting the previous positions of a <see cref="T:StarSimLib.Data_Structures.Body" /> instance. Used to render
-            an orbit tracer behind the <see cref="T:StarSimLib.Data_Structures.Body" />.
+            Represents a series of points denoting the previous positions of a <see cref="T:StarSimLib.Data_Structures.Body"/> instance. Used to render
+            an orbit tracer behind the <see cref="T:StarSimLib.Data_Structures.Body"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate">
@@ -944,41 +944,41 @@
         </member>
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions">
             <summary>
-            Backing field for the <see cref="P:StarSimLib.Data_Structures.OrbitTracer.PreviousPositions" /> property.
+            Backing field for the <see cref="P:StarSimLib.Data_Structures.OrbitTracer.PreviousPositions"/> property.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.OrbitTracer.positionSampleCounter">
             <summary>
             Counts the number of sampling opportunities that have gone by since the last position sample. Resets once
-            it reaches the value of <see cref="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate" />.
+            it reaches the value of <see cref="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate"/>.
             </summary>
         </member>
         <member name="M:StarSimLib.Data_Structures.OrbitTracer.#ctor">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.OrbitTracer" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.OrbitTracer"/> class.
             </summary>
         </member>
         <member name="P:StarSimLib.Data_Structures.OrbitTracer.PreviousPositions">
             <summary>
-            An <see cref="T:System.Collections.Generic.Queue`1" /> containing previous <see cref="T:StarSimLib.Data_Structures.Vector4" /> positions of the body.
+            An <see cref="T:System.Collections.Generic.Queue`1"/> containing previous <see cref="T:StarSimLib.Data_Structures.Vector4"/> positions of the body.
             </summary>
         </member>
         <member name="M:StarSimLib.Data_Structures.OrbitTracer.Clear">
             <summary>
-            Clears the <see cref="T:System.Collections.Generic.Queue`1" /> holding the previous positions.
+            Clears the <see cref="T:System.Collections.Generic.Queue`1"/> holding the previous positions.
             </summary>
         </member>
         <member name="M:StarSimLib.Data_Structures.OrbitTracer.Enqueue(StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Enqueues the current position on the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions" /> queue, to save it.
+            Enqueues the current position on the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.previousPositions"/> queue, to save it.
             Will dequeue positions from the queue if the number of stored positions exceeds the
-            value in <see cref="F:StarSimLib.Constants.StoredPreviousPositionCount" />. Will only enqueue the
-            current position if the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate" /> is met.
+            value in <see cref="F:StarSimLib.Constants.StoredPreviousPositionCount"/>. Will only enqueue the
+            current position if the <see cref="F:StarSimLib.Data_Structures.OrbitTracer.PositionSampleRate"/> is met.
             </summary>
         </member>
         <member name="T:StarSimLib.Data_Structures.Vector4">
             <summary>
-            A 4D vector with <see cref="T:System.Double" /> components.
+            A 4D vector with <see cref="T:System.Double"/> components.
             </summary>
         </member>
         <member name="F:StarSimLib.Data_Structures.Vector4.W">
@@ -1003,14 +1003,14 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.#ctor(System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4" /> struct. Sets Z and W to 0.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4"/> struct. Sets Z and W to 0.
             </summary>
             <param name="x">The x component.</param>
             <param name="y">The y component.</param>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.#ctor(System.Double,System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4" /> struct. Sets W to 0.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4"/> struct. Sets W to 0.
             </summary>
             <param name="x">The x component.</param>
             <param name="y">The y component.</param>
@@ -1018,7 +1018,7 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4" /> struct.
+            Initialises a new instance of the <see cref="T:StarSimLib.Data_Structures.Vector4"/> struct.
             </summary>
             <param name="x">The x component.</param>
             <param name="y">The y component.</param>
@@ -1027,163 +1027,163 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the subtraction operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4" />s.
+            Implements the subtraction operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Subtraction(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the subtraction operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4" />s.
+            Implements the multiplication operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Multiply(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the multiplication operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the division operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4" />s.
+            Implements the division operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Division(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the division operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the addition operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4" />s.
+            Implements the addition operator for 2 <see cref="T:StarSimLib.Data_Structures.Vector4"/>s.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="vector2">The other <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(StarSimLib.Data_Structures.Vector4,System.ValueTuple{System.Double,System.Double,System.Double,System.Double})">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(System.ValueTuple{System.Double,System.Double,System.Double,System.Double},StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a (X, Y, Z, W) tuple.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a (X, Y, Z, W) tuple.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
             <param name="vector2">The 4D tuple.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.op_Addition(System.Double,StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4" /> and a scalar <see cref="T:System.Double" /> value.
+            Implements the addition operator for a <see cref="T:StarSimLib.Data_Structures.Vector4"/> and a scalar <see cref="T:System.Double"/> value.
             </summary>
-            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4" />.</param>
-            <param name="scalar">The scalar <see cref="T:System.Double" />.</param>
-            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4" />.</returns>
+            <param name="vector">The original <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</param>
+            <param name="scalar">The scalar <see cref="T:System.Double"/>.</param>
+            <returns>The new <see cref="T:StarSimLib.Data_Structures.Vector4"/>.</returns>
         </member>
         <member name="P:StarSimLib.Data_Structures.Vector4.Item(System.Int32)">
             <summary>
@@ -1194,15 +1194,15 @@
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.Abs">
             <summary>
-            Returns the absolute value of this <see cref="T:StarSimLib.Data_Structures.Vector4" />.
+            Returns the absolute value of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>.
             </summary>
-            <returns>The absolute value (magnitude) of this <see cref="T:StarSimLib.Data_Structures.Vector4" />, as a <see cref="T:System.Double" />.</returns>
+            <returns>The absolute value (magnitude) of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>, as a <see cref="T:System.Double"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.Magnitude">
             <summary>
-            Returns the magnitude of this <see cref="T:StarSimLib.Data_Structures.Vector4" />.
+            Returns the magnitude of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>.
             </summary>
-            <returns>The magnitude (absolute value) of this <see cref="T:StarSimLib.Data_Structures.Vector4" />, as a <see cref="T:System.Double" />.</returns>
+            <returns>The magnitude (absolute value) of this <see cref="T:StarSimLib.Data_Structures.Vector4"/>, as a <see cref="T:System.Double"/>.</returns>
         </member>
         <member name="M:StarSimLib.Data_Structures.Vector4.ToString">
             <inheritdoc />
@@ -1280,17 +1280,17 @@
         </member>
         <member name="T:StarSimLib.Graphics.SimulationDrawer">
             <summary>
-            Represents a drawer capable of rendering bodies to a <see cref="T:SFML.Graphics.RenderTarget" />.
+            Represents a drawer capable of rendering bodies to a <see cref="T:SFML.Graphics.RenderTarget"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.DegToRad">
             <summary>
-            Conversion from degrees to radians, as used by the <see cref="T:System.Math" /> functions.
+            Conversion from degrees to radians, as used by the <see cref="T:System.Math"/> functions.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.FarDistance">
             <summary>
-            The furthest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget" />. Any bodies that are further
+            The furthest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>. Any bodies that are further
             from the camera than this distance are culled and not rendered.
             </summary>
         </member>
@@ -1301,7 +1301,7 @@
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.NearDistance">
             <summary>
-            The closest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget" />. Any bodies that are closer
+            The closest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>. Any bodies that are closer
             to the camera than this distance (i.e. behind the camera) are culled and not rendered.
             </summary>
         </member>
@@ -1312,31 +1312,31 @@
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.aspectRatio">
             <summary>
-            The aspect ratio of the render target. Allows for normalisation of the <see cref="T:SFML.Graphics.RenderTarget" /> space
+            The aspect ratio of the render target. Allows for normalisation of the <see cref="T:SFML.Graphics.RenderTarget"/> space
             into a normal plane ([-1, -1] = top left, [1, 1] = bottom right), instead of having to deal with a
             variable render space.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.managedBodies">
             <summary>
-            Holds all the <see cref="T:StarSimLib.Data_Structures.Body" /> instances that should be simulated.
+            Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.managedBodyShapeMap">
             <summary>
-            Maps a <see cref="T:StarSimLib.Data_Structures.Body" /> to the <see cref="T:SFML.Graphics.CircleShape" /> that represents it, and is drawn to the
-            screen at the <see cref="T:StarSimLib.Data_Structures.Body" />s position.
+            Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.CircleShape"/> that represents it, and is drawn to the
+            screen at the <see cref="T:StarSimLib.Data_Structures.Body"/>s position.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.managedBodyTracerVertexArrayMap">
             <summary>
-            Maps a <see cref="T:StarSimLib.Data_Structures.Body" /> to the <see cref="T:SFML.Graphics.VertexArray" /> that holds its orbit tracer vertices, and
-            is drawn to the screen behind the <see cref="T:StarSimLib.Data_Structures.Body" /> instance.
+            Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.VertexArray"/> that holds its orbit tracer vertices, and
+            is drawn to the screen behind the <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
             </summary>
         </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.originOffset">
             <summary>
-            The offset that has to be applied to the positions of a <see cref="T:SFML.Graphics.CircleShape" />, so that they appear
+            The offset that has to be applied to the positions of a <see cref="T:SFML.Graphics.CircleShape"/>, so that they appear
             to be in the centre of the render target and not the top left corner.
             </summary>
         </member>
@@ -1377,15 +1377,15 @@
         </member>
         <member name="M:StarSimLib.Graphics.SimulationDrawer.#ctor(SFML.Graphics.RenderTarget,StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Graphics.SimulationDrawer" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Graphics.SimulationDrawer"/> class.
             </summary>
             <param name="target">The target to which the managed bodies should be rendered.</param>
             <param name="bodies">
-            A reference to the <see cref="T:StarSimLib.Data_Structures.Body" /> instances which should be managed by this instance.
+            A reference to the <see cref="T:StarSimLib.Data_Structures.Body"/> instances which should be managed by this instance.
             </param>
             <param name="bodyShapeMap">
-            A reference to the dictionary mapping a <see cref="T:StarSimLib.Data_Structures.Body" /> instance to the <see cref="T:SFML.Graphics.CircleShape" /> that
-            represents it, and is drawn to the screen at the <see cref="T:StarSimLib.Data_Structures.Body" /> instance's position.
+            A reference to the dictionary mapping a <see cref="T:StarSimLib.Data_Structures.Body"/> instance to the <see cref="T:SFML.Graphics.CircleShape"/> that
+            represents it, and is drawn to the screen at the <see cref="T:StarSimLib.Data_Structures.Body"/> instance's position.
             </param>
         </member>
         <member name="P:StarSimLib.Graphics.SimulationDrawer.InverseScaleFactor">
@@ -1429,7 +1429,7 @@
         </member>
         <member name="M:StarSimLib.Graphics.SimulationDrawer.ProjectPoint(StarSimLib.Data_Structures.Vector4)">
             <summary>
-            Projects the given <see cref="T:StarSimLib.Data_Structures.Vector4" /> point from world space into screen space.
+            Projects the given <see cref="T:StarSimLib.Data_Structures.Vector4"/> point from world space into screen space.
             </summary>
             <param name="point">The point to project.</param>
             <returns>The projected point.</returns>
@@ -1441,7 +1441,7 @@
         </member>
         <member name="M:StarSimLib.Graphics.SimulationDrawer.DrawBodies">
             <summary>
-            Draws each <see cref="T:StarSimLib.Data_Structures.Body" /> instance that is managed by this drawer to the <see cref="T:SFML.Graphics.RenderTarget" /> specified
+            Draws each <see cref="T:StarSimLib.Data_Structures.Body"/> instance that is managed by this drawer to the <see cref="T:SFML.Graphics.RenderTarget"/> specified
             in the constructor, using the current view settings (rotation, zoom, etc.) to project the positions from 3D to 2D.
             This method should be called every frame, as without it the view isn't updated and neither are rotation or zoom.
             </summary>
@@ -1461,12 +1461,12 @@
         </member>
         <member name="T:StarSimLib.Models.Body">
             <summary>
-            Represents a known stellar body in the database. Maps to a <see cref="T:StarSimLib.Data_Structures.Body" /> instance.
+            Represents a known stellar body in the database. Maps to a <see cref="T:StarSimLib.Data_Structures.Body"/> instance.
             </summary>
         </member>
         <member name="M:StarSimLib.Models.Body.#ctor(System.UInt64,System.String,System.Double)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Models.Body" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.Body"/> class.
             </summary>
             <param name="id">The unique id for this instance.</param>
             <param name="name">The name for this instance.</param>
@@ -1474,7 +1474,7 @@
         </member>
         <member name="P:StarSimLib.Models.Body.BodyToSystemJoins">
             <summary>
-            The <see cref="T:StarSimLib.Models.BodyToSystemJoin" /> entities that map this <see cref="T:StarSimLib.Models.Body" /> to the <see cref="T:StarSimLib.Models.System" />
+            The <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities that map this <see cref="T:StarSimLib.Models.Body"/> to the <see cref="T:StarSimLib.Models.System"/>
             entities that hold it.
             </summary>
         </member>
@@ -1501,12 +1501,12 @@
         </member>
         <member name="T:StarSimLib.Models.BodyToSystemJoin">
             <summary>
-            Maps a <see cref="T:StarSimLib.Models.Body" /> entity and <see cref="T:StarSimLib.Models.System" /> entity in a many-to-many relationship in the database.
+            Maps a <see cref="T:StarSimLib.Models.Body"/> entity and <see cref="T:StarSimLib.Models.System"/> entity in a many-to-many relationship in the database.
             </summary>
         </member>
         <member name="M:StarSimLib.Models.BodyToSystemJoin.#ctor(System.UInt64,System.UInt64,System.UInt64)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Models.BodyToSystemJoin" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> class.
             </summary>
             <param name="id">The unique id for this instance.</param>
             <param name="bodyId">The id of the body mapped by this instance.</param>
@@ -1514,12 +1514,12 @@
         </member>
         <member name="P:StarSimLib.Models.BodyToSystemJoin.Body">
             <summary>
-            The <see cref="T:StarSimLib.Models.Body" /> instance mapped by this join instance.
+            The <see cref="T:StarSimLib.Models.Body"/> instance mapped by this join instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.BodyToSystemJoin.BodyId">
             <summary>
-            The Id of the <see cref="T:StarSimLib.Models.Body" /> instance mapped by this join instance.
+            The Id of the <see cref="T:StarSimLib.Models.Body"/> instance mapped by this join instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.BodyToSystemJoin.Id">
@@ -1529,12 +1529,12 @@
         </member>
         <member name="P:StarSimLib.Models.BodyToSystemJoin.System">
             <summary>
-            The <see cref="T:StarSimLib.Models.System" /> instance mapped by this join instance.
+            The <see cref="T:StarSimLib.Models.System"/> instance mapped by this join instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.BodyToSystemJoin.SystemId">
             <summary>
-            The Id of the <see cref="T:StarSimLib.Models.System" /> instance mapped by this join instance.
+            The Id of the <see cref="T:StarSimLib.Models.System"/> instance mapped by this join instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.BodyToSystemJoin.Timestamp">
@@ -1550,7 +1550,7 @@
         </member>
         <member name="M:StarSimLib.Models.PublishedSystem.#ctor(System.UInt64,System.UInt64,System.UInt64,System.DateTime)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Models.PublishedSystem" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.PublishedSystem"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
             <param name="publisherId">The unique id of the publisher of this instance.</param>
@@ -1569,22 +1569,22 @@
         </member>
         <member name="P:StarSimLib.Models.PublishedSystem.Publisher">
             <summary>
-            The <see cref="T:StarSimLib.Models.User" /> who created this instance.
+            The <see cref="T:StarSimLib.Models.User"/> who created this instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.PublishedSystem.PublisherId">
             <summary>
-            The Id of the <see cref="T:StarSimLib.Models.User" /> who created this instance.
+            The Id of the <see cref="T:StarSimLib.Models.User"/> who created this instance.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.PublishedSystem.System">
             <summary>
-            The <see cref="T:StarSimLib.Models.System" /> instance that was published..
+            The <see cref="T:StarSimLib.Models.System"/> instance that was published..
             </summary>
         </member>
         <member name="P:StarSimLib.Models.PublishedSystem.SystemId">
             <summary>
-            The Id of the <see cref="T:StarSimLib.Models.System" /> instance which was published..
+            The Id of the <see cref="T:StarSimLib.Models.System"/> instance which was published..
             </summary>
         </member>
         <member name="P:StarSimLib.Models.PublishedSystem.Timestamp">
@@ -1595,12 +1595,12 @@
         </member>
         <member name="T:StarSimLib.Models.System">
             <summary>
-            Represents a star system in the database, with a collection of child <see cref="T:StarSimLib.Models.Body" /> instances.
+            Represents a star system in the database, with a collection of child <see cref="T:StarSimLib.Models.Body"/> instances.
             </summary>
         </member>
         <member name="M:StarSimLib.Models.System.#ctor(System.UInt64,System.String,System.Collections.Generic.IReadOnlyDictionary{System.UInt64,System.ValueTuple{StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4}})">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Models.System" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.System"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
             <param name="name">The name of this instance.</param>
@@ -1608,14 +1608,14 @@
         </member>
         <member name="P:StarSimLib.Models.System.BodyPositionData">
             <summary>
-            Stores the positions and velocities of every <see cref="T:StarSimLib.Models.Body" /> entity tracked by this instance. Will be
+            Stores the positions and velocities of every <see cref="T:StarSimLib.Models.Body"/> entity tracked by this instance. Will be
             serialised to a JSON string and then deserialised from a JSON string to be stored and retrieved from the
             database.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.System.BodyToSystemJoins">
             <summary>
-            The <see cref="T:StarSimLib.Models.BodyToSystemJoin" /> entities that map this <see cref="T:StarSimLib.Models.System" /> to the <see cref="T:StarSimLib.Models.Body" />
+            The <see cref="T:StarSimLib.Models.BodyToSystemJoin"/> entities that map this <see cref="T:StarSimLib.Models.System"/> to the <see cref="T:StarSimLib.Models.Body"/>
             entities that it holds.
             </summary>
         </member>
@@ -1637,7 +1637,7 @@
         </member>
         <member name="T:StarSimLib.Models.UserPrivileges">
             <summary>
-            Enumerates the possible privileges that a <see cref="T:StarSimLib.Models.User" /> can have, as flags to save space.
+            Enumerates the possible privileges that a <see cref="T:StarSimLib.Models.User"/> can have, as flags to save space.
             </summary>
         </member>
         <member name="F:StarSimLib.Models.UserPrivileges.Default">
@@ -1712,7 +1712,7 @@
         </member>
         <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,StarSimLib.Models.UserPrivileges,System.String)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Models.User" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.User"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
             <param name="username">The username of this instance.</param>
@@ -1721,7 +1721,7 @@
         </member>
         <member name="M:StarSimLib.Models.User.#ctor(System.UInt64,System.String,StarSimLib.Models.UserPrivileges,System.Byte[],System.Byte[],System.String)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.Models.User" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.Models.User"/> class.
             </summary>
             <param name="id">The unique id of this instance.</param>
             <param name="username">The username of this instance.</param>
@@ -1757,7 +1757,7 @@
         </member>
         <member name="P:StarSimLib.Models.User.PublishedSystems">
             <summary>
-            The <see cref="P:StarSimLib.Models.User.PublishedSystems" /> entities that this <see cref="T:StarSimLib.Models.User" /> has published.
+            The <see cref="P:StarSimLib.Models.User.PublishedSystems"/> entities that this <see cref="T:StarSimLib.Models.User"/> has published.
             </summary>
         </member>
         <member name="P:StarSimLib.Models.User.Timestamp">
@@ -1773,21 +1773,21 @@
         </member>
         <member name="T:StarSimLib.Physics.MassToColourDelegate">
             <summary>
-            Takes the mass of a <see cref="T:StarSimLib.Data_Structures.Body" /> instance and returns a colour for the <see cref="T:SFML.Graphics.CircleShape" />
-            that will represent the <see cref="T:StarSimLib.Data_Structures.Body" /> of the given mass.
+            Takes the mass of a <see cref="T:StarSimLib.Data_Structures.Body"/> instance and returns a colour for the <see cref="T:SFML.Graphics.CircleShape"/>
+            that will represent the <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.
             </summary>
-            <returns>The colour of the <see cref="T:SFML.Graphics.CircleShape" /> for a <see cref="T:StarSimLib.Data_Structures.Body" /> of the given mass.</returns>
+            <returns>The colour of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.</returns>
         </member>
         <member name="T:StarSimLib.Physics.MassToRadiusDelegate">
             <summary>
-            Takes the mass of a <see cref="T:StarSimLib.Data_Structures.Body" /> instance and returns a radius for the <see cref="T:SFML.Graphics.CircleShape" />
-            that will represent the <see cref="T:StarSimLib.Data_Structures.Body" /> of the given mass.
+            Takes the mass of a <see cref="T:StarSimLib.Data_Structures.Body"/> instance and returns a radius for the <see cref="T:SFML.Graphics.CircleShape"/>
+            that will represent the <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.
             </summary>
-            <returns>The radius of the <see cref="T:SFML.Graphics.CircleShape" /> for a <see cref="T:StarSimLib.Data_Structures.Body" /> of the given mass.</returns>
+            <returns>The radius of the <see cref="T:SFML.Graphics.CircleShape"/> for a <see cref="T:StarSimLib.Data_Structures.Body"/> of the given mass.</returns>
         </member>
         <member name="T:StarSimLib.Physics.BodyGenerator">
             <summary>
-            Provides methods for generating <see cref="T:StarSimLib.Data_Structures.Body" /> instances.
+            Provides methods for generating <see cref="T:StarSimLib.Data_Structures.Body"/> instances.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.BodyGenerator.Rng">
@@ -1797,84 +1797,84 @@
         </member>
         <member name="F:StarSimLib.Physics.BodyGenerator.DefaultColourDelegate">
             <summary>
-            Default implementation of the <see cref="T:StarSimLib.Physics.MassToColourDelegate" />.
+            Default implementation of the <see cref="T:StarSimLib.Physics.MassToColourDelegate"/>.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.BodyGenerator.DefaultRadiusDelegate">
             <summary>
-            Default implementation of the <see cref="T:StarSimLib.Physics.MassToRadiusDelegate" />.
+            Default implementation of the <see cref="T:StarSimLib.Physics.MassToRadiusDelegate"/>.
             </summary>
         </member>
         <member name="P:StarSimLib.Physics.BodyGenerator.CurrentGeneration">
             <summary>
-            The current generation of <see cref="T:StarSimLib.Data_Structures.Body" /> instances that the generator is on.
+            The current generation of <see cref="T:StarSimLib.Data_Structures.Body"/> instances that the generator is on.
             </summary>
         </member>
         <member name="M:StarSimLib.Physics.BodyGenerator.GenerateBodies(System.Int32,System.Boolean)">
             <summary>
-            Generates an array of <see cref="T:StarSimLib.Data_Structures.Body" /> instances, possibly including a central attractor.
+            Generates an array of <see cref="T:StarSimLib.Data_Structures.Body"/> instances, possibly including a central attractor.
             </summary>
-            <param name="bodyCount">The number of <see cref="T:StarSimLib.Data_Structures.Body" /> instances to generate.</param>
+            <param name="bodyCount">The number of <see cref="T:StarSimLib.Data_Structures.Body"/> instances to generate.</param>
             <param name="centralAttractor">Whether to have a central massive attractor.</param>
-            <returns>The generated <see cref="T:StarSimLib.Data_Structures.Body" /> array.</returns>
+            <returns>The generated <see cref="T:StarSimLib.Data_Structures.Body"/> array.</returns>
         </member>
         <member name="M:StarSimLib.Physics.BodyGenerator.GenerateShapes(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body})">
             <summary>
-            Generates a <see cref="T:System.Collections.Generic.Dictionary`2" /> mapping each given <see cref="T:StarSimLib.Data_Structures.Body" /> to a
-            <see cref="T:SFML.Graphics.CircleShape" /> that represents the body instance in 2D space.
+            Generates a <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping each given <see cref="T:StarSimLib.Data_Structures.Body"/> to a
+            <see cref="T:SFML.Graphics.CircleShape"/> that represents the body instance in 2D space.
             </summary>
-            <param name="bodies">The <see cref="T:StarSimLib.Data_Structures.Body" /> instances for which to generate the shapes.</param>
+            <param name="bodies">The <see cref="T:StarSimLib.Data_Structures.Body"/> instances for which to generate the shapes.</param>
             <returns>
-            A <see cref="T:System.Collections.Generic.Dictionary`2" /> mapping the given <see cref="T:StarSimLib.Data_Structures.Body" /> instances to their <see cref="T:SFML.Graphics.CircleShape" /> instances.
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Data_Structures.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
             </returns>
         </member>
         <member name="M:StarSimLib.Physics.BodyGenerator.GenerateShapes(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},StarSimLib.Physics.MassToRadiusDelegate,StarSimLib.Physics.MassToColourDelegate)">
             <summary>
-            Generates a <see cref="T:System.Collections.Generic.Dictionary`2" /> mapping each given <see cref="T:StarSimLib.Data_Structures.Body" /> to a
-            <see cref="T:SFML.Graphics.CircleShape" /> that represents the body instance in 2D space.
+            Generates a <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping each given <see cref="T:StarSimLib.Data_Structures.Body"/> to a
+            <see cref="T:SFML.Graphics.CircleShape"/> that represents the body instance in 2D space.
             </summary>
-            <param name="bodies">The <see cref="T:StarSimLib.Data_Structures.Body" /> instances for which to generate the shapes.</param>
+            <param name="bodies">The <see cref="T:StarSimLib.Data_Structures.Body"/> instances for which to generate the shapes.</param>
             <param name="massToRadiusDelegate">
-            The function to use to derive the radius of the <see cref="T:SFML.Graphics.CircleShape" /> that will represent a <see cref="T:StarSimLib.Data_Structures.Body" />
+            The function to use to derive the radius of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Data_Structures.Body"/>
             instance from its mass.
             </param>
             <param name="massToColourDelegate">
-            The function to use to derive the colour of the <see cref="T:SFML.Graphics.CircleShape" /> that will represent a <see cref="T:StarSimLib.Data_Structures.Body" />
+            The function to use to derive the colour of the <see cref="T:SFML.Graphics.CircleShape"/> that will represent a <see cref="T:StarSimLib.Data_Structures.Body"/>
             instance from its mass.
             </param>
             <returns>
-            A <see cref="T:System.Collections.Generic.Dictionary`2" /> mapping the given <see cref="T:StarSimLib.Data_Structures.Body" /> instances to their <see cref="T:SFML.Graphics.CircleShape" /> instances.
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> mapping the given <see cref="T:StarSimLib.Data_Structures.Body"/> instances to their <see cref="T:SFML.Graphics.CircleShape"/> instances.
             </returns>
         </member>
         <member name="T:StarSimLib.Physics.UpdateDelegate">
             <summary>
-            Updates the given <see cref="T:StarSimLib.Data_Structures.Body" /> collections individual bodies, using the given delta time.
+            Updates the given <see cref="T:StarSimLib.Data_Structures.Body"/> collections individual bodies, using the given delta time.
             </summary>
             <param name="bodies">The body collection.</param>
             <param name="deltaTime">The time step.</param>
         </member>
         <member name="T:StarSimLib.Physics.BodyUpdater">
             <summary>
-            Provides methods for updating <see cref="T:StarSimLib.Data_Structures.Body" /> instance positions.
+            Provides methods for updating <see cref="T:StarSimLib.Data_Structures.Body"/> instance positions.
             </summary>
         </member>
         <member name="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBarnesHut(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)">
             <summary>
-            Updates the positions of all the given <see cref="T:StarSimLib.Data_Structures.Body" />s with O(n^2) time complexity, with the given time step.
+            Updates the positions of all the given <see cref="T:StarSimLib.Data_Structures.Body"/>s with O(n^2) time complexity, with the given time step.
             </summary>
-            <param name="bodies">The collection of <see cref="T:StarSimLib.Data_Structures.Body" />s whose positions to update.</param>
+            <param name="bodies">The collection of <see cref="T:StarSimLib.Data_Structures.Body"/>s whose positions to update.</param>
             <param name="deltaTime">The time step.</param>
         </member>
         <member name="M:StarSimLib.Physics.BodyUpdater.UpdateBodiesBruteForce(System.Collections.Generic.IEnumerable{StarSimLib.Data_Structures.Body},System.Double)">
             <summary>
-            Updates the positions of all the given <see cref="T:StarSimLib.Data_Structures.Body" />s with O(n^2) time complexity, with the given time step.
+            Updates the positions of all the given <see cref="T:StarSimLib.Data_Structures.Body"/>s with O(n^2) time complexity, with the given time step.
             </summary>
-            <param name="bodies">The collection of <see cref="T:StarSimLib.Data_Structures.Body" />s whose positions to update.</param>
+            <param name="bodies">The collection of <see cref="T:StarSimLib.Data_Structures.Body"/>s whose positions to update.</param>
             <param name="deltaTime">The time step.</param>
         </member>
         <member name="T:StarSimLib.Physics.OrbitGenerator">
             <summary>
-            Provides methods for initialising positions, velocities, and orbits for <see cref="T:StarSimLib.Data_Structures.Body" /> instances.
+            Provides methods for initialising positions, velocities, and orbits for <see cref="T:StarSimLib.Data_Structures.Body"/> instances.
             </summary>
         </member>
         <member name="F:StarSimLib.Physics.OrbitGenerator.Rng">
@@ -1891,7 +1891,7 @@
         </member>
         <member name="M:StarSimLib.Physics.OrbitGenerator.RandomPosition">
             <summary>
-            Returns a random position within the universe sphere (see <see cref="F:StarSimLib.Constants.UniverseSize" />).
+            Returns a random position within the universe sphere (see <see cref="F:StarSimLib.Constants.UniverseSize"/>).
             </summary>
             <returns>A 3D position vector.</returns>
         </member>
@@ -1902,57 +1902,57 @@
         </member>
         <member name="P:StarSimLib.UI.IInputHandler.HandledScreen">
             <summary>
-            The <see cref="T:StarSimLib.UI.Screen" /> instance whose input to manage.
+            The <see cref="T:StarSimLib.UI.Screen"/> instance whose input to manage.
             </summary>
         </member>
         <member name="M:StarSimLib.UI.IInputHandler.HandleKeyPressed(System.Object,SFML.Window.KeyEventArgs)">
             <summary>
             Handles key presses.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window" /> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs" /> associated with the key press.</param>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key press.</param>
         </member>
         <member name="M:StarSimLib.UI.IInputHandler.HandleKeyReleased(System.Object,SFML.Window.KeyEventArgs)">
             <summary>
             Handles key releases.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window" /> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs" /> associated with the key release.</param>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.KeyEventArgs"/> associated with the key release.</param>
         </member>
         <member name="M:StarSimLib.UI.IInputHandler.HandleMouseMoved(System.Object,SFML.Window.MouseMoveEventArgs)">
             <summary>
             Handles motions of the mouse.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window" /> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseMoveEventArgs" /> associated with the mouse movement.</param>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseMoveEventArgs"/> associated with the mouse movement.</param>
         </member>
         <member name="M:StarSimLib.UI.IInputHandler.HandleMousePressed(System.Object,SFML.Window.MouseButtonEventArgs)">
             <summary>
             Handles key presses of the mouse.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window" /> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs" /> associated with the mouse press.</param>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse press.</param>
         </member>
         <member name="M:StarSimLib.UI.IInputHandler.HandleMouseReleased(System.Object,SFML.Window.MouseButtonEventArgs)">
             <summary>
             Handles key releases of the mouse.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window" /> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs" /> associated with the mouse release.</param>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseButtonEventArgs"/> associated with the mouse release.</param>
         </member>
         <member name="M:StarSimLib.UI.IInputHandler.HandleMouseScrolled(System.Object,SFML.Window.MouseWheelScrollEventArgs)">
             <summary>
             Handles scrolling of the mouse wheel.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window" /> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:SFML.Window.MouseWheelScrollEventArgs" /> associated with the mouse scroll.</param>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:SFML.Window.MouseWheelScrollEventArgs"/> associated with the mouse scroll.</param>
         </member>
         <member name="M:StarSimLib.UI.IInputHandler.HandleScreenClosed(System.Object,System.EventArgs)">
             <summary>
             Handles the screen closing.
             </summary>
-            <param name="sender">The <see cref="T:SFML.Window.Window" /> that sent the event.</param>
-            <param name="eventArgs">The <see cref="T:System.EventArgs" /> associated with the screen close.</param>
+            <param name="sender">The <see cref="T:SFML.Window.Window"/> that sent the event.</param>
+            <param name="eventArgs">The <see cref="T:System.EventArgs"/> associated with the screen close.</param>
         </member>
         <member name="T:StarSimLib.UI.Screen">
             <summary>
@@ -1971,17 +1971,17 @@
         </member>
         <member name="M:StarSimLib.UI.Screen.#ctor(SFML.Graphics.RenderWindow,StarSimLib.UI.IInputHandler)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.UI.Screen" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.UI.Screen"/> class.
             </summary>
             <param name="window"></param>
             <param name="inputHandler"></param>
         </member>
         <member name="M:StarSimLib.UI.Screen.CleanupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
             <summary>
-            Cleans up the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget" /> with the given <see cref="T:SFML.Graphics.RenderStates" />.
+            Cleans up the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget"/> with the given <see cref="T:SFML.Graphics.RenderStates"/>.
             </summary>
-            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget" /> to which to draw this instance.</param>
-            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates" /> to use for the drawing.</param>
+            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
+            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> to use for the drawing.</param>
         </member>
         <member name="M:StarSimLib.UI.Screen.ConstructScreen">
             <summary>
@@ -1990,17 +1990,17 @@
         </member>
         <member name="M:StarSimLib.UI.Screen.DrawFrame(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
             <summary>
-            Draws the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget" /> with the given <see cref="T:SFML.Graphics.RenderStates" />.
+            Draws the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget"/> with the given <see cref="T:SFML.Graphics.RenderStates"/>.
             </summary>
-            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget" /> to which to draw this instance.</param>
-            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates" /> to use for the drawing.</param>
+            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
+            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> to use for the drawing.</param>
         </member>
         <member name="M:StarSimLib.UI.Screen.SetupScreen(SFML.Graphics.RenderTarget,SFML.Graphics.RenderStates)">
             <summary>
-            Sets up the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget" /> with the given <see cref="T:SFML.Graphics.RenderStates" />.
+            Sets up the contents of the screen to the given <see cref="T:SFML.Graphics.RenderTarget"/> with the given <see cref="T:SFML.Graphics.RenderStates"/>.
             </summary>
-            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget" /> to which to draw this instance.</param>
-            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates" /> to use for the drawing.</param>
+            <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
+            <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> to use for the drawing.</param>
         </member>
         <member name="M:StarSimLib.UI.Screen.Run">
             <summary>
@@ -2019,20 +2019,20 @@
         </member>
         <member name="F:StarSimLib.UI.SimulationInputHandler.managedBodies">
             <summary>
-            Holds all the <see cref="T:StarSimLib.Data_Structures.Body" /> instances that should be simulated.
+            Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
             </summary>
         </member>
         <member name="F:StarSimLib.UI.SimulationInputHandler.simulationDrawer">
             <summary>
-            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body" /> instances on the screen.
+            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
             </summary>
         </member>
         <member name="M:StarSimLib.UI.SimulationInputHandler.#ctor(StarSimLib.Data_Structures.Body[]@)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationInputHandler" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationInputHandler"/> class.
             </summary>
             <param name="bodies">
-            A reference to the <see cref="T:StarSimLib.Data_Structures.Body" /> instances which should be managed by this instance.
+            A reference to the <see cref="T:StarSimLib.Data_Structures.Body"/> instances which should be managed by this instance.
             </param>
         </member>
         <member name="P:StarSimLib.UI.SimulationInputHandler.HandledScreen">
@@ -2045,7 +2045,7 @@
         </member>
         <member name="P:StarSimLib.UI.SimulationInputHandler.RecordOrbitTracers">
             <summary>
-            Whether to record previous <see cref="T:StarSimLib.Data_Structures.Body" /> instance positions, in order to render an orbit tracer
+            Whether to record previous <see cref="T:StarSimLib.Data_Structures.Body"/> instance positions, in order to render an orbit tracer
             behind each body instance.
             </summary>
         </member>
@@ -2088,7 +2088,7 @@
         </member>
         <member name="F:StarSimLib.UI.SimulationScreen.bodies">
             <summary>
-            Holds all the <see cref="T:StarSimLib.Data_Structures.Body" /> instances that should be simulated.
+            Holds all the <see cref="T:StarSimLib.Data_Structures.Body"/> instances that should be simulated.
             </summary>
         </member>
         <member name="F:StarSimLib.UI.SimulationScreen.bodyPositionUpdater">
@@ -2098,8 +2098,8 @@
         </member>
         <member name="F:StarSimLib.UI.SimulationScreen.bodyShapeMap">
             <summary>
-            Maps a <see cref="T:StarSimLib.Data_Structures.Body" /> to the <see cref="T:SFML.Graphics.CircleShape" /> that represents it, and is drawn to the
-            screen at the <see cref="T:StarSimLib.Data_Structures.Body" />s position.
+            Maps a <see cref="T:StarSimLib.Data_Structures.Body"/> to the <see cref="T:SFML.Graphics.CircleShape"/> that represents it, and is drawn to the
+            screen at the <see cref="T:StarSimLib.Data_Structures.Body"/>s position.
             </summary>
         </member>
         <member name="F:StarSimLib.UI.SimulationScreen.fileWriter">
@@ -2114,7 +2114,7 @@
         </member>
         <member name="F:StarSimLib.UI.SimulationScreen.simulationDrawer">
             <summary>
-            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body" /> instances on the screen.
+            The renderer used to display the <see cref="T:StarSimLib.Data_Structures.Body"/> instances on the screen.
             </summary>
         </member>
         <member name="F:StarSimLib.UI.SimulationScreen.simulationInputHandler">
@@ -2139,7 +2139,7 @@
         </member>
         <member name="M:StarSimLib.UI.SimulationScreen.#ctor(SFML.Graphics.RenderWindow,StarSimLib.UI.IInputHandler,StarSimLib.Data_Structures.Body[]@,System.Collections.Generic.Dictionary{StarSimLib.Data_Structures.Body,SFML.Graphics.CircleShape}@,StarSimLib.Physics.UpdateDelegate)">
             <summary>
-            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationScreen" /> class.
+            Initialises a new instance of the <see cref="T:StarSimLib.UI.SimulationScreen"/> class.
             </summary>
             <param name="renderWindow">The render window to which to display this instance.</param>
             <param name="inputHandler">The input handler for this instance.</param>
@@ -2154,7 +2154,7 @@
         </member>
         <member name="M:StarSimLib.UI.SimulationScreen.CreateFileWriter">
             <summary>
-            Creates a <see cref="T:System.IO.StreamWriter" /> to allow for logging the frame-by-frame state of the simulation to a file.
+            Creates a <see cref="T:System.IO.StreamWriter"/> to allow for logging the frame-by-frame state of the simulation to a file.
             </summary>
         </member>
         <member name="M:StarSimLib.UI.SimulationScreen.GetSimulationOutputFileName(System.String)">

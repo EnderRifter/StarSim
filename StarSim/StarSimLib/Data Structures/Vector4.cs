@@ -396,7 +396,6 @@ namespace StarSimLib.Data_Structures
         /// Returns the absolute value of this <see cref="Vector4"/>.
         /// </summary>
         /// <returns>The absolute value (magnitude) of this <see cref="Vector4"/>, as a <see cref="double"/>.</returns>
-        [Pure]
         public double Abs()
         {
             return Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
@@ -406,7 +405,6 @@ namespace StarSimLib.Data_Structures
         /// Returns the magnitude of this <see cref="Vector4"/>.
         /// </summary>
         /// <returns>The magnitude (absolute value) of this <see cref="Vector4"/>, as a <see cref="double"/>.</returns>
-        [Pure]
         public double Magnitude()
         {
             return Abs();
