@@ -2002,6 +2002,13 @@
             <param name="renderTarget">The <see cref="T:SFML.Graphics.RenderTarget"/> to which to draw this instance.</param>
             <param name="renderStates">The <see cref="T:SFML.Graphics.RenderStates"/> to use for the drawing.</param>
         </member>
+        <member name="M:StarSimLib.UI.Screen.Log(System.String,System.Boolean)">
+            <summary>
+            Logs the given message to the console.
+            </summary>
+            <param name="message">The message to log.</param>
+            <param name="debugOnly">Whether this message should only be shown if in debug mode.</param>
+        </member>
         <member name="M:StarSimLib.UI.Screen.Run">
             <summary>
             Displays the screen until it is closed.
@@ -2132,7 +2139,7 @@
             Counts the frames elapsed since the last timer pulse, so that the FPS can be tracked.
             </summary>
         </member>
-        <member name="F:StarSimLib.UI.SimulationScreen.totalFramesElapsed">
+        <member name="F:StarSimLib.UI.SimulationScreen.simulationFramesElapsed">
             <summary>
             Counts the number of frames elapsed since the beginning of the simulation.
             </summary>

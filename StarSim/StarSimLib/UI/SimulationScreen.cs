@@ -72,7 +72,7 @@ namespace StarSimLib.UI
         /// <summary>
         /// Counts the number of frames elapsed since the beginning of the simulation.
         /// </summary>
-        private ulong totalFramesElapsed;
+        private ulong simulationFramesElapsed;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SimulationScreen"/> class.
@@ -195,31 +195,32 @@ namespace StarSimLib.UI
         /// <inheritdoc />
         protected override void DrawFrame(RenderTarget renderTarget, RenderStates renderStates)
         {
-            if (fileWriter != null)
-            {
-                fileWriter.WriteLine($"FRAME: {totalFramesElapsed}, ELAPSED TIME: {totalFramesElapsed * Constants.TimeStep}");
-
-                // write out the unique id of the body and its state to the currently open file
-                foreach (Body body in bodies)
-                {
-                    fileWriter.WriteLine($"{body.Generation,2:D}.{body.Id,-4:D}\t" +
-                                         $"{body.Mass,21}\t" +
-                                         $"[{body.Position.X,21}, {body.Position.Y,21}, {body.Position.Z,21}]\t" +
-                                         $"[{body.Velocity.X,21}, {body.Velocity.Y,21}, {body.Velocity.Z,21}]\t" +
-                                         $"[{body.Force.X,21}, {body.Force.Y,21}, {body.Force.Z,21}]");
-                }
-            }
-
             if (!simulationInputHandler.IsSimulationPaused)
             {
+                if (fileWriter != null)
+                {
+                    fileWriter.WriteLine($"FRAME: {simulationFramesElapsed}, ELAPSED TIME: {simulationFramesElapsed * Constants.TimeStep}");
+
+                    // write out the unique id of the body and its state to the currently open file
+                    foreach (Body body in bodies)
+                    {
+                        fileWriter.WriteLine($"{body.Generation,2:D}.{body.Id,-4:D}\t" +
+                                             $"{body.Mass,21}\t" +
+                                             $"[{body.Position.X,21}, {body.Position.Y,21}, {body.Position.Z,21}]\t" +
+                                             $"[{body.Velocity.X,21}, {body.Velocity.Y,21}, {body.Velocity.Z,21}]\t" +
+                                             $"[{body.Force.X,21}, {body.Force.Y,21}, {body.Force.Z,21}]");
+                    }
+                }
+
                 bodyPositionUpdater(bodies, Constants.TimeStep);
+
+                simulationFramesElapsed++;
             }
 
             simulationDrawer.DrawBodies();
 
             // increment the fps counter and global frame counter
             framesElapsed++;
-            totalFramesElapsed++;
         }
 
         /// <inheritdoc />

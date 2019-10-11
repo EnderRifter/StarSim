@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using System;
+using SFML.Graphics;
 
 namespace StarSimLib.UI
 {
@@ -68,6 +69,25 @@ namespace StarSimLib.UI
         /// <param name="renderTarget">The <see cref="RenderTarget"/> to which to draw this instance.</param>
         /// <param name="renderStates">The <see cref="RenderStates"/> to use for the drawing.</param>
         protected abstract void SetupScreen(RenderTarget renderTarget, RenderStates renderStates);
+
+        /// <summary>
+        /// Logs the given message to the console.
+        /// </summary>
+        /// <param name="message">The message to log.</param>
+        /// <param name="debugOnly">Whether this message should only be shown if in debug mode.</param>
+        internal void Log(string message, bool debugOnly = true)
+        {
+            if (debugOnly)
+            {
+#if DEBUG
+                Console.WriteLine(message);
+#endif
+            }
+            else
+            {
+                Console.WriteLine(message);
+            }
+        }
 
         /// <summary>
         /// Displays the screen until it is closed.

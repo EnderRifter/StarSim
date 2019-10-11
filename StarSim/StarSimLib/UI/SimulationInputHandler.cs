@@ -131,7 +131,7 @@ namespace StarSimLib.UI
 
             if (!msg.Equals(""))
             {
-                Console.WriteLine(msg);
+                HandledScreen.Log(msg);
             }
         }
 
@@ -148,26 +148,26 @@ namespace StarSimLib.UI
 
             if (!msg.Equals(""))
             {
-                Console.WriteLine(msg);
+                HandledScreen.Log(msg);
             }
         }
 
         /// <inheritdoc />
         public void HandleMouseMoved(object sender, MouseMoveEventArgs eventArgs)
         {
-            //Console.WriteLine($"Mouse moved: {eventArgs.X} {eventArgs.Y}");
+            HandledScreen.Log($"Mouse moved: {eventArgs.X} {eventArgs.Y}");
         }
 
         /// <inheritdoc />
         public void HandleMousePressed(object sender, MouseButtonEventArgs eventArgs)
         {
-            //Console.WriteLine($"Mouse pressed: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
+            HandledScreen.Log($"Mouse pressed: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
         }
 
         /// <inheritdoc />
         public void HandleMouseReleased(object sender, MouseButtonEventArgs eventArgs)
         {
-            //Console.WriteLine($"Mouse released: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
+            HandledScreen.Log($"Mouse released: {eventArgs.X} {eventArgs.Y}, {eventArgs.Button}");
         }
 
         /// <inheritdoc />
@@ -181,8 +181,6 @@ namespace StarSimLib.UI
             {
                 simulationDrawer.Scale(1 - Constants.ZoomStep);
             }
-
-            Console.WriteLine($"Current field of view (zoom level): {simulationDrawer.FOV} ({simulationDrawer.ZoomLevel})");
         }
 
         /// <inheritdoc />

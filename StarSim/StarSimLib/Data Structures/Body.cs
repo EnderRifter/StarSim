@@ -196,7 +196,6 @@ namespace StarSimLib.Data_Structures
         {
             mass += otherBody.mass;
             velocity += otherBody.velocity;
-            force += otherBody.force;
         }
 
         /// <summary>
