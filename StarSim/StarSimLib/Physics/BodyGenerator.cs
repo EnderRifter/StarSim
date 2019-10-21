@@ -5,6 +5,7 @@ using StarSimLib.Data_Structures;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace StarSimLib.Physics
 {
@@ -45,9 +46,57 @@ namespace StarSimLib.Physics
             mass => mass >= Constants.CentralBodyMass ? 4f : 2f;
 
         /// <summary>
+        /// Implementation of the <see cref="MassToColourDelegate"/> that creates a range of colours for
+        /// bodies of differing mass.
+        /// </summary>
+        public static readonly MassToColourDelegate RainbowColourDelegate =
+            mass => ColorFromHSV(mass % 360, 1, 1);
+
+        /// <summary>
         /// The current generation of <see cref="Body"/> instances that the generator is on.
         /// </summary>
         public static uint CurrentGeneration { get; private set; }
+
+        /// <summary>
+        /// Creates a new ARGB colour from a HSV colour.
+        /// </summary>
+        /// <param name="hue">The hue value for the new colour, between 0-360.</param>
+        /// <param name="saturation">The saturation value for the new colour, between 0-1.</param>
+        /// <param name="value">The value for the new colour, between 0-1.</param>
+        /// <returns>The created ARGB colour.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value *= 255;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            switch (hi)
+            {
+                case 0:
+                    return new Color(255, (byte)v, (byte)t, (byte)p);
+
+                case 1:
+                    return new Color(255, (byte)q, (byte)v, (byte)p);
+
+                case 2:
+                    return new Color(255, (byte)p, (byte)v, (byte)t);
+
+                case 3:
+                    return new Color(255, (byte)p, (byte)q, (byte)v);
+
+                case 4:
+                    return new Color(255, (byte)t, (byte)p, (byte)v);
+
+                default:
+                    return new Color(255, (byte)v, (byte)p, (byte)q);
+            }
+        }
 
         /// <summary>
         /// Generates an array of <see cref="Body"/> instances, possibly including a central attractor.

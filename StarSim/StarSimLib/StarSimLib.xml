@@ -1418,6 +1418,15 @@
             Current zoom level of the drawer.
             </summary>
         </member>
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.ColorFromHSV(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a new ARGB colour from a HSV colour.
+            </summary>
+            <param name="hue">The hue value for the new colour, between 0-360.</param>
+            <param name="saturation">The saturation value for the new colour, between 0-1.</param>
+            <param name="value">The value for the new colour, between 0-1.</param>
+            <returns>The created ARGB colour.</returns>
+        </member>
         <member name="M:StarSimLib.Graphics.SimulationDrawer.LinearInterpolate(StarSimLib.Data_Structures.Vector4,StarSimLib.Data_Structures.Vector4,System.Double)">
             <summary>
             Linearly interpolates between a and b by the given percentage dt (0 = 100% a, 1 = 100% b).
@@ -1426,6 +1435,17 @@
             <param name="b">One of the starting values between which to interpolate.</param>
             <param name="dt">The percentage by which to interpolate, capped between 0 and 1.</param>
             <returns>The interpolated value.</returns>
+        </member>
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.Map(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Maps a value in the given input range to a new value in the gieen output range.
+            </summary>
+            <param name="value">The value that should be mapped.</param>
+            <param name="minimumInputRange">The lower bound of the input range.</param>
+            <param name="maximumInputRange">The upper bound of the input range.</param>
+            <param name="minimumOutputRange">The lower bound of the output range.</param>
+            <param name="maximumOutputRange">The upper bound of the output range.</param>
+            <returns>The projected value.</returns>
         </member>
         <member name="M:StarSimLib.Graphics.SimulationDrawer.ProjectPoint(StarSimLib.Data_Structures.Vector4)">
             <summary>
@@ -1805,10 +1825,25 @@
             Default implementation of the <see cref="T:StarSimLib.Physics.MassToRadiusDelegate"/>.
             </summary>
         </member>
+        <member name="F:StarSimLib.Physics.BodyGenerator.RainbowColourDelegate">
+            <summary>
+            Implementation of the <see cref="T:StarSimLib.Physics.MassToColourDelegate"/> that creates a range of colours for
+            bodies of differing mass.
+            </summary>
+        </member>
         <member name="P:StarSimLib.Physics.BodyGenerator.CurrentGeneration">
             <summary>
             The current generation of <see cref="T:StarSimLib.Data_Structures.Body"/> instances that the generator is on.
             </summary>
+        </member>
+        <member name="M:StarSimLib.Physics.BodyGenerator.ColorFromHSV(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a new ARGB colour from a HSV colour.
+            </summary>
+            <param name="hue">The hue value for the new colour, between 0-360.</param>
+            <param name="saturation">The saturation value for the new colour, between 0-1.</param>
+            <param name="value">The value for the new colour, between 0-1.</param>
+            <returns>The created ARGB colour.</returns>
         </member>
         <member name="M:StarSimLib.Physics.BodyGenerator.GenerateBodies(System.Int32,System.Boolean)">
             <summary>

@@ -44,7 +44,7 @@ namespace StarSimGui.ViewModels
         /// <summary>
         /// The delegate method to use to derive the colour of a body's shape from the body's mass.
         /// </summary>
-        private readonly MassToColourDelegate bodyMassToColourDelegate = BodyGenerator.DefaultColourDelegate;
+        private readonly MassToColourDelegate bodyMassToColourDelegate = BodyGenerator.RainbowColourDelegate;
 
         /// <summary>
         /// The delegate method to use to derive the radius of a body's shape from the body's mass.
@@ -507,8 +507,10 @@ namespace StarSimGui.ViewModels
 
             SimulatedBodies.Load(BodyGenerator.GenerateBodies(SimulatedBodyCount, SimulateCentralAttractor));
 
+            /*
             simulatedBodyShapes =
-                BodyGenerator.GenerateShapes(SimulatedBodies, bodyMassToRadiusDelegate, bodyMassToColourDelegate);
+                BodyGenerator.GenerateShapes(SimulatedBodies, bodyMassToRadiusDelegate, bodyMassToColourDelegate));
+            */
         }
 
         /// <summary>

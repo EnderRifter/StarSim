@@ -5,6 +5,7 @@ using StarSimLib.Data_Structures;
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace StarSimLib.Graphics
 {
@@ -261,12 +262,64 @@ namespace StarSimLib.Graphics
         }
 
         /// <summary>
+        /// Creates a new ARGB colour from a HSV colour.
+        /// </summary>
+        /// <param name="hue">The hue value for the new colour, between 0-360.</param>
+        /// <param name="saturation">The saturation value for the new colour, between 0-1.</param>
+        /// <param name="value">The value for the new colour, between 0-1.</param>
+        /// <returns>The created ARGB colour.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            double c = value * saturation;
+            double k = hue / 60;
+            double x = c * (1 - Math.Abs(k % 2 - 1));
+            double m = value - c;
+
+            double baseRed = 0, baseGreen = 0, baseBlue = 0;
+
+            if (0 <= k && k <= 1)
+            {
+                baseRed = c;
+                baseGreen = x;
+            }
+            else if (1 < k && k <= 2)
+            {
+                baseRed = x;
+                baseGreen = c;
+            }
+            else if (2 < k && k <= 3)
+            {
+                baseGreen = c;
+                baseBlue = x;
+            }
+            else if (3 < k && k <= 4)
+            {
+                baseGreen = x;
+                baseBlue = c;
+            }
+            else if (4 < k && k <= 5)
+            {
+                baseRed = x;
+                baseBlue = c;
+            }
+            else if (5 < k && k <= 6)
+            {
+                baseRed = c;
+                baseBlue = x;
+            }
+
+            return new Color((byte)((baseRed + m) * 255), (byte)((baseGreen + m) * 255), (byte)((baseBlue + m) * 255), 255);
+        }
+
+        /// <summary>
         /// Linearly interpolates between a and b by the given percentage dt (0 = 100% a, 1 = 100% b).
         /// </summary>
         /// <param name="a">One of the starting values between which to interpolate.</param>
         /// <param name="b">One of the starting values between which to interpolate.</param>
         /// <param name="dt">The percentage by which to interpolate, capped between 0 and 1.</param>
         /// <returns>The interpolated value.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Vector4 LinearInterpolate(Vector4 a, Vector4 b, double dt)
         {
             // caps the percentage first between 1 and -Infinity, and then between 1 and 0, and reverses it such
@@ -282,10 +335,37 @@ namespace StarSimLib.Graphics
         }
 
         /// <summary>
+        /// Maps a value in the given input range to a new value in the gieen output range.
+        /// </summary>
+        /// <param name="value">The value that should be mapped.</param>
+        /// <param name="minimumInputRange">The lower bound of the input range.</param>
+        /// <param name="maximumInputRange">The upper bound of the input range.</param>
+        /// <param name="minimumOutputRange">The lower bound of the output range.</param>
+        /// <param name="maximumOutputRange">The upper bound of the output range.</param>
+        /// <returns>The projected value.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static double Map(double value, double minimumInputRange, double maximumInputRange, double minimumOutputRange, double maximumOutputRange)
+        {
+            double clampedInput = value < maximumInputRange ? value :
+                value < minimumInputRange ? minimumInputRange : maximumInputRange;
+
+            double inputRange = maximumInputRange - minimumInputRange,
+                outputRange = maximumOutputRange - minimumOutputRange;
+
+            double percentIntoRange = clampedInput / inputRange;
+
+            double output = outputRange * percentIntoRange;
+
+            return output < maximumOutputRange ? output :
+                output < minimumOutputRange ? minimumOutputRange : maximumOutputRange;
+        }
+
+        /// <summary>
         /// Projects the given <see cref="Vector4"/> point from world space into screen space.
         /// </summary>
         /// <param name="point">The point to project.</param>
         /// <returns>The projected point.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Vector4 ProjectPoint(Vector4 point)
         {
             // rotations should happen before the point is translated into camera space
@@ -369,8 +449,13 @@ namespace StarSimLib.Graphics
                 {
                     Vector4[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
 
+                    double minimumSpeed = 0, maximumSpeed = 75000;
+                    double clampedSpeed = body.Velocity.Abs() < maximumSpeed ? body.Velocity.Abs() :
+                        body.Velocity.Abs() < minimumSpeed ? minimumSpeed : maximumSpeed;
+                    double clampedRainbowColour = Map(clampedSpeed, minimumSpeed, maximumSpeed, 0, 360);
+
                     // we cache the colours used for the orbit tracers and the background, and pack them into a 4D vector
-                    Color tracerColour = Color.Cyan, bgColour = Color.Transparent;
+                    Color tracerColour = ColorFromHSV(clampedRainbowColour, 1, 1), bgColour = Color.Transparent;
                     Vector4 tracerVector = new Vector4(tracerColour.R, tracerColour.G, tracerColour.B, tracerColour.A);
                     Vector4 bgVector = new Vector4(bgColour.R, bgColour.G, bgColour.B, bgColour.A);
 

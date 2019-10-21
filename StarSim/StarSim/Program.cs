@@ -11,6 +11,7 @@ using StarSimLib.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace StarSim
 {
@@ -48,13 +49,9 @@ namespace StarSim
             ReadConfigFile();
 
             bodies = BodyGenerator.GenerateBodies(configuration.BodyCount, true);
-            bodyShapeMap = BodyGenerator.GenerateShapes(bodies);
+            bodyShapeMap = BodyGenerator.GenerateShapes(bodies, BodyGenerator.DefaultRadiusDelegate, BodyGenerator.RainbowColourDelegate);
 
-#if DEBUG
-            UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBruteForce;
-#else
             UpdateDelegate bodyPositionUpdater = BodyUpdater.UpdateBodiesBarnesHut;
-#endif
 
             ContextSettings customContextSettings = new ContextSettings { AntialiasingLevel = 8, DepthBits = 24, StencilBits = 8 };
 
