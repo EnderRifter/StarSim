@@ -50,7 +50,7 @@ namespace StarSimLib.Physics
         /// bodies of differing mass.
         /// </summary>
         public static readonly MassToColourDelegate RainbowColourDelegate =
-            mass => ColorFromHSV(mass % 360, 1, 1);
+            mass => ColorFromHsv(mass % 360, 1, 1);
 
         /// <summary>
         /// The current generation of <see cref="Body"/> instances that the generator is on.
@@ -65,37 +65,47 @@ namespace StarSimLib.Physics
         /// <param name="value">The value for the new colour, between 0-1.</param>
         /// <returns>The created ARGB colour.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Color ColorFromHSV(double hue, double saturation, double value)
+        private static Color ColorFromHsv(double hue, double saturation, double value)
         {
-            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            double f = hue / 60 - Math.Floor(hue / 60);
+            double c = value * saturation;
+            double k = hue / 60;
+            double x = c * (1 - Math.Abs(k % 2 - 1));
+            double m = value - c;
 
-            value *= 255;
-            int v = Convert.ToInt32(value);
-            int p = Convert.ToInt32(value * (1 - saturation));
-            int q = Convert.ToInt32(value * (1 - f * saturation));
-            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+            double baseRed = 0, baseGreen = 0, baseBlue = 0;
 
-            switch (hi)
+            if (0 <= k && k <= 1)
             {
-                case 0:
-                    return new Color(255, (byte)v, (byte)t, (byte)p);
-
-                case 1:
-                    return new Color(255, (byte)q, (byte)v, (byte)p);
-
-                case 2:
-                    return new Color(255, (byte)p, (byte)v, (byte)t);
-
-                case 3:
-                    return new Color(255, (byte)p, (byte)q, (byte)v);
-
-                case 4:
-                    return new Color(255, (byte)t, (byte)p, (byte)v);
-
-                default:
-                    return new Color(255, (byte)v, (byte)p, (byte)q);
+                baseRed = c;
+                baseGreen = x;
             }
+            else if (1 < k && k <= 2)
+            {
+                baseRed = x;
+                baseGreen = c;
+            }
+            else if (2 < k && k <= 3)
+            {
+                baseGreen = c;
+                baseBlue = x;
+            }
+            else if (3 < k && k <= 4)
+            {
+                baseGreen = x;
+                baseBlue = c;
+            }
+            else if (4 < k && k <= 5)
+            {
+                baseRed = x;
+                baseBlue = c;
+            }
+            else if (5 < k && k <= 6)
+            {
+                baseRed = c;
+                baseBlue = x;
+            }
+
+            return new Color((byte)((baseRed + m) * 255), (byte)((baseGreen + m) * 255), (byte)((baseBlue + m) * 255), 255);
         }
 
         /// <summary>

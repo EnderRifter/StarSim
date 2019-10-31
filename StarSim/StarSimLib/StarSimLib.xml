@@ -1299,6 +1299,16 @@
             The default field of view for the drawer in degrees.
             </summary>
         </member>
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.MaximumRenderedSpeed">
+            <summary>
+            The maximum speed that is mapped and rendered using the HSV colour map.
+            </summary>
+        </member>
+        <member name="F:StarSimLib.Graphics.SimulationDrawer.MinimumRenderedSpeed">
+            <summary>
+            The minimum speed that is mapped and rendered using the HSV colour map.
+            </summary>
+        </member>
         <member name="F:StarSimLib.Graphics.SimulationDrawer.NearDistance">
             <summary>
             The closest distance that can be seen on the <see cref="T:SFML.Graphics.RenderTarget"/>. Any bodies that are closer
@@ -1418,7 +1428,7 @@
             Current zoom level of the drawer.
             </summary>
         </member>
-        <member name="M:StarSimLib.Graphics.SimulationDrawer.ColorFromHSV(System.Double,System.Double,System.Double)">
+        <member name="M:StarSimLib.Graphics.SimulationDrawer.ColorFromHsv(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new ARGB colour from a HSV colour.
             </summary>
@@ -1836,7 +1846,7 @@
             The current generation of <see cref="T:StarSimLib.Data_Structures.Body"/> instances that the generator is on.
             </summary>
         </member>
-        <member name="M:StarSimLib.Physics.BodyGenerator.ColorFromHSV(System.Double,System.Double,System.Double)">
+        <member name="M:StarSimLib.Physics.BodyGenerator.ColorFromHsv(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new ARGB colour from a HSV colour.
             </summary>

@@ -68,6 +68,16 @@ namespace StarSimLib.Graphics
         private const double FieldOfView = 45;
 
         /// <summary>
+        /// The maximum speed that is mapped and rendered using the HSV colour map.
+        /// </summary>
+        private const double MaximumRenderedSpeed = 100_000;
+
+        /// <summary>
+        /// The minimum speed that is mapped and rendered using the HSV colour map.
+        /// </summary>
+        private const double MinimumRenderedSpeed = 0;
+
+        /// <summary>
         /// The closest distance that can be seen on the <see cref="RenderTarget"/>. Any bodies that are closer
         /// to the camera than this distance (i.e. behind the camera) are culled and not rendered.
         /// </summary>
@@ -269,7 +279,7 @@ namespace StarSimLib.Graphics
         /// <param name="value">The value for the new colour, between 0-1.</param>
         /// <returns>The created ARGB colour.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Color ColorFromHSV(double hue, double saturation, double value)
+        private static Color ColorFromHsv(double hue, double saturation, double value)
         {
             double c = value * saturation;
             double k = hue / 60;
@@ -449,13 +459,12 @@ namespace StarSimLib.Graphics
                 {
                     Vector4[] orbitTracerPositions = body.OrbitTracer.PreviousPositions.ToArray();
 
-                    double minimumSpeed = 0, maximumSpeed = 75000;
-                    double clampedSpeed = body.Velocity.Abs() < maximumSpeed ? body.Velocity.Abs() :
-                        body.Velocity.Abs() < minimumSpeed ? minimumSpeed : maximumSpeed;
-                    double clampedRainbowColour = Map(clampedSpeed, minimumSpeed, maximumSpeed, 0, 360);
+                    double clampedSpeed = body.Velocity.Abs() < MaximumRenderedSpeed ? body.Velocity.Abs() :
+                        body.Velocity.Abs() < MinimumRenderedSpeed ? MinimumRenderedSpeed : MaximumRenderedSpeed;
+                    double clampedRainbowColour = Map(clampedSpeed, MinimumRenderedSpeed, MaximumRenderedSpeed, 0, 360);
 
                     // we cache the colours used for the orbit tracers and the background, and pack them into a 4D vector
-                    Color tracerColour = ColorFromHSV(clampedRainbowColour, 1, 1), bgColour = Color.Transparent;
+                    Color tracerColour = ColorFromHsv(clampedRainbowColour, 1, 1), bgColour = Color.Transparent;
                     Vector4 tracerVector = new Vector4(tracerColour.R, tracerColour.G, tracerColour.B, tracerColour.A);
                     Vector4 bgVector = new Vector4(bgColour.R, bgColour.G, bgColour.B, bgColour.A);
 
